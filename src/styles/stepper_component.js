@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   color: "#eaeaf0",
   display: "flex",
-  height: 22,
+  height: 40,
   alignItems: "center",
   ...(ownerState.active && {
     color: "#109856",
@@ -16,11 +16,11 @@ const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   "& .QontoStepIcon-completedIcon": {
     color: "#109856",
     zIndex: 1,
-    fontSize: 18,
+    fontSize: 20,
   },
   "& .QontoStepIcon-circle": {
-    width: 8,
-    height: 8,
+    width: 10,
+    height: 10,
     borderRadius: "50%",
     backgroundColor: "currentColor",
   },
@@ -29,6 +29,7 @@ const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
 export const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
+
     left: "calc(-50% + 16px)",
     right: "calc(50% + 16px)",
   },
@@ -44,8 +45,8 @@ export const QontoConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`& .${stepConnectorClasses.line}`]: {
     borderColor: "#eaeaf0",
-    borderTopWidth: 3,
-    borderRadius: 1,
+    borderTopWidth: 4,
+    borderRadius: 10,
   },
 }));
 

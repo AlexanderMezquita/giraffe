@@ -8,6 +8,8 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import IconButton from "@mui/material/IconButton";
 import Services from "@/components/reservations/service";
 import NavBar from "@/components/reservations/navbar";
+import Branch from "@/components/reservations/branch";
+import Calendar from "@/components/reservations/calendar";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -26,8 +28,8 @@ function TabPanel(props) {
 
 export default function HorizontalLinearStepper() {
   const steps = [
+    "Elige la sucursal",
     "Elige tu servicio",
-    "Create an ad group",
     "Create an ad",
     "alex",
   ];
@@ -46,18 +48,20 @@ export default function HorizontalLinearStepper() {
     <>
       <NavBar />
       <main className="pt-10 sm:pt-0 flex bg-secondary justify-center sm:items-center m-auto min-h-screen ">
-        <div className=" bg-white  shadow-lg  rounded-xl sm:h-[600px] w-full sm:w-[600px] p-4  sm:m-2  ">
-          <header className="flex justify-between">
-            <IconButton
-              aria-label="Retroceder"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-              className=" text-primary"
-            >
-              <ArrowBackIosNewIcon />
-            </IconButton>
-            <p>{steps[activeStep]}</p>
+        <div className=" bg-white  shadow-lg overflow-y-auto  rounded-xl md:h-[640px] w-full md:w-[600px]   sm:m-2  ">
+          <header className="flex items-center p-3 mt-3  justify-between">
+            <div className="flex items-center">
+              <IconButton
+                aria-label="Retroceder"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+                className=" text-primary"
+              >
+                <ArrowBackIosNewIcon />
+              </IconButton>
+              <p className="text-lg">{steps[activeStep]}</p>
+            </div>
             <Button
               onClick={handleNext}
               disabled={activeStep === steps.length - 1}
@@ -66,7 +70,11 @@ export default function HorizontalLinearStepper() {
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
           </header>
-          <Stepper activeStep={activeStep} connector={<QontoConnector />}>
+          <Stepper
+            activeStep={activeStep}
+            connector={<QontoConnector />}
+            className="px-3"
+          >
             {steps.map((label, index) => {
               return (
                 <Step key={label}>
@@ -77,12 +85,15 @@ export default function HorizontalLinearStepper() {
           </Stepper>
 
           <TabPanel value={activeStep} index={0}>
-            <Services handleNext={handleNext} />
+            <Branch />
           </TabPanel>
           <TabPanel value={activeStep} index={1}>
-            Item Two
+            <Services handleNext={handleNext} />
           </TabPanel>
           <TabPanel value={activeStep} index={2}>
+            <Calendar />
+          </TabPanel>
+          <TabPanel value={activeStep} index={3}>
             Item Three
           </TabPanel>
           {/* <p sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</p> */}

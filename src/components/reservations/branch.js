@@ -3,57 +3,17 @@ import Loading from "../globals/loading";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-export default function Services({ handleNext }) {
+export default function Branch({ handleNext }) {
   const services = [
     {
       img: "",
-      name: "Haricut",
-      price: 15000,
+      name: "Sucursal 1",
+      price: "direccion 1",
     },
     {
       img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
-    },
-    {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      name: "Sucursal 2",
+      price: "direccion 2",
     },
   ];
 
@@ -64,7 +24,7 @@ export default function Services({ handleNext }) {
       ) : (
         <section className="  md:max-h-[500px]">
           <h2 onClick={handleNext} className="p-3">
-            Servicios
+            Sucursales
           </h2>
           <ul>
             {services.map((item, index) => {
