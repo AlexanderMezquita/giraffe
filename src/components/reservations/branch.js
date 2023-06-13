@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Loading from "../globals/loading";
+import { useFormContext } from "react-hook-form";
 
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export default function Branch({ handleNext }) {
+  const { setValue } = useFormContext();
   const services = [
     {
       img: "",
@@ -16,6 +18,11 @@ export default function Branch({ handleNext }) {
       price: "direccion 2",
     },
   ];
+
+  const handleBranch = (value) => {
+    setValue("branch", value);
+    handleNext();
+  };
 
   return (
     <>
@@ -31,6 +38,7 @@ export default function Branch({ handleNext }) {
               return (
                 <li
                   key={index}
+                  onClick={() => handleBranch(item.name)}
                   className="flex items-center justify-between gap-2 hover:bg-secondary/50 cursor-pointer p-2  "
                 >
                   <div className="flex items-center gap-2">

@@ -1,8 +1,8 @@
+import * as React from "react";
 import Image from "next/image";
 import Loading from "../globals/loading";
-
+import { useFormContext } from "react-hook-form";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Status from "./status_info";
 
 export default function Services({ handleNext }) {
   const services = [
@@ -57,15 +57,21 @@ export default function Services({ handleNext }) {
       price: 15000,
     },
   ];
+  const { setValue } = useFormContext();
+
+  const handleService = (value) => {
+    setValue("service", value.name);
+    setValue("price", value.price);
+    handleNext();
+  };
 
   return (
     <>
       {false ? (
         <Loading />
       ) : (
-        <>
-          <Status />
-          <section className="  md:max-h-[500px]">
+        <React.Fragment>
+          <section className="  ">
             <h2 onClick={handleNext} className="p-3">
               Servicios
             </h2>
@@ -74,6 +80,7 @@ export default function Services({ handleNext }) {
                 return (
                   <li
                     key={index}
+                    onClick={() => handleService(item)}
                     className="flex items-center justify-between gap-2 hover:bg-secondary/50 cursor-pointer p-2  "
                   >
                     <div className="flex items-center gap-2">
@@ -98,7 +105,7 @@ export default function Services({ handleNext }) {
               })}
             </ul>
           </section>
-        </>
+        </React.Fragment>
       )}
     </>
   );

@@ -5,8 +5,11 @@ import "dayjs/locale/es-us";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 
-export default function Calendar() {
+export default function Calendar({ handleNext }) {
+  const { setValue } = useFormContext();
+  const [selectedDate, setSelectedDate] = React.useState(dayjs());
   const hours = [
     "5:00 pm",
     "5:00 pm",
@@ -23,6 +26,11 @@ export default function Calendar() {
   //   function disableWeekends() {
   //     return date.getDay() === 0 || date.getDay() === 6;
   //   }
+  const handleDate = (value) => {
+    setValue("date", selectedDate);
+    setValue("time", value);
+    handleNext();
+  };
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 overflow-y-auto">
@@ -36,7 +44,8 @@ export default function Calendar() {
           showDaysOutsideCurrentMonth={true}
           minDate={dayjs()}
           maxDate={dayjs().add(45, "day")}
-          defaultValue={dayjs()}
+          defaultValue={selectedDate}
+          onChange={(value) => setSelectedDate(value)}
           // shouldDisableDate={dis}
         />
       </LocalizationProvider>
@@ -49,6 +58,7 @@ export default function Calendar() {
                   variant="outlined"
                   color="inherit"
                   className="w-full border-neutral-300"
+                  onClick={() => handleDate(item)}
                 >
                   {item}
                 </Button>
