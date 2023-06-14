@@ -7,56 +7,57 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 export default function Services({ handleNext }) {
   const services = [
     {
-      img: "",
-      name: "Haricut",
+      img: "image1.jpg",
+      name: "Haircut Deluxe",
       price: 15000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image2.jpg",
+      name: "Beard Trim",
+      price: 18000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image3.jpg",
+      name: "Color Highlights",
+      price: 20000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image4.jpg",
+      name: "Shampoo and Blowout",
+      price: 12000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image5.jpg",
+      name: "Hair Styling",
+      price: 16000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image6.jpg",
+      name: "Deep Conditioning Treatment",
+      price: 13500,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image7.jpg",
+      name: "Head Massage",
+      price: 17000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image8.jpg",
+      name: "Hair Extensions",
+      price: 14000,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image9.jpg",
+      name: "Straightening or Perming",
+      price: 15500,
     },
     {
-      img: "",
-      name: "Haricut",
-      price: 15000,
+      img: "image10.jpg",
+      name: "Updo or Bridal Hairstyle",
+      price: 19000,
     },
   ];
+
   const { setValue } = useFormContext();
 
   const handleService = (value) => {

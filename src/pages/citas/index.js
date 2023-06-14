@@ -7,6 +7,7 @@ import NavBar from "@/components/reservations/navbar";
 
 import Panels from "@/components/reservations/panels";
 import SideLogo from "@/components/reservations/side_logo";
+import ContactInfo from "@/components/reservations/contact_info";
 
 export default function HorizontalLinearStepper() {
   const steps = [
@@ -33,9 +34,9 @@ export default function HorizontalLinearStepper() {
         <meta property="og:title" content="Citasss" key="title" />
       </Head>
       <NavBar />
-      <main className="pt-10 sm:pt-0 grid grid-cols-12 bg-secondary min-h-screen ">
+      <div className="pt-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
-        <div className=" col-span-12 md:col-span-6  bg-white  shadow-lg  rounded-none  sm:rounded-xl sm:min-h-[640px] w-full    sm:m-2  ">
+        <main className=" bg-white  shadow-lg  rounded-none  sm:rounded-xl sm:h-fit min-h-screen sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
           <header className="flex items-center p-3 mt-3  justify-between">
             <nav className="flex items-center">
               <IconButton
@@ -47,7 +48,7 @@ export default function HorizontalLinearStepper() {
               >
                 <ArrowBackIosNewIcon />
               </IconButton>
-              <p className="text-lg font-sans">{steps[activeStep]}</p>
+              <h1>{steps[activeStep]}</h1>
             </nav>
             <Button
               onClick={handleNext}
@@ -64,9 +65,9 @@ export default function HorizontalLinearStepper() {
           />
 
           {/* <p sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</p> */}
-        </div>
-        <SideLogo />
-      </main>
+        </main>
+        <ContactInfo />
+      </div>
     </>
   );
 }
