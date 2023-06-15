@@ -39,16 +39,18 @@ export default function Branch({ handleNext }) {
                 <li
                   key={index}
                   onClick={() => handleBranch(item.name)}
-                  className="flex items-center justify-between gap-2 hover:bg-secondary/50 cursor-pointer p-2  "
+                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 cursor-pointer p-2  "
                 >
                   <div className="flex items-center gap-2">
                     <Image
                       width={60}
                       height={40}
                       src="/test.jpg"
-                      priority
+                      priority={true}
+                      placeholder="blur"
+                      blurDataURL="/test.jpg"
                       alt={item.name}
-                      className="rounded-full border-4 border-secondary object-cover"
+                      className="rounded-full border-4 border-secondary object-cover w-[60px] h-[60px]"
                     />
                     <div className=" flex flex-col justify-around ">
                       <h2 className="font-bold ">{item.name}</h2>

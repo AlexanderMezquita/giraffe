@@ -6,10 +6,11 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import { useFormContext } from "react-hook-form";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 export default function Calendar({ handleNext }) {
-  const { setValue } = useFormContext();
-  const [selectedDate, setSelectedDate] = React.useState(dayjs());
+  const { setValue, getValues } = useFormContext();
   const hours = [
     "5:00 pm",
     "5:00 pm",
@@ -27,10 +28,17 @@ export default function Calendar({ handleNext }) {
   //     return date.getDay() === 0 || date.getDay() === 6;
   //   }
   const handleDate = (value) => {
-    setValue("date", selectedDate);
     setValue("time", value);
     handleNext();
   };
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault("Europe/Berlin");
+
+  alert(dayjs());
+  React.useEffect(() => {
+    setValue("date", dayjs());
+  }, []);
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 overflow-y-auto">
@@ -44,8 +52,8 @@ export default function Calendar({ handleNext }) {
           showDaysOutsideCurrentMonth={true}
           minDate={dayjs()}
           maxDate={dayjs().add(45, "day")}
-          defaultValue={selectedDate}
-          onChange={(value) => setSelectedDate(value)}
+          defaultValue={getValues("date") ?? dayjs()}
+          onChange={(value) => setValue("date", value)}
           // shouldDisableDate={dis}
         />
       </LocalizationProvider>

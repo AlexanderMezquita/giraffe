@@ -28,6 +28,29 @@ export default function ThemeProvider({ children }) {
           },
         },
       },
+      MuiDateCalendar: {
+        styleOverrides: {
+          root: {
+            width: "100%",
+            "& .Mui-selected, & .Mui-selected:focus, & .Mui-selected:hover": {
+              // color: `${palette.common.white} !important`,
+              // backgroundColor: `black !important`,
+            },
+          },
+          viewTransitionContainer: {
+            "& > div > div": {
+              justifyContent: "space-between !important",
+              paddingLeft: 1,
+              paddingRight: 1,
+            },
+            "& div[role=row]": {
+              paddingLeft: 1,
+              paddingRight: 1,
+              justifyContent: "space-between !important",
+            },
+          },
+        },
+      },
     },
     // shape: { borderRadius: 6 },
     // typography: typography,

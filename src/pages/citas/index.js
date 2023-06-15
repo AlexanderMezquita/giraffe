@@ -1,6 +1,5 @@
 import * as React from "react";
 import Head from "next/head";
-import Button from "@mui/material/Button";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import IconButton from "@mui/material/IconButton";
 import NavBar from "@/components/reservations/navbar";
@@ -34,9 +33,9 @@ export default function HorizontalLinearStepper() {
         <meta property="og:title" content="Citasss" key="title" />
       </Head>
       <NavBar />
-      <div className="pt-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
+      <div className="pt-14   flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
-        <main className=" bg-white  shadow-lg  rounded-none  sm:rounded-xl sm:h-fit min-h-screen sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
+        <main className=" bg-white   shadow-lg  rounded-none  sm:rounded-xl sm:h-fit min-h-screen sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
           <header className="flex items-center p-3 mt-3  justify-between">
             <nav className="flex items-center">
               <IconButton
@@ -50,13 +49,13 @@ export default function HorizontalLinearStepper() {
               </IconButton>
               <h1>{steps[activeStep]}</h1>
             </nav>
-            <Button
+            {/* <Button
               onClick={handleNext}
               disabled={activeStep === steps.length}
               className="text-primary"
             >
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
+            </Button> */}
           </header>
           <Panels
             activeStep={activeStep}
