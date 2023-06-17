@@ -1,5 +1,11 @@
 import { TextField, Button } from "@mui/material";
 import Image from "next/image";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import FormControl from "@mui/material/FormControl";
+
 import { useFormContext } from "react-hook-form";
 
 export default function Form() {
@@ -8,8 +14,8 @@ export default function Form() {
     formState: { errors },
   } = useFormContext();
   return (
-    <section className="p-5 flex  flex-col gap-5">
-      <div className="grid grid-cols-10 gap-4 ">
+    <div className=" flex  flex-col pb-10 sm:pb-5 ">
+      <div className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 gap-4 ">
         {" "}
         <TextField
           id="name"
@@ -29,6 +35,20 @@ export default function Form() {
           error={!!errors.name}
           helperText={errors.name?.message}
         />
+        <FormControl className="col-span-10" error={!!errors.quantity}>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            {...register("quantity", { required: true })}
+            // value={value}
+            // onChange={handleChange}
+          >
+            <FormControlLabel value="1" control={<Radio />} label="1" />
+            <FormControlLabel value="2" control={<Radio />} label="2" />
+            <FormControlLabel value="3" control={<Radio />} label="3" />
+            <FormControlLabel value="4" control={<Radio />} label="4" />
+          </RadioGroup>
+        </FormControl>
         <TextField
           id="phone-zip"
           disabled
@@ -86,6 +106,15 @@ export default function Form() {
           helperText={errors.email?.message}
         />
         <TextField
+          id="address"
+          label="Direccion (Opcional)"
+          placeholder="Calle Generoso Diaz"
+          {...register("address")}
+          inputProps={{ maxLength: 40 }}
+          className="col-span-10"
+          color="primary"
+        />
+        <TextField
           id="comment"
           label="Comentario (Opcional)"
           {...register("comment")}
@@ -97,14 +126,24 @@ export default function Form() {
         />
       </div>
 
-      <Button
-        className=" col-span-2 col-start-9 "
-        variant="outlined"
-        color="primary"
-        type="submit"
-      >
-        Book
-      </Button>
-    </section>
+      <footer className=" p-5  z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
+        <FormControlLabel
+          required
+          control={<Checkbox />}
+          label={
+            <p>
+              Estoy de acuerdo con la{" "}
+              <a href="/citas" className="text-blue-600">
+                politica de cancelacion
+              </a>
+            </p>
+          }
+        />
+
+        <Button fullWidth variant="contained" color="primary" type="submit">
+          Book
+        </Button>
+      </footer>
+    </div>
   );
 }

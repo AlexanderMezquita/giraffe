@@ -8,8 +8,12 @@
   html {
   font-family: 'Josefin Sans';
   font-weight: 500;
+  scroll-behavior: smooth;
   }
 }
+ button[class*='MuiButton-containedPrimary'] {
+   @apply bg-primary shadow-none hover:bg-primary/90
+ }
 
 h1 {
   @apply text-xl font-sans

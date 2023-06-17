@@ -12,16 +12,18 @@ import Status from "./status_info";
 
 function TabPanel(props) {
   const { children, value, index } = props;
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [children]);
 
   return (
-    <section
-      role="tabpanel"
-      id={`simple-tabpanel-${index}`}
+    <fieldset
+      id={`fieldset-${index}`}
       hidden={value !== index}
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && <React.Fragment>{children}</React.Fragment>}
-    </section>
+    </fieldset>
   );
 }
 

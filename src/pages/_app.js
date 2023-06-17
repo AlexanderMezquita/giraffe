@@ -1,10 +1,13 @@
 import "@/styles/globals.css";
 import ThemeProvider from "@/styles/themeProvider";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider>
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }

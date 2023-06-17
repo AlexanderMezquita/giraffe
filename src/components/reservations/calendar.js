@@ -6,8 +6,8 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+// import utc from "dayjs/plugin/utc";
+// import timezone from "dayjs/plugin/timezone";
 
 export default function Calendar({ handleNext }) {
   const { setValue, getValues } = useFormContext();
@@ -31,17 +31,17 @@ export default function Calendar({ handleNext }) {
     setValue("time", value);
     handleNext();
   };
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  dayjs.tz.setDefault("Europe/Berlin");
+  // dayjs.extend(utc);
+  // dayjs.extend(timezone);
+  // dayjs.tz.setDefault("Europe/Berlin");
 
-  alert(dayjs());
+  // alert(dayjs());
   React.useEffect(() => {
     setValue("date", dayjs());
   }, []);
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 overflow-y-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
       <LocalizationProvider
         adapterLocale="es-us"
         dateAdapter={AdapterDayjs}
@@ -49,7 +49,7 @@ export default function Calendar({ handleNext }) {
       >
         <DateCalendar
           views={["day"]}
-          showDaysOutsideCurrentMonth={true}
+          showDaysOutsideCurrentMonth={false}
           minDate={dayjs()}
           maxDate={dayjs().add(45, "day")}
           defaultValue={getValues("date") ?? dayjs()}
@@ -57,24 +57,22 @@ export default function Calendar({ handleNext }) {
           // shouldDisableDate={dis}
         />
       </LocalizationProvider>
-      <div>
-        <ul className=" space-y-4 p-4">
-          {hours.map((item, index) => {
-            return (
-              <li key={index}>
-                <Button
-                  variant="outlined"
-                  color="inherit"
-                  className="w-full border-neutral-300"
-                  onClick={() => handleDate(item)}
-                >
-                  {item}
-                </Button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
+      <ul className=" space-y-4">
+        {hours.map((item, index) => {
+          return (
+            <li key={index}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="w-full border-neutral-300"
+                onClick={() => handleDate(item)}
+              >
+                {item}
+              </Button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
