@@ -33,9 +33,9 @@ export default function HorizontalLinearStepper() {
         <meta property="og:title" content="Citasss" key="title" />
       </Head>
       <NavBar />
-      <div className="pt-14   flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
+      <main className="pt-14 pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
-        <main className=" bg-white   shadow-lg  rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
+        <div className=" bg-secondary    shadow-lg  rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
           <header className="flex items-center p-3 mt-3  justify-between">
             <nav className="flex items-center">
               <IconButton
@@ -64,9 +64,9 @@ export default function HorizontalLinearStepper() {
           />
 
           {/* <p sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</p> */}
-        </main>
+        </div>
         <ContactInfo />
-      </div>
+      </main>
     </>
   );
 }

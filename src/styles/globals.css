@@ -6,8 +6,8 @@
 
 @layer base {
   html {
-  font-family: 'Josefin Sans';
-  font-weight: 500;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 400;
   scroll-behavior: smooth;
   }
 }
@@ -16,6 +16,6 @@
  }
 
 h1 {
-  @apply text-xl font-sans
+  @apply text-lg font-sans
 }
 

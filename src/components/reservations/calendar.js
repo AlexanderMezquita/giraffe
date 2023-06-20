@@ -31,14 +31,18 @@ export default function Calendar({ handleNext }) {
     setValue("time", value);
     handleNext();
   };
+
+  const isWeekend = (date) => {
+    const day = date.day();
+
+    return day === 0;
+  };
+
   // dayjs.extend(utc);
   // dayjs.extend(timezone);
   // dayjs.tz.setDefault("Europe/Berlin");
 
   // alert(dayjs());
-  React.useEffect(() => {
-    setValue("date", dayjs());
-  }, []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
@@ -50,10 +54,11 @@ export default function Calendar({ handleNext }) {
         <DateCalendar
           views={["day"]}
           showDaysOutsideCurrentMonth={false}
-          minDate={dayjs()}
           maxDate={dayjs().add(45, "day")}
-          defaultValue={getValues("date") ?? dayjs()}
+          defaultValue={getValues("date") ?? setValue("date", dayjs())}
           onChange={(value) => setValue("date", value)}
+          shouldDisableDate={isWeekend}
+          disablePast
           // shouldDisableDate={dis}
         />
       </LocalizationProvider>
