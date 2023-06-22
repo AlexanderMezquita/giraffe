@@ -36,7 +36,7 @@ export default function HorizontalLinearStepper() {
       <main className="pt-12 pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
         <div className=" bg-secondary    shadow-lg  rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
-          <header className="flex items-center p-3 mt-3  justify-between">
+          <header className="flex items-center px-3 pt-6   justify-between">
             <nav className="flex items-center">
               <IconButton
                 aria-label="Retroceder"

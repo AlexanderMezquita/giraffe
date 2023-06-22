@@ -111,7 +111,7 @@ export default function Form() {
         />
         <TextField
           id="address"
-          label="Direccion (Opcional)"
+          label="Dirección (Opcional)"
           placeholder="Calle Generoso Diaz"
           {...register("address")}
           inputProps={{ maxLength: 40 }}
@@ -138,7 +138,7 @@ export default function Form() {
             <p>
               Estoy de acuerdo con la{" "}
               <a href="/citas" className="text-blue-600">
-                politica de cancelacion
+                política de cancelación
               </a>
             </p>
           }
@@ -156,7 +156,7 @@ export default function Form() {
       <div className="p-5 flex gap-2 border mx-5 mt-5">
         <InfoIcon className=" text-neutral-400" />
         <p className=" text-neutral-400">
-          Cuando reserves con Rizos Afros Y Mas, es posible que recibas
+          Cuando reserves con Rizos Afros Y Más, es posible que recibas
           comunicaciones específicas de la cita por correo electrónico o SMS.
         </p>
       </div>

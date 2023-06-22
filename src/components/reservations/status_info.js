@@ -40,7 +40,7 @@ export default function Status() {
         {getValues("time") ? (
           <span>
             <span>, {getValues("date.$D")} </span>
-            <span> {getMonth(getValues("date.$M"))} </span>
+            <span>de {getMonth(getValues("date.$M"))} </span>
             <span> a las {getValues("time")}</span>{" "}
           </span>
         ) : (

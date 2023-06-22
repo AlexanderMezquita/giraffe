@@ -9,13 +9,13 @@ export default function Branch({ handleNext }) {
   const services = [
     {
       img: "",
-      name: "Sucursal 1",
-      price: "direccion 1",
+      name: "Los Cerros de Gurabo",
+      address: "C1 #15 2da Planta, Santiago De Los Caballeros 51000",
     },
     {
       img: "",
-      name: "Sucursal 2",
-      price: "direccion 2",
+      name: "Sucursal Beller",
+      address: "C. Beller 101, Santiago De Los Caballeros 51000",
     },
   ];
 
@@ -54,7 +54,7 @@ export default function Branch({ handleNext }) {
                     />
                     <div className=" flex flex-col justify-around ">
                       <h2 className="font-semibold font-sans ">{item.name}</h2>
-                      <p className="text-sm text-neutral-500">${item.price}</p>
+                      <p className="text-sm text-neutral-500">{item.address}</p>
                     </div>
                   </div>
                   <ArrowForwardIosIcon className="text-sm text-neutral-400" />

@@ -21,7 +21,7 @@ export default function SideLogo() {
     <aside className="hidden lg:block mt-2 ">
       <Image
         alt="logo"
-        src="/nav-logo.png"
+        src="/brand.png"
         // priority={true}
         placeholder="blur"
         blurDataURL="/brand.png"
