@@ -21,14 +21,16 @@ export default function SideLogo() {
     <aside className="hidden lg:block mt-2 ">
       <Image
         alt="logo"
-        src="/brand.png"
+        src="/nav-logo.png"
         // priority={true}
         placeholder="blur"
         blurDataURL="/brand.png"
         width={250}
         height={50}
       />
-      <h1 className="text-center">Brand Name</h1>
+      <h1 className="text-center brand-name" id="brand">
+        Rizos, Afros Y Mas
+      </h1>
 
       <ul className="flex divide-x-2 justify-around mt-5  [&>li]:flex [&>li]:justify-center [&>li]:w-full [&>li]:cursor-pointer  ">
         <li className="group">

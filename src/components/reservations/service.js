@@ -8,53 +8,53 @@ import { formatCurrency } from "@/utils/methods";
 export default function Services({ handleNext }) {
   const services = [
     {
-      img: "image1.jpg",
-      name: "Haircut Deluxe",
+      img: "imagen1.jpg",
+      name: "Corte de pelo Deluxe",
       price: 15000,
     },
     {
-      img: "image2.jpg",
-      name: "Beard Trim",
+      img: "imagen2.jpg",
+      name: "Recorte de barba",
       price: 18000,
     },
     {
-      img: "image3.jpg",
-      name: "Color Highlights",
+      img: "imagen3.jpg",
+      name: "Reflejos de color",
       price: 20000,
     },
     {
-      img: "image4.jpg",
-      name: "Shampoo and Blowout",
+      img: "imagen4.jpg",
+      name: "Lavado y secado",
       price: 12000,
     },
     {
-      img: "image5.jpg",
-      name: "Hair Styling",
+      img: "imagen5.jpg",
+      name: "Peinado",
       price: 16000,
     },
     {
-      img: "image6.jpg",
-      name: "Deep Conditioning Treatment",
+      img: "imagen6.jpg",
+      name: "Tratamiento de acondicionamiento profundo",
       price: 13500,
     },
     {
-      img: "image7.jpg",
-      name: "Head Massage",
+      img: "imagen7.jpg",
+      name: "Masaje de cabeza",
       price: 17000,
     },
     {
-      img: "image8.jpg",
-      name: "Hair Extensions",
+      img: "imagen8.jpg",
+      name: "Extensiones de cabello",
       price: 14000,
     },
     {
-      img: "image9.jpg",
-      name: "Straightening or Perming",
+      img: "imagen9.jpg",
+      name: "Alisado o rizado",
       price: 15500,
     },
     {
-      img: "image10.jpg",
-      name: "Updo or Bridal Hairstyle",
+      img: "imagen10.jpg",
+      name: "Peinado recogido o para novias",
       price: 19000,
     },
   ];
@@ -83,7 +83,7 @@ export default function Services({ handleNext }) {
                   <li
                     key={index}
                     onClick={() => handleService(item)}
-                    className="flex items-center justify-between gap-2 hover:bg-tertiary/50 cursor-pointer p-2  "
+                    className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer p-2  "
                   >
                     <div className="flex items-center gap-2">
                       <Image
@@ -97,7 +97,7 @@ export default function Services({ handleNext }) {
                         blurDataURL="/test.jpg"
                       />
                       <div className=" flex flex-col justify-around ">
-                        <h2 className=" font-semibold font-sans text-lg ">
+                        <h2 className=" font-semibold font-sans ">
                           {item.name}
                         </h2>
                         <p className=" text-neutral-500">

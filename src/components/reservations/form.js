@@ -2,24 +2,23 @@ import { TextField, Button } from "@mui/material";
 import Image from "next/image";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControl from "@mui/material/FormControl";
+import InfoIcon from "@mui/icons-material/Info";
 
 import { useFormContext } from "react-hook-form";
 
 export default function Form() {
   const {
     register,
+    control,
     formState: { errors },
   } = useFormContext();
   return (
     <div className=" flex  flex-col pb-10 sm:pb-5 ">
-      <div className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 gap-4 ">
+      <div className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 w-full mx-0 sm:w-3/4 sm:mx-auto gap-4 ">
         {" "}
         <TextField
           id="name"
-          label="Tu nombre"
+          label="Nombre*"
           placeholder="Primer y segundo nombre"
           {...register("name", {
             required: {
@@ -35,20 +34,24 @@ export default function Form() {
           error={!!errors.name}
           helperText={errors.name?.message}
         />
-        <FormControl className="col-span-10" error={!!errors.quantity}>
-          <RadioGroup
+        {/* <FormControl className="col-span-10">
+          <FormLabel>Cantidad de personas</FormLabel>
+          <Controller
+            rules={{ required: true }}
+            control={control}
             aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            {...register("quantity", { required: true })}
-            // value={value}
-            // onChange={handleChange}
-          >
-            <FormControlLabel value="1" control={<Radio />} label="1" />
-            <FormControlLabel value="2" control={<Radio />} label="2" />
-            <FormControlLabel value="3" control={<Radio />} label="3" />
-            <FormControlLabel value="4" control={<Radio />} label="4" />
-          </RadioGroup>
-        </FormControl>
+            name="quantity"
+            defaultValue="1"
+            render={({ field }) => (
+              <RadioGroup {...field} row>
+                <FormControlLabel value={1} control={<Radio />} label="1" />
+                <FormControlLabel value={2} control={<Radio />} label="2" />
+                <FormControlLabel value={3} control={<Radio />} label="3" />
+                <FormControlLabel value={4} control={<Radio />} label="4" />
+              </RadioGroup>
+            )}
+          />
+        </FormControl> */}
         <TextField
           id="phone-zip"
           disabled
@@ -60,6 +63,7 @@ export default function Form() {
                   alt="Dominican flag"
                   width={23}
                   height={10}
+                  className="[@media(max-width:310px)]:hidden"
                   src="/assets/dominican_flag.svg"
                 />
                 <p>{`+1`}</p>
@@ -69,7 +73,7 @@ export default function Form() {
         />
         <TextField
           id="phone"
-          label="Teléfono"
+          label="Teléfono*"
           placeholder="809-XXX-XXXX"
           {...register("phone", {
             required: {
@@ -126,7 +130,7 @@ export default function Form() {
         />
       </div>
 
-      <footer className=" p-5  z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
+      <footer className=" p-5 w-full mx-0 sm:w-3/4 sm:mx-auto  z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
         <FormControlLabel
           required
           control={<Checkbox />}
@@ -140,10 +144,22 @@ export default function Form() {
           }
         />
 
-        <Button fullWidth variant="contained" color="primary" type="submit">
-          Book
+        <Button
+          className="w-full mt-2 sm:mt-0 sm:w-auto float-right "
+          variant="contained"
+          size="small"
+          type="submit"
+        >
+          Registrarse
         </Button>
       </footer>
+      <div className="p-5 flex gap-2 border mx-5 mt-5">
+        <InfoIcon className=" text-neutral-400" />
+        <p className=" text-neutral-400">
+          Cuando reserves con Rizos Afros Y Mas, es posible que recibas
+          comunicaciones específicas de la cita por correo electrónico o SMS.
+        </p>
+      </div>
     </div>
   );
 }

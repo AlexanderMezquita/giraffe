@@ -13,7 +13,7 @@ export default function HorizontalLinearStepper() {
     "Elige la sucursal",
     "Elige tu servicio",
     "Dia y hora",
-    "Tu informacion",
+    "Tu información",
   ];
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -33,7 +33,7 @@ export default function HorizontalLinearStepper() {
         <meta property="og:title" content="Citasss" key="title" />
       </Head>
       <NavBar />
-      <main className="pt-14 pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
+      <main className="pt-12 pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
         <div className=" bg-secondary    shadow-lg  rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
           <header className="flex items-center p-3 mt-3  justify-between">
@@ -43,11 +43,11 @@ export default function HorizontalLinearStepper() {
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-                className=" text-primary"
+                color="primary"
               >
                 <ArrowBackIosNewIcon />
               </IconButton>
-              <h1>{steps[activeStep]}</h1>
+              <h2>{steps[activeStep]}</h2>
             </nav>
             {/* <Button
               onClick={handleNext}

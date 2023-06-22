@@ -17,11 +17,11 @@ const GREY = {
 };
 
 const PRIMARY = {
-  lighter: "#41ba7f",
-  light: "#29b16f",
-  main: "#12A960",
-  dark: "#109856",
-  darker: "#0e874c",
+  lighter: "#b0d279",
+  light: "#9ac653",
+  main: "#8CBC3F",
+  dark: "#80ac39",
+  darker: "#729933",
   contrastText: "#fff",
 };
 

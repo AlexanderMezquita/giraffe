@@ -28,6 +28,7 @@ export default function ThemeProvider({ children }) {
           },
         },
       },
+
       MuiDateCalendar: {
         styleOverrides: {
           root: {

@@ -39,7 +39,7 @@ export default function Branch({ handleNext }) {
                 <li
                   key={index}
                   onClick={() => handleBranch(item.name)}
-                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 cursor-pointer p-2  "
+                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer p-2  "
                 >
                   <div className="flex items-center gap-2">
                     <Image
@@ -53,7 +53,7 @@ export default function Branch({ handleNext }) {
                       className="rounded-full border-4 border-secondary object-cover w-[60px] h-[60px]"
                     />
                     <div className=" flex flex-col justify-around ">
-                      <h2 className="font-bold ">{item.name}</h2>
+                      <h2 className="font-semibold font-sans ">{item.name}</h2>
                       <p className="text-sm text-neutral-500">${item.price}</p>
                     </div>
                   </div>

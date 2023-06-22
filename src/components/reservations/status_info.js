@@ -34,10 +34,10 @@ export default function Status() {
 
   return (
     <div className=" p-3  rounded-lg  bg-tertiary/80 mx-5   ">
-      <p className="text-lg">{getValues("service")}</p>
-      <p className="text-neutral-600">
+      <h2 className="font-semibold font-sans">{getValues("service")}</h2>
+      <p className="text-neutral-600 text-[12px]">
         {getValues("branch")}
-        {getValues("date") ? (
+        {getValues("time") ? (
           <span>
             <span>, {getValues("date.$D")} </span>
             <span> {getMonth(getValues("date.$M"))} </span>
