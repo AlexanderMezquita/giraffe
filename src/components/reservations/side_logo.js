@@ -1,9 +1,8 @@
 import Image from "next/image";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+
 import dayjs from "dayjs";
+import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
+import { Rating, Button } from "@mui/material";
 
 export default function SideLogo() {
   const currentDate = dayjs().day();
@@ -28,32 +27,30 @@ export default function SideLogo() {
         width={250}
         height={50}
       />
-      <h1 className="text-center brand-name" id="brand">
+      <h1 className="text-center " id="brand">
         Rizos, Afros Y Mas
       </h1>
-
-      <ul className="flex divide-x-2 justify-around mt-5  [&>li]:flex [&>li]:justify-center [&>li]:w-full [&>li]:cursor-pointer  ">
-        <li className="group">
-          <a href="#">
-            <InstagramIcon className="w-10 text-stone-400/90 group-hover:text-stone-700  transition-colors duration-300" />
-          </a>
-        </li>
-        <li className="group">
-          <a>
-            <WhatsAppIcon className="w-10 text-stone-400/90 group-hover:text-stone-700 transition-colors duration-300" />
-          </a>
-        </li>
-        <li className="group">
-          <a>
-            <FacebookOutlinedIcon className="w-10 text-stone-400/90 group-hover:text-stone-700 transition-colors duration-300" />
-          </a>
-        </li>
-        <li className="group">
-          <a>
-            <YouTubeIcon className="w-10 text-stone-400/90 group-hover:text-stone-700 transition-colors duration-300" />
-          </a>
-        </li>
-      </ul>
+      <div className="flex items-center mt-2 gap-1 justify-center">
+        <p className=" font text-neutral-700 text-lg mt-[3px]">4.6</p>
+        <Rating
+          name="rating"
+          defaultValue={4.5}
+          precision={0.5}
+          readOnly
+          className="text-primary"
+        />
+      </div>
+      <div className="mt-3">
+        <Button
+          className=" capitalize bg-tertiary"
+          fullWidth
+          style={{ flex: "start" }}
+          color="inherit"
+          startIcon={<InsertInvitationIcon color="primary" />}
+        >
+          <h2>Reservar una cita </h2>
+        </Button>
+      </div>
     </aside>
   );
 }

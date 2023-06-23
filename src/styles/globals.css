@@ -16,14 +16,14 @@
  }
 
  #brand {
-font-family: 'Satisfy', cursive;  }
+font-family: 'Satisfy', Cursive;  }
 
 h1 {
   @apply font-sans text-neutral-700 
 }
 
 h2 {
-  @apply font-[550]   text-neutral-700
+  @apply font-semibold font-sans   text-neutral-700
 }
 
 p{

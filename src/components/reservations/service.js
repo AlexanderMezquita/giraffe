@@ -74,7 +74,7 @@ export default function Services({ handleNext }) {
       ) : (
         <React.Fragment>
           <section className="  ">
-            <h2 onClick={handleNext} className="p-3">
+            <h2 onClick={handleNext} className="py-3 px-5">
               Servicios
             </h2>
             <ul>
@@ -83,7 +83,7 @@ export default function Services({ handleNext }) {
                   <li
                     key={index}
                     onClick={() => handleService(item)}
-                    className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer p-2  "
+                    className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
                   >
                     <div className="flex items-center gap-2">
                       <Image

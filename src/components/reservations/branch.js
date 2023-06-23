@@ -30,7 +30,7 @@ export default function Branch({ handleNext }) {
         <Loading />
       ) : (
         <section className="  md:max-h-[500px]">
-          <h2 onClick={handleNext} className="p-3">
+          <h2 onClick={handleNext} className="py-3 px-5">
             Sucursales
           </h2>
           <ul>
@@ -39,7 +39,7 @@ export default function Branch({ handleNext }) {
                 <li
                   key={index}
                   onClick={() => handleBranch(item.name)}
-                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer p-2  "
+                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
                 >
                   <div className="flex items-center gap-2">
                     <Image

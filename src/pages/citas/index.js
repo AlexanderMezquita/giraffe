@@ -7,6 +7,7 @@ import NavBar from "@/components/reservations/navbar";
 import Panels from "@/components/reservations/panels";
 import SideLogo from "@/components/reservations/side_logo";
 import ContactInfo from "@/components/reservations/contact_info";
+import { Card } from "@mui/material";
 
 export default function HorizontalLinearStepper() {
   const steps = [
@@ -29,13 +30,26 @@ export default function HorizontalLinearStepper() {
   return (
     <>
       <Head>
-        <title>Citas</title>
-        <meta property="og:title" content="Citasss" key="title" />
+        <title>Rizos Afros y Más - Citas </title>
+        <meta
+          property="og:title"
+          content="Rizos Afros y Más || Programa tu cita"
+          key="title"
+        />
+        <meta
+          property="og:description"
+          content="El mejor espacio para cuidar tu pelo rizo o afro"
+          key="description"
+        />
+        <meta property="og:image" content="/brand.png" key="image" />
       </Head>
       <NavBar />
-      <main className="pt-12 pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
+      <main className=" pt-12 sm:pt-16  pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
-        <div className=" bg-secondary    shadow-lg  rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  ">
+        <Card
+          variant="outlined"
+          className=" bg-white     rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  "
+        >
           <header className="flex items-center px-3 pt-6   justify-between">
             <nav className="flex items-center">
               <IconButton
@@ -64,7 +78,7 @@ export default function HorizontalLinearStepper() {
           />
 
           {/* <p sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</p> */}
-        </div>
+        </Card>
         <ContactInfo />
       </main>
     </>
