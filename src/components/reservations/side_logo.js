@@ -17,14 +17,14 @@ export default function SideLogo() {
   ];
 
   return (
-    <aside className="hidden lg:block mt-2 ">
+    <aside className="hidden w-44 lg:block mt-2 ">
       <Image
         alt="logo"
         src="/brand.png"
         // priority={true}
         placeholder="blur"
         blurDataURL="/brand.png"
-        width={250}
+        width={200}
         height={50}
       />
       <h1 className="text-center " id="brand">
@@ -42,13 +42,13 @@ export default function SideLogo() {
       </div>
       <div className="mt-3">
         <Button
-          className=" capitalize bg-tertiary"
+          className=" capitalize bg-tertiary "
           fullWidth
           style={{ flex: "start" }}
           color="inherit"
           startIcon={<InsertInvitationIcon color="primary" />}
         >
-          <h2>Reservar una cita </h2>
+          <h2>Reservar cita </h2>
         </Button>
       </div>
     </aside>

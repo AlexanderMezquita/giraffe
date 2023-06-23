@@ -72,46 +72,42 @@ export default function Services({ handleNext }) {
       {false ? (
         <Loading />
       ) : (
-        <React.Fragment>
-          <section className="  ">
-            <h2 onClick={handleNext} className="py-3 px-5">
-              Servicios
-            </h2>
-            <ul>
-              {services.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    onClick={() => handleService(item)}
-                    className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
-                  >
-                    <div className="flex items-center gap-2">
-                      <Image
-                        width={60}
-                        height={40}
-                        src="/test.jpg"
-                        alt={item.name}
-                        className="rounded-full border-4 border-secondary object-cover w-[60px] h-[60px]"
-                        priority={true}
-                        placeholder="blur"
-                        blurDataURL="/test.jpg"
-                      />
-                      <div className=" flex flex-col justify-around ">
-                        <h2 className=" font-semibold font-sans ">
-                          {item.name}
-                        </h2>
-                        <p className=" text-neutral-500">
-                          {formatCurrency(item.price)}
-                        </p>
-                      </div>
+        <>
+          <h2 onClick={handleNext} className="py-3 px-5">
+            Servicios
+          </h2>
+          <ul>
+            {services.map((item, index) => {
+              return (
+                <li
+                  key={index}
+                  onClick={() => handleService(item)}
+                  className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
+                >
+                  <div className="flex items-center gap-2">
+                    <Image
+                      width={60}
+                      height={40}
+                      src="/test.jpg"
+                      alt={item.name}
+                      className="rounded-full border-4 border-secondary object-cover w-[60px] h-[60px]"
+                      priority={true}
+                      placeholder="blur"
+                      blurDataURL="/test.jpg"
+                    />
+                    <div className=" flex flex-col justify-around ">
+                      <h2 className=" font-semibold font-sans ">{item.name}</h2>
+                      <p className=" text-neutral-500">
+                        {formatCurrency(item.price)}
+                      </p>
                     </div>
-                    <ArrowForwardIosIcon className="text-sm text-neutral-400" />
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        </React.Fragment>
+                  </div>
+                  <ArrowForwardIosIcon className="text-sm text-neutral-400" />
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
     </>
   );

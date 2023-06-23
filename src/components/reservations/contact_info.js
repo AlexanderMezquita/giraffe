@@ -15,13 +15,13 @@ export default function ContactInfo() {
   ];
 
   return (
-    <aside className="hidden lg:sticky lg:block mt-2 ">
+    <aside className="hidden w-56 [@media(min-width:1100px)]:block  mt-2 ">
       <h2 className="mb-5">Información de contacto</h2>
       {/* <Image alt="logo" src="/logo.png" width={300} height={50} /> */}
 
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.8615008036595!2d-70.68348999999999!3d19.4615373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb1c5f56e5de243%3A0x4bace61ecbb84386!2sRizos%2C%20Afros%20y%20M%C3%A1s!5e0!3m2!1ses-419!2sca!4v1686752903734!5m2!1ses-419!2sca"
-        width="230"
+        width="195"
         height="200"
         style={{ borderRadius: "20px 20px 0px 0px" }}
         styles="border:10;"
@@ -33,7 +33,7 @@ export default function ContactInfo() {
         <a
           href="https://goo.gl/maps/VFsVqG4hSyBm9WGf8"
           target="blank_"
-          className="flex items-center w-56 gap-3"
+          className="flex items-center  gap-3"
         >
           <LocationOnIcon className="text-neutral-500 group-hover:text-blue-600" />
           <p className=" text-blue-500 group-hover:text-blue-600">
@@ -55,7 +55,7 @@ export default function ContactInfo() {
         </a>
       </div>
       <h2 className="py-5">Horas laborables EST</h2>
-      <ol className=" w-48 space-y-2 text-neutral-600">
+      <ol className="  space-y-2 text-neutral-600">
         {weekDays.map((item, index) => {
           return (
             <li

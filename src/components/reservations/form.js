@@ -23,9 +23,9 @@ export default function Form() {
           {...register("name", {
             required: {
               value: true,
-              message: "Este campo no puede estar vacio",
+              message: "Este campo no puede estar vacío",
             },
-            minLength: { value: 5, message: "Ingresa un nombre valido" },
+            minLength: { value: 5, message: "Ingresa al menos 5 caracteres" },
             maxLength: 50,
           })}
           inputProps={{ maxLength: 50 }}
@@ -84,7 +84,7 @@ export default function Form() {
             pattern: {
               value:
                 /^(1\s?)?(849\s?|809\s?|829\s?|809|849|829)[\s\-]?\d{3}[\s\-]?\d{4}$/gm,
-              message: "Ingresa un número válido",
+              message: "Ingresa un número válido en la República Dominicana",
             },
           })}
           className=" col-span-7 sm:col-span-8"

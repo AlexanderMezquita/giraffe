@@ -44,11 +44,11 @@ export default function HorizontalLinearStepper() {
         <meta property="og:image" content="/brand.png" key="image" />
       </Head>
       <NavBar />
-      <main className=" pt-12 sm:pt-16  pb-0 sm:pb-10  flex bg-secondary justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
+      <main className=" pt-12 sm:pt-16 pb-0 sm:pb-10  flex bg-secondary  justify-center gap-5 lg:px-3 px-0 mx-auto min-h-screen ">
         <SideLogo />
         <Card
           variant="outlined"
-          className=" bg-white     rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  "
+          className=" bg-white flex-shrink-0   rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  "
         >
           <header className="flex items-center px-3 pt-6   justify-between">
             <nav className="flex items-center">

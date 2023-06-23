@@ -10,6 +10,7 @@
   font-weight: 400;
   scroll-behavior: smooth;
   }
+
 }
  button[class*='MuiButton-containedPrimary'] {
    @apply bg-primary shadow-none hover:bg-primary/90
