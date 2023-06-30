@@ -36,7 +36,7 @@ export default function ContactInfo() {
           className="flex items-center  gap-3"
         >
           <LocationOnIcon className="text-neutral-500 group-hover:text-blue-600" />
-          <p className=" text-blue-500 group-hover:text-blue-600">
+          <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
             C1 #15 2da Planta, Santiago De Los Caballeros 51000, República
             Dominicana
           </p>
@@ -49,7 +49,7 @@ export default function ContactInfo() {
           className="flex items-center w-64 gap-3"
         >
           <LocalPhoneIcon className="text-neutral-500 group-hover:text-blue-600" />
-          <p className=" text-blue-500 group-hover:text-blue-600">
+          <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
             +1 809 241 2028
           </p>
         </a>

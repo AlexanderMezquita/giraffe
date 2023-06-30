@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as React from "react";
 import Loading from "../globals/loading";
 import { useFormContext } from "react-hook-form";
-import { Dialog, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AlertDialog from "../globals/dialog";
 
@@ -22,13 +22,15 @@ export default function Branch({ handleNext }) {
   const services = [
     {
       img: "",
-      name: "Los Cerros de Gurabo",
+      name: "Cerros de Gurabo",
       address: "C1 #15 2da Planta, Santiago De Los Caballeros 51000",
+      phone: "8093219082",
     },
     {
       img: "",
       name: "Sucursal Beller",
       address: "C. Beller 101, Santiago De Los Caballeros 51000",
+      phone: "8191230000",
     },
   ];
 

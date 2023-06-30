@@ -18,6 +18,13 @@ export default function ThemeProvider({ children }) {
           },
         },
       },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            overflow: "visible",
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {

@@ -33,7 +33,7 @@ export default function Status() {
   };
 
   return (
-    <div className=" p-3  rounded-lg  bg-tertiary/80 mx-5   ">
+    <div className=" p-3  rounded-lg   bg-tertiary/80 mx-5   ">
       <h2 className="font-semibold font-sans">{getValues("service")}</h2>
       <p className="text-neutral-600 text-[12px]">
         {getValues("branch")}

@@ -17,16 +17,26 @@ export default function AlertDialog({ open, handleClose, activeBranch }) {
       >
         <DialogTitle id="alert-dialog-title">{activeBranch.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
+          <div>
+            <div className="flex items-center gap-1">
+              <h1 className="font-bold">Direccion: </h1>
+              <h1>{activeBranch.address}</h1>
+            </div>
+            <div className="flex items-center gap-1">
+              <h1 className="font-bold">Numero Telefonico: </h1>
+              <h1>{activeBranch.phone}</h1>
+            </div>
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button
+            onClick={handleClose}
+            href={`https://wa.me/${activeBranch.phone}`}
+            target="_blank"
+          >
+            Whatsapp
           </Button>
+          <Button onClick={handleClose}>Cerrar</Button>
         </DialogActions>
       </Dialog>
     </div>

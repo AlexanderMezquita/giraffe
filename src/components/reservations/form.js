@@ -13,9 +13,8 @@ export default function Form() {
     formState: { errors },
   } = useFormContext();
   return (
-    <div className=" flex  flex-col pb-10 sm:pb-5 ">
+    <div className=" flex  flex-col pb-10 sm:pb-5  ">
       <div className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 w-full mx-0 sm:w-3/4 sm:mx-auto gap-4 ">
-        {" "}
         <TextField
           id="name"
           label="Nombre*"
@@ -130,7 +129,7 @@ export default function Form() {
         />
       </div>
 
-      <footer className=" p-5 w-full mx-0 sm:w-3/4 sm:mx-auto  z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
+      <footer className=" p-5 w-full mx-0 sm:w-3/4 sm:mx-auto z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
         <FormControlLabel
           required
           control={<Checkbox />}

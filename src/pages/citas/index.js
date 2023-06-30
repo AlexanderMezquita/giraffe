@@ -48,7 +48,7 @@ export default function HorizontalLinearStepper() {
         <SideLogo />
         <Card
           variant="outlined"
-          className=" bg-white flex-shrink-0   rounded-none  sm:rounded-xl sm:h-fit  sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  "
+          className=" bg-white   rounded-none  sm:rounded-xl r sm:min-h-[600px]  w-full sm:w-[600px]   sm:m-2  "
         >
           <header className="flex items-center px-3 pt-6   justify-between">
             <nav className="flex items-center">
