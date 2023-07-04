@@ -144,9 +144,8 @@ export default function Form() {
         />
 
         <Button
-          className="w-full mt-2 sm:mt-0 sm:w-auto float-right "
+          className="w-full rounded-full mt-2 sm:mt-0 sm:w-auto float-right "
           variant="contained"
-          size="small"
           type="submit"
         >
           Registrarse

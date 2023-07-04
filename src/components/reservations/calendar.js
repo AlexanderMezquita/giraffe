@@ -75,6 +75,7 @@ export default function Calendar({ handleNext }) {
               <Button
                 variant="outlined"
                 color="inherit"
+                size="large"
                 className="w-full border-neutral-300"
                 onClick={() => handleDate(item)}
               >
