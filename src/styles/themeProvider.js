@@ -22,6 +22,9 @@ export default function ThemeProvider({ children }) {
         styleOverrides: {
           root: {
             overflow: "visible",
+            "@media (max-width:640px )": {
+              border: "none",
+            },
           },
         },
       },
@@ -64,6 +67,7 @@ export default function ThemeProvider({ children }) {
     // typography: typography,
     // shadows: shadows(),
   };
+
   const theme = createTheme(themeOptions);
 
   // theme.components = ComponentsOverrides({
