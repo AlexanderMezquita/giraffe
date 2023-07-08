@@ -12,6 +12,7 @@ import { Container, Avatar } from "@mui/material";
 import palette from "../../../styles/theme/palette";
 import TopSection from "./topsection";
 import ProfileCard from "./profilecard";
+import NavSection from "./navsection";
 
 const drawerWidth = 270;
 const drawerHeight = 75;
@@ -86,7 +87,7 @@ export default function Nav({ children }, props) {
         >
           {/* <Logo /> */}
           <ProfileCard />
-          {/* <NavSection onClose={handleDrawerToggle} /> */}
+          <NavSection onClose={handleDrawerToggle} />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -115,7 +116,7 @@ export default function Nav({ children }, props) {
             />
           </Box>
           <ProfileCard />
-          {/* <NavSection data={config} /> */}
+          <NavSection />
         </Drawer>
       </Box>
       <Box

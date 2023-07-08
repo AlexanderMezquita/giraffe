@@ -1,4 +1,5 @@
 import { Box, Avatar, Popover, Divider } from "@mui/material";
+import palette from "@/styles/theme/palette";
 
 import { useState } from "react";
 
@@ -20,13 +21,50 @@ export default function TopSection() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  function SvgColor({ src, sx, ...other }) {
+    return (
+      <Box
+        component="span"
+        className="svg-color"
+        sx={{
+          display: "inline-block",
+          bgcolor: palette.grey[600],
+          mask: `url(${src}) no-repeat center / contain`,
+          WebkitMask: `url(${src}) no-repeat center / contain`,
+          ...sx,
+        }}
+        {...other}
+      />
+    );
+  }
+
+  function Icon(name) {
+    return (
+      <SvgColor
+        src={`/assets/${name}.svg`}
+        sx={{
+          padding: "8px",
+          width: 20,
+          height: 20,
+          "&:hover": {
+            cursor: "pointer",
+            transform: "scale(1.1)",
+            transitionDuration: "200ms",
+            transitionProperty: "all",
+            bgcolor: "text.primary.main",
+            fontWeight: "fontWeightBold",
+          },
+        }}
+      />
+    );
+  }
 
   return (
     <nav className="flex w-full items-center justify-between ">
       <div className={`flex justify-center text-black items-center   p-2`}>
-        search
+        {Icon("search")}
       </div>
-      <div className="flex  p-4 items-center justify-center space-x-4">
+      <div className="flex   items-center justify-center space-x-4">
         <Avatar
           src="/assets/adminIcon.svg"
           aria-describedby={id}
