@@ -68,7 +68,7 @@ export default function NavSection({ onClose }) {
         },
         {
           title: "Citas",
-          path: "/admin",
+          path: "/admin/citas",
           icon: Icon("invoices"),
           info: "",
         },
@@ -79,19 +79,19 @@ export default function NavSection({ onClose }) {
       items: [
         {
           title: "Servicios",
-          path: "/admin",
+          path: "/admin/servicios",
           icon: Icon("services"),
           info: "",
         },
         {
           title: "Empleados",
-          path: "/",
+          path: "/admin/empleados",
           icon: Icon("users"),
           info: "",
         },
         {
           title: "Horarios",
-          path: "/",
+          path: "/admin/horarios",
           icon: Icon("schedule"),
           info: "",
         },
