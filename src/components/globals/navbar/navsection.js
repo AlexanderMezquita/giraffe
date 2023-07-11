@@ -50,16 +50,12 @@ export default function NavSection({ onClose }) {
     {
       groupTitle: "Administracion",
       items: [
-        // {
-        //   title: "Administracion",
-        //   path: "/admin",
-        //   icon: Icon("apps"),
-        //   info: "",
-        //   items: [
-        //     { title: "Sucursales", path: "/admin/sucursales" },
-        //     { title: "Citas", path: "/facturas" },
-        //   ],
-        // },
+        {
+          title: "Inicio",
+          path: "/admin",
+          icon: Icon("apps"),
+          info: "",
+        },
         {
           title: "Sucursales",
           path: "/admin/sucursales",

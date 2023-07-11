@@ -1,5 +1,6 @@
 import { Box, Avatar, Popover, Divider } from "@mui/material";
 import palette from "@/styles/theme/palette";
+import useAuth from "@/auth/useAuth";
 
 import { useState } from "react";
 
@@ -12,8 +13,8 @@ export default function TopSection() {
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
   const id = open ? "profile-popover" : undefined;
+  const { LogOut } = useAuth();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -112,7 +113,7 @@ export default function TopSection() {
             <div className="flex flex-col mx-2 py-2 ">
               <span
                 className="px-2 py-2 cursor-pointer hover:bg-slate-100 rounded-lg duration-200"
-                // onClick={() => LogOut()}
+                onClick={() => LogOut()}
               >
                 Cerrar sesion
               </span>

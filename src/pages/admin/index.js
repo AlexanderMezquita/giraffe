@@ -1,3 +1,4 @@
+import PrivateRouter from "@/auth/private_route";
 import Layout from "@/components/layouts/admin_layout";
 export default function Home() {
   return (

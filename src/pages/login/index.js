@@ -14,7 +14,6 @@ export default function Login() {
   const handleLogin = async (data) => {
     try {
       await LogIn(data);
-      alert("success");
     } catch (e) {
       setError("password", { message: "El usuario no se ha encotrado" });
     }
