@@ -1,13 +1,34 @@
+import DataTable from "@/components/globals/datagrid";
 import PageHeader from "@/components/globals/page_header";
 import Layout from "@/components/layouts/admin_layout";
+import { useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
 export default function Branches() {
+  const [pageState, setPageState] = useState({
+    isLoading: true,
+    data: [],
+    pageSize: 5,
+    page: 1,
+    // filter: {
+    //   value: "",
+    //   status: "all",
+    // },
+    totalData: 0,
+  });
+  const columns = [
+    { field: "img", headerName: "Imagen", width: 120 },
+    { field: "name", headerName: "Nombre", width: 150 },
+    { field: "address", headerName: "Dirección", width: 250 },
+    { field: "phone", headerName: "Teléfono", width: 200 },
+    { field: "status", headerName: "Estatus", width: 110 },
+  ];
+
   return (
     <Layout>
       <section className="w-full flex flex-col">
-        <div className="flex w-full justify-between items-center ">
+        <div className="flex w-full justify-between items-center mb-5 ">
           <PageHeader Icon={"/assets/branches.svg"} header={"Sucursales"} />
           <div className="flex">
             <Button
@@ -22,7 +43,12 @@ export default function Branches() {
             </Button>
           </div>
         </div>
-        <h1>Sucursales's page</h1>
+
+        <DataTable
+          pageState={pageState}
+          setPageState={setPageState}
+          columns={columns}
+        />
       </section>
     </Layout>
   );

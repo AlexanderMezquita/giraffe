@@ -38,7 +38,13 @@ export default function ThemeProvider({ children }) {
           },
         },
       },
-
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "white",
+          },
+        },
+      },
       MuiDateCalendar: {
         styleOverrides: {
           root: {
