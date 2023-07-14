@@ -1,37 +1,14 @@
 import { Card } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function DataTable({ pageState, setPageState, columns }) {
-  const rows = [
-    {
-      name: "asdasd 3",
-      address: "1233",
-      phone: "980980",
-      isDeleted: false,
-      img: "string",
-      status: "active",
-      id: 3,
-    },
-    {
-      name: "Cerros de gurabo",
-      address: "Calle #1 gurabo club",
-      phone: "9809801232",
-      isDeleted: false,
-      img: "string",
-      status: "active",
-      id: 4,
-    },
-    {
-      name: "asdasd 3",
-      address: "1233",
-      phone: "980980",
-      isDeleted: false,
-      img: "string",
-      status: "active",
-      id: 5,
-    },
-  ];
-
+export default function DataTable({
+  pageState,
+  setPageState,
+  columns,
+  header,
+  loading,
+  rows,
+}) {
   const onDataGridPageChange = (newPage) => {
     setPageState({
       ...pageState,
@@ -50,9 +27,11 @@ export default function DataTable({ pageState, setPageState, columns }) {
 
   return (
     <div className=" border p-2 max-w-5xl w-full mx-auto h-full bg-white rounded-lg">
-      <h2 className="py-5 px-2 text-xl text-primary">Sucursales disponibles</h2>
+      <h2 className="py-5 px-2 text-xl text-primary">{header}</h2>
       <DataGrid
-        rows={rows}
+        getRowId={(row) => row.id}
+        rows={rows ?? []}
+        loading={loading}
         columns={columns}
         className="h-96"
         getRowClassName={(params) =>
@@ -66,6 +45,7 @@ export default function DataTable({ pageState, setPageState, columns }) {
         onPageChange={onDataGridPageChange}
         onPageSizeChange={onDataGridPageSizeChange}
         paginationMode="server"
+        rowCount={10}
         disableColumnFilter
         hideFooterSelectedRowCount
         disableColumnSelector

@@ -1,11 +1,15 @@
 import DataTable from "@/components/globals/datagrid";
 import PageHeader from "@/components/globals/page_header";
 import Layout from "@/components/layouts/admin_layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import useAxios from "@/axios";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Branches() {
+  const { axiosInstance } = useAxios();
   const [pageState, setPageState] = useState({
     isLoading: true,
     data: [],
@@ -24,6 +28,18 @@ export default function Branches() {
     { field: "phone", headerName: "Teléfono", width: 200 },
     { field: "status", headerName: "Estatus", width: 110 },
   ];
+
+  const getAsyncBranches = async () =>
+    await axiosInstance.get("/branches?Page=1&Limit=10");
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["branches"],
+    queryFn: () => getAsyncBranches(),
+  });
+
+  // useEffect(() => {
+  //   console.log(data.data.data, isLoading, "React Query");
+  // }, []);
 
   return (
     <Layout>
@@ -48,6 +64,9 @@ export default function Branches() {
           pageState={pageState}
           setPageState={setPageState}
           columns={columns}
+          rows={data?.data?.data}
+          loading={isLoading}
+          header={"Sucursales disponibles"}
         />
       </section>
     </Layout>
