@@ -1,45 +1,110 @@
 import DataTable from "@/components/globals/datagrid";
 import PageHeader from "@/components/globals/page_header";
 import Layout from "@/components/layouts/admin_layout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import useAxios from "@/axios";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import Avatar from "@mui/material/Avatar";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { formatNumber } from "@/utils/methods";
+import { EditOutlined, DeleteOutline } from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import DeleteDialog from "@/components/globals/delete-dialog";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Branches() {
   const { axiosInstance } = useAxios();
-  const [pageState, setPageState] = useState({
-    isLoading: true,
-    data: [],
-    pageSize: 5,
-    page: 1,
-    // filter: {
-    //   value: "",
-    //   status: "all",
-    // },
-    totalData: 0,
-  });
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState();
+
   const columns = [
-    { field: "img", headerName: "Imagen", width: 120 },
+    {
+      field: "img",
+      headerName: "Imagen",
+      width: 120,
+      renderCell: (cells) => {
+        return (
+          <Avatar
+            alt={cells.row.img}
+            // src="/static/images/avatar/1.jpg"
+            sx={{ width: 30, height: 30 }}
+          />
+        );
+      },
+    },
     { field: "name", headerName: "Nombre", width: 150 },
     { field: "address", headerName: "Dirección", width: 250 },
-    { field: "phone", headerName: "Teléfono", width: 200 },
-    { field: "status", headerName: "Estatus", width: 110 },
+    {
+      field: "phone",
+      headerName: "Teléfono",
+      width: 200,
+      renderCell: (cells) => {
+        return <span>{formatNumber(cells.row.phone)}</span>;
+      },
+    },
+    {
+      field: "status",
+      headerName: "Estatus",
+      width: 140,
+      renderCell: (cells) => {
+        return cells.row.status !== "Activo" ? (
+          <span className="bg-red-200 rounded-2xl px-2 py-1 flex items-center">
+            <span className="w-2 h-2 rounded-full mx-2 bg-red-700 animate-pulse  "></span>
+            Desactivado
+          </span>
+        ) : (
+          <span className="bg-green-200 rounded-2xl px-2 py-1 flex items-center">
+            <span className="w-2 h-2 rounded-full mx-2 bg-green-700 animate-pulse  "></span>
+            Activo
+          </span>
+        );
+      },
+    },
+    {
+      field: "Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (cells) => {
+        return (
+          <div className="flex space-x-2">
+            <IconButton>
+              <EditOutlined className="text-green-400" />
+            </IconButton>
+
+            <IconButton
+              onClick={() => {
+                setConfirmOpen(true);
+                setItemToDelete(cells.row.id);
+              }}
+            >
+              <DeleteOutline className="text-red-500" />
+            </IconButton>
+          </div>
+        );
+      },
+    },
   ];
 
   const getAsyncBranches = async () =>
     await axiosInstance.get("/branches?Page=1&Limit=10");
 
-  const { isLoading, isError, data, error } = useQuery({
+  const deleteAsyncBranch = async (id) =>
+    await axiosInstance.delete(`/branch/${id}`);
+
+  const queryClient = useQueryClient();
+  const getBranches = useQuery({
     queryKey: ["branches"],
     queryFn: () => getAsyncBranches(),
   });
 
-  // useEffect(() => {
-  //   console.log(data.data.data, isLoading, "React Query");
-  // }, []);
+  const deleteBranch = useMutation({
+    mutationFn: (id) => deleteAsyncBranch(id),
+    onSettled: async () => setConfirmOpen(false),
+    onSuccess: () => {
+      queryClient.invalidateQueries("branches");
+    },
+  });
 
   return (
     <Layout>
@@ -60,12 +125,20 @@ export default function Branches() {
           </div>
         </div>
 
+        <DeleteDialog
+          open={confirmOpen}
+          setOpen={setConfirmOpen}
+          onConfirm={() => {
+            deleteBranch.mutate(itemToDelete);
+          }}
+          loading={deleteBranch.isLoading}
+          // setOpen={true}
+        />
+
         <DataTable
-          pageState={pageState}
-          setPageState={setPageState}
           columns={columns}
-          rows={data?.data?.data}
-          loading={isLoading}
+          rows={getBranches.data?.data?.data}
+          loading={getBranches.isLoading}
           header={"Sucursales disponibles"}
         />
       </section>

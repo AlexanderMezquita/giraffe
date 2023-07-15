@@ -1,29 +1,22 @@
 import { Card } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function DataTable({
-  pageState,
-  setPageState,
-  columns,
-  header,
-  loading,
-  rows,
-}) {
-  const onDataGridPageChange = (newPage) => {
-    setPageState({
-      ...pageState,
-      page: newPage + 1,
-      pageSize: pageState.pageSize,
-    });
-  };
+export default function DataTable({ columns, header, loading, rows }) {
+  // const onDataGridPageChange = (newPage) => {
+  //   setPageState({
+  //     ...pageState,
+  //     page: newPage + 1,
+  //     pageSize: pageState.pageSize,
+  //   });
+  // };
 
-  const onDataGridPageSizeChange = (newPageSize) => {
-    setPageState({
-      ...pageState,
-      page: pageState.page,
-      pageSize: newPageSize,
-    });
-  };
+  // const onDataGridPageSizeChange = (newPageSize) => {
+  //   setPageState({
+  //     ...pageState,
+  //     page: pageState.page,
+  //     pageSize: newPageSize,
+  //   });
+  // };
 
   return (
     <div className=" border p-2 max-w-5xl w-full mx-auto h-full bg-white rounded-lg">
@@ -39,13 +32,15 @@ export default function DataTable({
         }
         localeText={{
           noRowsLabel: "No hay datos disponibles",
+          noResultsOverlayLabel: "No se encontraron resultados",
         }}
         pagination
-        rowHeight={60}
-        onPageChange={onDataGridPageChange}
-        onPageSizeChange={onDataGridPageSizeChange}
+        rowHeight={70}
+        // onPageChange={onDataGridPageChange}
+        // onPageSizeChange={onDataGridPageSizeChange}
         paginationMode="server"
-        rowCount={10}
+        // rowCount={10}
+        pageSizeOptions={[5, 10, 25]}
         disableColumnFilter
         hideFooterSelectedRowCount
         disableColumnSelector

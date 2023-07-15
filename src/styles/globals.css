@@ -16,15 +16,21 @@
    @apply bg-primary shadow-none hover:bg-primary/90
  }
 
+
+ button[class*='MuiButton-containedError'] {
+   @apply bg-red-700 shadow-none hover:bg-red-800
+ }
+    
+
  #brand {
 font-family: 'Satisfy', Cursive;  }
 
 h1 {
-  @apply font-sans text-neutral-700 
+  @apply font-sans text-neutral-800 
 }
 
 h2 {
-  @apply font-semibold font-sans   text-neutral-700
+  @apply font-semibold font-sans  text-neutral-700
 }
 
 p{

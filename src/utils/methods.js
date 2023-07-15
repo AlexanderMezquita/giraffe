@@ -8,4 +8,9 @@ const formatCurrency = (value) => {
   return formatter.format(value);
 };
 
-export { formatCurrency };
+function formatNumber(number) {
+  var pattern = /^(\d{3})-?(\d{3})-?(\d{4})$/;
+  var formattedNumber = number.replace(pattern, "$1-$2-$3");
+  return formattedNumber;
+}
+export { formatCurrency, formatNumber };
