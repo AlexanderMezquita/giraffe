@@ -1,7 +1,7 @@
 import DataTable from "@/components/globals/datagrid";
 import PageHeader from "@/components/globals/page_header";
 import Layout from "@/components/layouts/admin_layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import useAxios from "@/axios";
@@ -15,8 +15,14 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function Branches() {
   const { axiosInstance } = useAxios();
+  const queryClient = useQueryClient();
+
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
+  const [pageState, setPageState] = useState({
+    page: 0,
+    pageSize: 5,
+  });
 
   const columns = [
     {
@@ -86,21 +92,24 @@ export default function Branches() {
     },
   ];
 
-  const getAsyncBranches = async () =>
-    await axiosInstance.get("/branches?Page=1&Limit=10");
+  const getAsyncBranches = async (params) =>
+    await axiosInstance.get(
+      `/branches?Page=${params?.page + 1 ?? 1}&Limit=${params?.pageSize ?? 5}`
+    );
 
   const deleteAsyncBranch = async (id) =>
     await axiosInstance.delete(`/branch/${id}`);
 
-  const queryClient = useQueryClient();
   const getBranches = useQuery({
-    queryKey: ["branches"],
-    queryFn: () => getAsyncBranches(),
+    queryKey: ["branches", pageState],
+    queryFn: () => getAsyncBranches(pageState),
   });
 
   const deleteBranch = useMutation({
     mutationFn: (id) => deleteAsyncBranch(id),
-    onSettled: async () => setConfirmOpen(false),
+    onSettled: async () => {
+      setConfirmOpen(false);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
     },
@@ -137,7 +146,9 @@ export default function Branches() {
 
         <DataTable
           columns={columns}
+          setPageState={setPageState}
           rows={getBranches.data?.data?.data}
+          rowCount={getBranches.data?.data?.dataQuantity}
           loading={getBranches.isLoading}
           header={"Sucursales disponibles"}
         />
