@@ -6,7 +6,7 @@ import { Add } from "@mui/icons-material";
 export default function Branches() {
   return (
     <Layout>
-      <div className="flex w-full justify-between items-center ">
+      <div className="flex w-full justify-between items-center  mb-5 ">
         <PageHeader Icon={"/assets/schedule.svg"} header={"Horarios"} />
         <div className="flex">
           <Button

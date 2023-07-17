@@ -1,7 +1,7 @@
 import DataTable from "@/components/globals/datagrid";
 import PageHeader from "@/components/globals/page_header";
 import Layout from "@/components/layouts/admin_layout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import useAxios from "@/axios";
@@ -16,7 +16,6 @@ import { useMutation } from "@tanstack/react-query";
 export default function Branches() {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
-
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
   const [pageState, setPageState] = useState({
@@ -133,7 +132,6 @@ export default function Branches() {
             </Button>
           </div>
         </div>
-
         <DeleteDialog
           open={confirmOpen}
           setOpen={setConfirmOpen}
