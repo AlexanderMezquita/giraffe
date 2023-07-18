@@ -12,11 +12,13 @@ import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import DeleteDialog from "@/components/globals/delete-dialog";
 import { useMutation } from "@tanstack/react-query";
+import BranchForm from "@/components/forms/branch-form";
 
 export default function Branches() {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
   const [pageState, setPageState] = useState({
     page: 0,
@@ -124,6 +126,7 @@ export default function Branches() {
               variant="contained"
               size="large"
               color="primary"
+              onClick={() => setFormOpen(true)}
               startIcon={<Add className="text-white ml-3 sm:ml-0" />}
             >
               <span className="text-sm hidden sm:block whitespace-nowrap text-neutral-50 capitalize font-bold">
@@ -141,6 +144,7 @@ export default function Branches() {
           loading={deleteBranch.isLoading}
           // setOpen={true}
         />
+        <BranchForm open={formOpen} handleClose={setFormOpen} />
 
         <DataTable
           columns={columns}

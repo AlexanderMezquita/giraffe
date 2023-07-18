@@ -3,7 +3,7 @@ import PageHeader from "@/components/globals/page_header";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
-export default function Branches() {
+export default function Schedule() {
   return (
     <Layout>
       <div className="flex w-full justify-between items-center  mb-5 ">

@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <main className=" h-screen    col-span-12 flex md:items-center  pt-12 md:pt-0 justify-center  sm:bg-gray-200">
-      <div className=" bg-white h-fit max-w-[300px] sm:w-80 shadow-none  sm:shadow-lg   rounded-xl  sm:py-10 sm:p-4 p-4 m-2 ">
+      <div className=" bg-white h-fit max-w-[320px] sm:w-80 shadow-none  sm:shadow-lg   rounded-xl  sm:py-10 sm:p-4 p-4 m-2 ">
         <Avatar
           alt="logo"
           variant="square"
