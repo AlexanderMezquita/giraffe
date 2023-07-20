@@ -33,8 +33,8 @@ export default function Branches() {
       renderCell: (cells) => {
         return (
           <Avatar
-            alt={cells.row.img}
-            // src="/static/images/avatar/1.jpg"
+            alt={cells.row.name}
+            src="/static/images/avatar/1.jpg"
             sx={{ width: 30, height: 30 }}
           />
         );

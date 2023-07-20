@@ -12,8 +12,10 @@ export default function DeleteDialog({ onConfirm, loading, open, setOpen }) {
   return (
     <Dialog
       open={open}
+      maxWidth={"sm"}
+      fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, width: "490px", padding: "10px" },
+        style: { borderRadius: 15, padding: "10px" },
       }}
       onClose={() => setOpen(false)}
     >
@@ -38,7 +40,7 @@ export default function DeleteDialog({ onConfirm, loading, open, setOpen }) {
           </LoadingButton>
 
           <Button
-            color="inherit"
+            color="info"
             className=" border-gray-300"
             variant="outlined"
             onClick={() => setOpen(false)}

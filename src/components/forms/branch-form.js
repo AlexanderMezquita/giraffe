@@ -4,7 +4,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useForm } from "react-hook-form";
+import { CameraAltRounded } from "@mui/icons-material";
+import { Controller, useForm } from "react-hook-form";
 import {
   TextField,
   FormControl,
@@ -18,14 +19,26 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
     register,
     formState: { errors },
     reset,
+    control,
+    getValues,
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      status: "Activo",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   React.useEffect(() => {
     if (!open) {
       reset({
         name: "",
         address: "",
+        phone: "",
+        img: "",
       });
     }
   }, [open]);
@@ -43,7 +56,50 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
       aria-describedby="create a branch using this dialog"
     >
       <DialogTitle id="alert-dialog-title">Crear Sucursal</DialogTitle>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
+          <Button
+            component="label"
+            className="rounded-full absolute inset-0 m-2 hover:bg-black opacity-70 "
+          >
+            {getValues("img") ? (
+              ""
+            ) : (
+              <div className="w-full flex flex-col justify-center space-y-2 items-center">
+                <CameraAltRounded />
+                <span className="text-xs capitalize">Subir Imagen</span>
+              </div>
+            )}
+            <Controller
+              control={control}
+              name="img"
+              render={({ field: { value, onChange, ...field } }) => {
+                return (
+                  <input
+                    {...field}
+                    value={value?.fileName}
+                    onChange={(e) => {
+                      if (e.target.files[0]) {
+                        onChange(URL.createObjectURL(e.target.files[0]));
+                      }
+                    }}
+                    hidden
+                    accept="image/*"
+                    type="file"
+                  />
+                );
+              }}
+            />
+          </Button>
+          <img
+            src={getValues("img") ? getValues("img") : ""}
+            alt=""
+            className=" w-36 h-36 rounded-full transition-all  "
+          />
+        </figure>
+        <p className="text-xs px-8 m-5 text-center  text-neutral-500">
+          Permitido *.jpeg, *.jpg, *.png, max size of 3.1 MB
+        </p>
         <DialogContent className=" space-y-3">
           <TextField
             id="name"
@@ -83,7 +139,7 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
             helperText={errors.address?.message}
           />
           <div className="space-y-3 sm:space-y-0">
-            <FormControl className=" w-full sm:w-1/2 sm:px-1 ">
+            <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
               <TextField
                 id="phone"
                 label="Teléfono*"
@@ -106,20 +162,28 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
                 helperText={errors.phone?.message}
               />
             </FormControl>
-            <FormControl className=" w-full sm:w-1/2 sm:px-1">
+            <FormControl className=" w-full sm:w-1/2 sm:pl-1">
               <InputLabel id="demo-simple-select-helper-label">
                 Estatus
               </InputLabel>
-              <Select
-                labelId="status-label"
-                id="select-helper"
-                // value={age}
-                label="status"
-                // onChange={handleChange}
-              >
-                <MenuItem>Activo</MenuItem>
-                <MenuItem>Desactivado</MenuItem>
-              </Select>
+              <Controller
+                name="status"
+                control={control}
+                defaultValue={"Activo"}
+                rules={{ required: "El estatus es requerido" }}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    labelId="status-label"
+                    id="status"
+                    value={value}
+                    label="status"
+                    onChange={onChange}
+                  >
+                    <MenuItem value={"Activo"}>Activo</MenuItem>
+                    <MenuItem value={"Desactivado"}>Desactivado</MenuItem>
+                  </Select>
+                )}
+              />
             </FormControl>
           </div>
         </DialogContent>
@@ -136,7 +200,7 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
           <Button
             onClick={() => handleClose(false)}
             variant="outlined"
-            color="inherit"
+            color="info"
           >
             Cancelar
           </Button>
