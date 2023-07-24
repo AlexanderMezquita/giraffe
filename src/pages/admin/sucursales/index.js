@@ -20,6 +20,7 @@ export default function Branches() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
+  const [data, setData] = useState({});
   const [pageState, setPageState] = useState({
     page: 0,
     pageSize: 5,
@@ -32,11 +33,7 @@ export default function Branches() {
       width: 120,
       renderCell: (cells) => {
         return (
-          <Avatar
-            alt={cells.row.name}
-            src="/static/images/avatar/1.jpg"
-            sx={{ width: 30, height: 30 }}
-          />
+          <Avatar alt={cells.row.name} src="" sx={{ width: 30, height: 30 }} />
         );
       },
     },
@@ -75,14 +72,17 @@ export default function Branches() {
       renderCell: (cells) => {
         return (
           <div className="flex space-x-2">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                handleEdit(cells.row);
+              }}
+            >
               <EditOutlined className="text-green-400" />
             </IconButton>
 
             <IconButton
               onClick={() => {
-                setConfirmOpen(true);
-                setItemToDelete(cells.row.id);
+                handleDelete(cells.row.id);
               }}
             >
               <DeleteOutline className="text-red-500" />
@@ -92,6 +92,21 @@ export default function Branches() {
       },
     },
   ];
+
+  const handleCreate = () => {
+    setData({});
+    setFormOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    setItemToDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleEdit = (data) => {
+    setData(data);
+    setFormOpen(true);
+  };
 
   const getAsyncBranches = async (params) =>
     await axiosInstance.get(
@@ -126,7 +141,9 @@ export default function Branches() {
               variant="contained"
               size="large"
               color="primary"
-              onClick={() => setFormOpen(true)}
+              onClick={() => {
+                handleCreate();
+              }}
               startIcon={<Add className="text-white ml-3 sm:ml-0" />}
             >
               <span className="text-sm hidden sm:block whitespace-nowrap text-neutral-50 capitalize font-bold">
@@ -144,7 +161,7 @@ export default function Branches() {
           loading={deleteBranch.isLoading}
           // setOpen={true}
         />
-        <BranchForm open={formOpen} handleClose={setFormOpen} />
+        <BranchForm branch={data} open={formOpen} handleClose={setFormOpen} />
 
         <DataTable
           columns={columns}

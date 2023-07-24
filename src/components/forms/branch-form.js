@@ -5,6 +5,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 import { Controller, useForm } from "react-hook-form";
 import {
   TextField,
@@ -14,34 +16,34 @@ import {
   MenuItem,
 } from "@mui/material";
 
-export default function BranchForm({ open, handleClose, activeBranch }) {
+export default function BranchForm({ open, handleClose, loading, branch }) {
+  const branchExist = Object.keys(branch).length === 0;
   const {
     register,
     formState: { errors },
-    reset,
     control,
     getValues,
     handleSubmit,
-  } = useForm({
-    defaultValues: {
-      status: "Activo",
-    },
-  });
+    reset,
+  } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   };
 
   React.useEffect(() => {
-    if (!open) {
+    if (branchExist) {
       reset({
         name: "",
         address: "",
         phone: "",
         img: "",
+        status: "Activo",
       });
+    } else {
+      reset(branch);
     }
-  }, [open]);
+  }, [branch, open]);
 
   return (
     <Dialog
@@ -56,6 +58,7 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
       aria-describedby="create a branch using this dialog"
     >
       <DialogTitle id="alert-dialog-title">Crear Sucursal</DialogTitle>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
           <Button
@@ -111,7 +114,10 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
                 value: true,
                 message: "Este campo no puede estar vacío",
               },
-              minLength: { value: 5, message: "Ingresa al menos 5 caracteres" },
+              minLength: {
+                value: 5,
+                message: "Ingresa al menos 5 caracteres",
+              },
               maxLength: 50,
             })}
             inputProps={{ maxLength: 50 }}
@@ -130,7 +136,10 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
                 value: true,
                 message: "Este campo no puede estar vacío",
               },
-              minLength: { value: 5, message: "Ingresa al menos 5 caracteres" },
+              minLength: {
+                value: 5,
+                message: "Ingresa al menos 5 caracteres",
+              },
               maxLength: 50,
             })}
             inputProps={{ maxLength: 50 }}
@@ -188,15 +197,14 @@ export default function BranchForm({ open, handleClose, activeBranch }) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button
-            //   onClick={handleClose}
+          <LoadingButton
             target="_blank"
             variant="outlined"
             color="success"
             type="submit"
           >
-            Crear
-          </Button>
+            {!branchExist ? <span>Actualizar </span> : <span>Crear</span>}
+          </LoadingButton>
           <Button
             onClick={() => handleClose(false)}
             variant="outlined"

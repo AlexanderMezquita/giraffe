@@ -7,7 +7,7 @@ export default function useAxios() {
   const router = useRouter();
 
   const axiosInstance = axios.create({
-    baseURL: "https://localhost:7019/api",
+    baseURL: "https://giraffe-api.azurewebsites.net/api",
   });
 
   axiosInstance.interceptors.request.use(
