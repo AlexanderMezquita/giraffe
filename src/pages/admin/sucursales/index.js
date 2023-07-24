@@ -108,21 +108,21 @@ export default function Branches() {
     setFormOpen(true);
   };
 
-  const getAsyncBranches = async (params) =>
-    await axiosInstance.get(
-      `/branches?Page=${params?.page + 1 ?? 1}&Limit=${params?.pageSize ?? 5}`
-    );
-
-  const deleteAsyncBranch = async (id) =>
-    await axiosInstance.delete(`/branch/${id}`);
-
   const getBranches = useQuery({
     queryKey: ["branches", pageState],
-    queryFn: () => getAsyncBranches(pageState),
+    queryFn: () => {
+      return axiosInstance.get(
+        `/branches?Page=${pageState?.page + 1 ?? 1}&Limit=${
+          pageState?.pageSize ?? 5
+        }`
+      );
+    },
   });
 
   const deleteBranch = useMutation({
-    mutationFn: (id) => deleteAsyncBranch(id),
+    mutationFn: (id) => {
+      return axiosInstance.delete(`/branch/${id}`);
+    },
     onSettled: async () => {
       setConfirmOpen(false);
     },
@@ -159,7 +159,6 @@ export default function Branches() {
             deleteBranch.mutate(itemToDelete);
           }}
           loading={deleteBranch.isLoading}
-          // setOpen={true}
         />
         <BranchForm branch={data} open={formOpen} handleClose={setFormOpen} />
 

@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
-
+import useAxios from "@/axios";
 import { Controller, useForm } from "react-hook-form";
 import {
   TextField,
@@ -15,9 +15,13 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function BranchForm({ open, handleClose, loading, branch }) {
-  const branchExist = Object.keys(branch).length === 0;
+export default function BranchForm({ open, handleClose, branch }) {
+  const branchExist = Object.keys(branch).length >= 1;
+  const queryClient = useQueryClient();
+
+  const { axiosInstance } = useAxios();
   const {
     register,
     formState: { errors },
@@ -27,12 +31,42 @@ export default function BranchForm({ open, handleClose, loading, branch }) {
     reset,
   } = useForm();
 
+  const createBranch = useMutation({
+    mutationFn: (newBranch) => {
+      return axiosInstance.post(`/branch`, newBranch);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("branches");
+    },
+    onSettled: () => {
+      handleClose(false);
+    },
+  });
+
+  const updateBranch = useMutation({
+    mutationFn: (updatedBranch) => {
+      return axiosInstance.put(`/branch`, updatedBranch);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("branches");
+    },
+    onSettled: () => {
+      handleClose(false);
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    if (branchExist) {
+      updateBranch.mutate(data);
+    } else {
+      createBranch.mutate(data);
+    }
   };
 
   React.useEffect(() => {
     if (branchExist) {
+      reset(branch);
+    } else {
       reset({
         name: "",
         address: "",
@@ -40,8 +74,6 @@ export default function BranchForm({ open, handleClose, loading, branch }) {
         img: "",
         status: "Activo",
       });
-    } else {
-      reset(branch);
     }
   }, [branch, open]);
 
@@ -140,7 +172,7 @@ export default function BranchForm({ open, handleClose, loading, branch }) {
                 value: 5,
                 message: "Ingresa al menos 5 caracteres",
               },
-              maxLength: 50,
+              maxLength: 100,
             })}
             inputProps={{ maxLength: 50 }}
             color="primary"
@@ -200,10 +232,11 @@ export default function BranchForm({ open, handleClose, loading, branch }) {
           <LoadingButton
             target="_blank"
             variant="outlined"
+            loading={createBranch.isLoading || updateBranch.isLoading}
             color="success"
             type="submit"
           >
-            {!branchExist ? <span>Actualizar </span> : <span>Crear</span>}
+            {branchExist ? <span>Actualizar </span> : <span>Crear</span>}
           </LoadingButton>
           <Button
             onClick={() => handleClose(false)}
