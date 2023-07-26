@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAxios from "@/axios";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import {
   TextField,
   FormControl,
@@ -16,10 +16,15 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteImage, uploadImage } from "@/utils/image-handler";
+import { FirebaseError } from "firebase/app";
+import { AxiosError } from "axios";
 
 export default function BranchForm({ open, handleClose, branch }) {
   const branchExist = Object.keys(branch).length >= 1;
   const queryClient = useQueryClient();
+  const [imgFile, setImgFile] = React.useState();
+  const [error, setError] = React.useState();
 
   const { axiosInstance } = useAxios();
   const {
@@ -28,7 +33,9 @@ export default function BranchForm({ open, handleClose, branch }) {
     control,
     getValues,
     handleSubmit,
+    setValue,
     reset,
+    watch,
   } = useForm();
 
   const createBranch = useMutation({
@@ -55,11 +62,23 @@ export default function BranchForm({ open, handleClose, branch }) {
     },
   });
 
-  const onSubmit = (data) => {
-    if (branchExist) {
-      updateBranch.mutate(data);
-    } else {
-      createBranch.mutate(data);
+  const onSubmit = async (data) => {
+    try {
+      if (data.img !== null) {
+        const url = await uploadImage(imgFile, "branches");
+        data.img = url;
+        console.log(data.img);
+      }
+      branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        setError("Error subiendo la imagen");
+      } else if (error instanceof AxiosError) {
+        setError("Error de creando o actualizando la sucursal");
+        deleteImage(imgFile, "branches");
+      } else {
+        setError("Error porfavor intentelo de nuevo");
+      }
     }
   };
 
@@ -71,7 +90,7 @@ export default function BranchForm({ open, handleClose, branch }) {
         name: "",
         address: "",
         phone: "",
-        img: "",
+        img: null,
         status: "Activo",
       });
     }
@@ -97,7 +116,7 @@ export default function BranchForm({ open, handleClose, branch }) {
             component="label"
             className="rounded-full absolute inset-0 m-2 hover:bg-black opacity-70 "
           >
-            {getValues("img") ? (
+            {watch("img") ? (
               ""
             ) : (
               <div className="w-full flex flex-col justify-center space-y-2 items-center">
@@ -115,7 +134,9 @@ export default function BranchForm({ open, handleClose, branch }) {
                     value={value?.fileName}
                     onChange={(e) => {
                       if (e.target.files[0]) {
+                        // console.log(e.target.files[0]);
                         onChange(URL.createObjectURL(e.target.files[0]));
+                        setImgFile(e.target.files[0]);
                       }
                     }}
                     hidden
@@ -127,7 +148,7 @@ export default function BranchForm({ open, handleClose, branch }) {
             />
           </Button>
           <img
-            src={getValues("img") ? getValues("img") : ""}
+            src={watch("img") ? getValues("img") : null}
             alt=""
             className=" w-36 h-36 rounded-full transition-all  "
           />

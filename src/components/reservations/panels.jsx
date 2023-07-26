@@ -5,7 +5,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Branch from "@/components/reservations/branch";
 import Calendar from "@/components/reservations/calendar";
 import Form from "@/components/reservations/form";
-import { QontoConnector, QontoStepIcon } from "@/styles/stepper_component";
+import { QontoConnector, QontoStepIcon } from "@/styles/stepper-component";
 import Services from "@/components/reservations/service";
 import { useForm, FormProvider } from "react-hook-form";
 import Status from "./status_info";

@@ -13,4 +13,5 @@ function formatNumber(number) {
   var formattedNumber = number.replace(pattern, "$1-$2-$3");
   return formattedNumber;
 }
+
 export { formatCurrency, formatNumber };
