@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAxios from "@/axios";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   TextField,
   FormControl,
@@ -20,11 +20,11 @@ import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
 
-export default function BranchForm({ open, handleClose, branch }) {
+export default function BranchForm({ open, handleClose, branch, toast }) {
   const branchExist = Object.keys(branch).length >= 1;
   const queryClient = useQueryClient();
+  const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
-  const [error, setError] = React.useState();
 
   const { axiosInstance } = useAxios();
   const {
@@ -44,6 +44,10 @@ export default function BranchForm({ open, handleClose, branch }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
+      toast.success("Sucursal creada exitosamente");
+    },
+    onError: () => {
+      toast.error("Hubo un error creando la sucursal, vuelve a intentarlo.");
     },
     onSettled: () => {
       handleClose(false);
@@ -56,6 +60,12 @@ export default function BranchForm({ open, handleClose, branch }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
+      toast.success("Sucursal actualizada exitosamente");
+    },
+    onError: () => {
+      toast.error(
+        "Hubo un error actualizando la sucursal, vuelve a intentarlo."
+      );
     },
     onSettled: () => {
       handleClose(false);
@@ -64,21 +74,25 @@ export default function BranchForm({ open, handleClose, branch }) {
 
   const onSubmit = async (data) => {
     try {
-      if (data.img !== null) {
+      if (data.img !== null || branch.img !== null) {
+        setImageLoading(true);
         const url = await uploadImage(imgFile, "branches");
         data.img = url;
-        console.log(data.img);
+      } else {
+        data.img = branch.img;
       }
       branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
     } catch (error) {
       if (error instanceof FirebaseError) {
-        setError("Error subiendo la imagen");
+        toast.error("Error subiendo la imagen");
       } else if (error instanceof AxiosError) {
-        setError("Error de creando o actualizando la sucursal");
+        toast.error("Error de creando o actualizando la sucursal");
         deleteImage(imgFile, "branches");
       } else {
-        setError("Error porfavor intentelo de nuevo");
+        toast.error("Error porfavor intentelo de nuevo");
       }
+    } finally {
+      setImageLoading(false);
     }
   };
 
@@ -149,8 +163,8 @@ export default function BranchForm({ open, handleClose, branch }) {
           </Button>
           <img
             src={watch("img") ? getValues("img") : null}
-            alt=""
-            className=" w-36 h-36 rounded-full transition-all  "
+            alt="branch_image"
+            className=" w-36 h-36 rounded-full transition-all text-[0] "
           />
         </figure>
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
@@ -253,7 +267,9 @@ export default function BranchForm({ open, handleClose, branch }) {
           <LoadingButton
             target="_blank"
             variant="outlined"
-            loading={createBranch.isLoading || updateBranch.isLoading}
+            loading={
+              createBranch.isLoading || updateBranch.isLoading || imageLoading
+            }
             color="success"
             type="submit"
           >

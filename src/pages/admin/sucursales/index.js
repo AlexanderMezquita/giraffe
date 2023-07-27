@@ -13,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteDialog from "@/components/globals/delete-dialog";
 import { useMutation } from "@tanstack/react-query";
 import BranchForm from "@/components/forms/branch-form";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Branches() {
   const { axiosInstance } = useAxios();
@@ -33,7 +34,11 @@ export default function Branches() {
       width: 120,
       renderCell: (cells) => {
         return (
-          <Avatar alt={cells.row.name} src="" sx={{ width: 30, height: 30 }} />
+          <Avatar
+            alt={cells.row.name}
+            src={cells.row.img}
+            sx={{ width: 60, height: 60 }}
+          />
         );
       },
     },
@@ -128,12 +133,17 @@ export default function Branches() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
+      toast.success("Sucursal eliminada exitosamente.");
+    },
+    onError: () => {
+      toast.error("Hubo un error eliminando la sucursal, vuelve a intentarlo.");
     },
   });
 
   return (
     <Layout>
       <section className="w-full flex flex-col">
+        <Toaster />
         <div className="flex w-full justify-between items-center mb-5 ">
           <PageHeader Icon={"/assets/branches.svg"} header={"Sucursales"} />
           <div className="flex">
@@ -160,7 +170,12 @@ export default function Branches() {
           }}
           loading={deleteBranch.isLoading}
         />
-        <BranchForm branch={data} open={formOpen} handleClose={setFormOpen} />
+        <BranchForm
+          branch={data}
+          open={formOpen}
+          handleClose={setFormOpen}
+          toast={toast}
+        />
 
         <DataTable
           columns={columns}
