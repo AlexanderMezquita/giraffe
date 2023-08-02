@@ -25,7 +25,7 @@ export default function NavBar() {
 
   return (
     <nav
-      className={` bg-white w-screen fixed border transition-all duration-300  border-b-1 z-10 border-neutral-200 `}
+      className={` bg-white w-screen fixed transition-all duration-300 border-b-2 z-10 border-neutral-200 `}
     >
       <div className="flex  justify-between h-14 items-center max-w-[1200px] mx-auto px-4">
         <h2 className="sm:hidden block">Reserva tu cita</h2>

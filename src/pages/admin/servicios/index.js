@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteDialog from "@/components/globals/delete-dialog";
 import useAxios from "@/axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import DataTable from "@/components/globals/datagrid";
 
 export default function Services() {
@@ -109,6 +110,10 @@ export default function Services() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("services");
+      toast.success("Servicio eliminado exitosamente");
+    },
+    onError: () => {
+      toast.error("Error eliminando servicio");
     },
   });
 

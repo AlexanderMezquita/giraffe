@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteDialog from "@/components/globals/delete-dialog";
 import { useMutation } from "@tanstack/react-query";
 import BranchForm from "@/components/forms/branch-form";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 export default function Branches() {
   const { axiosInstance } = useAxios();
@@ -143,7 +143,6 @@ export default function Branches() {
   return (
     <Layout>
       <section className="w-full flex flex-col">
-        <Toaster />
         <div className="flex w-full justify-between items-center mb-5 ">
           <PageHeader Icon={"/assets/branches.svg"} header={"Sucursales"} />
           <div className="flex">
@@ -176,7 +175,6 @@ export default function Branches() {
           handleClose={setFormOpen}
           toast={toast}
         />
-
         <DataTable
           columns={columns}
           setPageState={setPageState}

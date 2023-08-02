@@ -74,12 +74,10 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
 
   const onSubmit = async (data) => {
     try {
-      if (data.img !== null || branch.img !== null) {
+      if (data.img !== null && imgFile) {
         setImageLoading(true);
         const url = await uploadImage(imgFile, "branches");
         data.img = url;
-      } else {
-        data.img = branch.img;
       }
       branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
     } catch (error) {
@@ -90,6 +88,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
         deleteImage(imgFile, "branches");
       } else {
         toast.error("Error porfavor intentelo de nuevo");
+        console.log(error);
       }
     } finally {
       setImageLoading(false);
