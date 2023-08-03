@@ -21,8 +21,8 @@ import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
 import ToggleDays from "../globals/toggle-days";
 
-export default function BranchForm({ open, handleClose, branch, toast }) {
-  const branchExist = Object.keys(branch).length >= 1;
+export default function ServiceForm({ open, handleClose, service, toast }) {
+  const serviceExist = Object.keys(service).length >= 1;
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
@@ -39,33 +39,33 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     watch,
   } = useForm();
 
-  const createBranch = useMutation({
-    mutationFn: (newBranch) => {
-      return axiosInstance.post(`/branch`, newBranch);
+  const createService = useMutation({
+    mutationFn: (newService) => {
+      return axiosInstance.post(`/service`, newService);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("branches");
-      toast.success("Sucursal creada exitosamente");
+      queryClient.invalidateQueries("services");
+      toast.success("Servicio creado exitosamente");
     },
     onError: () => {
-      toast.error("Hubo un error creando la sucursal, vuelve a intentarlo.");
+      toast.error("Hubo un error creando el servicio, vuelve a intentarlo.");
     },
     onSettled: () => {
       handleClose(false);
     },
   });
 
-  const updateBranch = useMutation({
-    mutationFn: (updatedBranch) => {
-      return axiosInstance.put(`/branch`, updatedBranch);
+  const updateService = useMutation({
+    mutationFn: (updatedService) => {
+      return axiosInstance.put(`/service`, updatedService);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("branches");
-      toast.success("Sucursal actualizada exitosamente");
+      queryClient.invalidateQueries("services");
+      toast.success("Servicio actualizado exitosamente");
     },
     onError: () => {
       toast.error(
-        "Hubo un error actualizando la sucursal, vuelve a intentarlo."
+        "Hubo un error actualizando el servicio, vuelve a intentarlo."
       );
     },
     onSettled: () => {
@@ -77,16 +77,16 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     try {
       if (data.img !== null && imgFile) {
         setImageLoading(true);
-        const url = await uploadImage(imgFile, "branches");
+        const url = await uploadImage(imgFile, "services");
         data.img = url;
       }
-      branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
+      serviceExist ? updateService.mutate(data) : createService.mutate(data);
     } catch (error) {
       if (error instanceof FirebaseError) {
         toast.error("Error subiendo la imagen");
       } else if (error instanceof AxiosError) {
-        toast.error("Error de creando o actualizando la sucursal");
-        deleteImage(imgFile, "branches");
+        toast.error("Error de creando o actualizando el servicio");
+        deleteImage(imgFile, "services");
       } else {
         toast.error("Error porfavor intentelo de nuevo");
       }
@@ -96,18 +96,17 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
   };
 
   React.useEffect(() => {
-    if (branchExist) {
-      reset(branch);
+    if (serviceExist) {
+      reset(service);
     } else {
       reset({
         name: "",
-        address: "",
-        phone: "",
+        price: 0,
         img: null,
         status: "Activo",
       });
     }
-  }, [branch, open]);
+  }, [service, open]);
 
   return (
     <Dialog
@@ -118,10 +117,10 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
       }}
       maxWidth={"sm"}
       onClose={() => handleClose(false)}
-      aria-labelledby="branch-form"
-      aria-describedby="create a branch using this dialog"
+      aria-labelledby="service-form"
+      aria-describedby="create a service using this dialog"
     >
-      <DialogTitle id="alert-dialog-title">Crear Sucursal</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Crear Servicio</DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
@@ -162,7 +161,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
           </Button>
           <img
             src={watch("img") ? getValues("img") : null}
-            alt="branch_image"
+            alt="service_image"
             className=" w-36 h-36 rounded-full transition-all text-[0] "
           />
         </figure>
@@ -173,7 +172,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
           <TextField
             id="name"
             label="Nombre*"
-            placeholder="Sucursal Cerros de Gurabo"
+            placeholder="Corte de pelo"
             fullWidth={true}
             {...register("name", {
               required: {
@@ -193,11 +192,13 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             helperText={errors.name?.message}
           />
           <TextField
-            id="address"
-            label="Dirección*"
-            placeholder="C1 #15 2da Planta, Santiago De Los Caballeros 51000, Dominican Republic"
+            id="description"
+            label="Descripción*"
+            placeholder="Procedimiento básico donde se recorta o da forma al cabello sin realizar cambios drásticos en el estilo actual"
             fullWidth={true}
-            {...register("address", {
+            multiline={true}
+            minRows={4}
+            {...register("description", {
               required: {
                 value: true,
                 message: "Este campo no puede estar vacío",
@@ -210,31 +211,26 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             })}
             inputProps={{ maxLength: 50 }}
             color="primary"
-            error={!!errors.address}
-            helperText={errors.address?.message}
+            error={!!errors.description}
+            helperText={errors.description?.message}
           />
           <div className="space-y-3 sm:space-y-0">
             <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
               <TextField
-                id="phone"
-                label="Teléfono*"
-                placeholder="809-241-2028"
-                {...register("phone", {
+                id="price"
+                label="Precio*"
+                placeholder="6,000"
+                type="number"
+                {...register("price", {
                   required: {
                     value: true,
                     message: "Este campo no puede estar vacío",
                   },
                   maxLength: 20,
-                  pattern: {
-                    value:
-                      /^(1\s?)?(849\s?|809\s?|829\s?|809|849|829)[\s\-]?\d{3}[\s\-]?\d{4}$/gm,
-                    message:
-                      "Ingresa un número válido en la República Dominicana",
-                  },
                 })}
-                inputProps={{ maxLength: 20 }}
-                error={!!errors.phone}
-                helperText={errors.phone?.message}
+                inputProps={{ maxLength: 20, min: 0 }}
+                error={!!errors.price}
+                helperText={errors.price?.message}
               />
             </FormControl>
             <FormControl className=" w-full sm:w-1/2 sm:pl-1">
@@ -261,20 +257,18 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               />
             </FormControl>
           </div>
-          <h1 className="py-1">Dias disponibles</h1>
-          <ToggleDays />
         </DialogContent>
         <DialogActions>
           <LoadingButton
             target="_blank"
             variant="outlined"
             loading={
-              createBranch.isLoading || updateBranch.isLoading || imageLoading
+              createService.isLoading || updateService.isLoading || imageLoading
             }
             color="success"
             type="submit"
           >
-            {branchExist ? <span>Actualizar </span> : <span>Crear</span>}
+            {serviceExist ? <span>Actualizar </span> : <span>Crear</span>}
           </LoadingButton>
           <Button
             onClick={() => handleClose(false)}

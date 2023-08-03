@@ -11,12 +11,16 @@ import useAxios from "@/axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import DataTable from "@/components/globals/datagrid";
+import { formatCurrency } from "@/utils/methods";
+import ServiceForm from "@/components/forms/service-form";
 
 export default function Services() {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
+  const [formOpen, setFormOpen] = useState(false);
+  const [data, setData] = useState({});
   const [pageState, setPageState] = useState({
     page: 0,
     pageSize: 5,
@@ -30,9 +34,9 @@ export default function Services() {
       renderCell: (cells) => {
         return (
           <Avatar
-            alt={cells.row.img}
-            // src="/static/images/avatar/1.jpg"
-            sx={{ width: 30, height: 30 }}
+            alt={cells.row.name}
+            src={cells.row.img}
+            sx={{ width: 60, height: 60 }}
           />
         );
       },
@@ -43,9 +47,9 @@ export default function Services() {
       field: "price",
       headerName: "Precio",
       width: 200,
-      // renderCell: (cells) => {
-      //   return <span>{formatNumber(cells.row.phone)}</span>;
-      // },
+      renderCell: (cells) => {
+        return <span>{formatCurrency(cells.row.price)}</span>;
+      },
     },
     {
       field: "status",
@@ -72,14 +76,17 @@ export default function Services() {
       renderCell: (cells) => {
         return (
           <div className="flex space-x-2">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                handleEdit(cells.row);
+              }}
+            >
               <EditOutlined className="text-green-400" />
             </IconButton>
 
             <IconButton
               onClick={() => {
-                setConfirmOpen(true);
-                setItemToDelete(cells.row.id);
+                handleDelete(cells.row.id);
               }}
             >
               <DeleteOutline className="text-red-500" />
@@ -89,6 +96,21 @@ export default function Services() {
       },
     },
   ];
+
+  const handleCreate = () => {
+    setData({});
+    setFormOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    setItemToDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleEdit = (data) => {
+    setData(data);
+    setFormOpen(true);
+  };
 
   const getAsyncServices = async (params) =>
     await axiosInstance.get(
@@ -127,6 +149,9 @@ export default function Services() {
               variant="contained"
               size="large"
               color="primary"
+              onClick={() => {
+                handleCreate();
+              }}
               startIcon={<Add className="text-white ml-3 sm:ml-0" />}
             >
               <span className="text-sm hidden sm:block whitespace-nowrap text-neutral-50 capitalize font-bold">
@@ -143,6 +168,12 @@ export default function Services() {
           }}
           loading={deleteService.isLoading}
           // setOpen={true}
+        />
+        <ServiceForm
+          service={data}
+          open={formOpen}
+          handleClose={setFormOpen}
+          toast={toast}
         />
         <DataTable
           columns={columns}

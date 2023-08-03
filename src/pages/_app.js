@@ -4,6 +4,7 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Slide } from "react-toastify";
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,9 @@ export default function App({ Component, pageProps }) {
         </ThemeProvider>
       </StyledEngineProvider>
       <ToastContainer
+        transition={Slide}
         position="top-center"
-        autoClose={5000}
+        autoClose={4000}
         hideProgressBar
         newestOnTop={false}
         closeOnClick
