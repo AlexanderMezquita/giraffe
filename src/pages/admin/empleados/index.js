@@ -8,12 +8,16 @@ import DeleteDialog from "@/components/globals/delete-dialog";
 import DataTable from "@/components/globals/datagrid";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import EmployeeForm from "@/components/forms/employee-form";
 
 export default function Employees() {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
+  const [formOpen, setFormOpen] = useState(false);
+  const [data, setData] = useState({});
   const [pageState, setPageState] = useState({
     page: 0,
     pageSize: 5,
@@ -61,14 +65,17 @@ export default function Employees() {
       renderCell: (cells) => {
         return (
           <div className="flex space-x-2">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                handleEdit(cells.row);
+              }}
+            >
               <EditOutlined className="text-green-400" />
             </IconButton>
 
             <IconButton
               onClick={() => {
-                setConfirmOpen(true);
-                setItemToDelete(cells.row.id);
+                handleDelete(cells.row.id);
               }}
             >
               <DeleteOutline className="text-red-500" />
@@ -79,26 +86,44 @@ export default function Employees() {
     },
   ];
 
-  const getAsyncEmployees = async (params) =>
-    await axiosInstance.get(
-      `/employees?Page=${params?.page + 1 ?? 1}&Limit=${params?.pageSize ?? 5}`
-    );
+  const handleCreate = () => {
+    setData({});
+    setFormOpen(true);
+  };
 
-  const deleteAsyncEmployee = async (id) =>
-    await axiosInstance.delete(`/employee/${id}`);
+  const handleDelete = (id) => {
+    setItemToDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleEdit = (data) => {
+    setData(data);
+    setFormOpen(true);
+  };
 
   const getEmployees = useQuery({
     queryKey: ["employees", pageState],
-    queryFn: () => getAsyncEmployees(pageState),
+    queryFn: () =>
+      axiosInstance.get(
+        `/employees?Page=${pageState?.page + 1 ?? 1}&Limit=${
+          pageState?.pageSize ?? 5
+        }`
+      ),
   });
 
   const deleteEmployee = useMutation({
-    mutationFn: (id) => deleteAsyncEmployee(id),
+    mutationFn: (id) => {
+      return axiosInstance.delete(`/employee/${id}`);
+    },
     onSettled: async () => {
       setConfirmOpen(false);
     },
     onSuccess: () => {
       queryClient.invalidateQueries("employees");
+      toast.success("Empleado eliminado exitosamente");
+    },
+    onError: () => {
+      toast.error("Error eliminando empleado");
     },
   });
 
@@ -112,6 +137,9 @@ export default function Employees() {
               variant="contained"
               size="large"
               color="primary"
+              onClick={() => {
+                handleCreate();
+              }}
               startIcon={<Add className="text-white ml-3 sm:ml-0" />}
             >
               <span className="text-sm hidden sm:block whitespace-nowrap text-neutral-50 capitalize font-bold">
@@ -128,7 +156,12 @@ export default function Employees() {
           }}
           loading={deleteEmployee.isLoading}
         />
-
+        <EmployeeForm
+          employee={data}
+          open={formOpen}
+          handleClose={setFormOpen}
+          toast={toast}
+        />
         <DataTable
           columns={columns}
           setPageState={setPageState}

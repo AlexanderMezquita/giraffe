@@ -112,21 +112,21 @@ export default function Services() {
     setFormOpen(true);
   };
 
-  const getAsyncServices = async (params) =>
-    await axiosInstance.get(
-      `/services?Page=${params?.page + 1 ?? 1}&Limit=${params?.pageSize ?? 5}`
-    );
-
-  const deleteAsyncService = async (id) =>
-    await axiosInstance.delete(`/service/${id}`);
-
   const getServices = useQuery({
     queryKey: ["services", pageState],
-    queryFn: () => getAsyncServices(pageState),
+    queryFn: () => {
+      return axiosInstance.get(
+        `/services?Page=${pageState?.page + 1 ?? 1}&Limit=${
+          pageState?.pageSize ?? 5
+        }`
+      );
+    },
   });
 
   const deleteService = useMutation({
-    mutationFn: (id) => deleteAsyncService(id),
+    mutationFn: (id) => {
+      return axiosInstance.delete(`/service/${id}`);
+    },
     onSettled: async () => {
       setConfirmOpen(false);
     },

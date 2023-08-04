@@ -11,6 +11,7 @@ export default function DataTable({
   return (
     <div className=" border p-2 max-w-5xl w-full mx-auto h-full bg-white rounded-lg">
       <h2 className="py-5 px-2 text-xl text-primary">{header}</h2>
+
       <DataGrid
         getRowId={(row) => row.id}
         rowCount={rowCount ?? 0}
