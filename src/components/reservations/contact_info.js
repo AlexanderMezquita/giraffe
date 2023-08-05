@@ -1,9 +1,9 @@
-import dayjs from "dayjs";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-
+import Date from "../globals/date";
 export default function ContactInfo() {
-  const currentDate = dayjs().day();
+  const currentDate = Date().day();
+
   const weekDays = [
     { name: "Dom", hours: "Cerrado" },
     { name: "Lun", hours: "9:00 am - 5:00 pm" },

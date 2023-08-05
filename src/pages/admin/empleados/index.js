@@ -1,5 +1,6 @@
 import Layout from "@/components/layouts/admin_layout";
-import { Button } from "@mui/material";
+import { Button, Avatar, IconButton } from "@mui/material";
+import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import PageHeader from "@/components/globals/page_header";
 import { Add } from "@mui/icons-material";
 import useAxios from "@/axios";
@@ -31,15 +32,26 @@ export default function Employees() {
       renderCell: (cells) => {
         return (
           <Avatar
-            alt={cells.row.img}
-            // src="/static/images/avatar/1.jpg"
-            sx={{ width: 30, height: 30 }}
+            alt={cells.row.name}
+            src={cells.row.img}
+            sx={{ width: 60, height: 60 }}
           />
         );
       },
     },
     { field: "name", headerName: "Nombre", width: 150 },
-    { field: "branchId", headerName: "Sucursal", width: 250 },
+    {
+      field: "branchId",
+      headerName: "Sucursal",
+      width: 250,
+      renderCell: (cells) => {
+        const { data: branchId } = useQuery({
+          queryKey: ["branch-id-empl", cells.row.branchId],
+          queryFn: () => getAsyncBranchId(cells.row.branchId),
+        });
+        return <span>{branchId?.data?.name}</span>;
+      },
+    },
     {
       field: "status",
       headerName: "Estatus",
@@ -100,6 +112,9 @@ export default function Employees() {
     setData(data);
     setFormOpen(true);
   };
+
+  const getAsyncBranchId = async (id) =>
+    await axiosInstance.get(`/branch/${id}`);
 
   const getEmployees = useQuery({
     queryKey: ["employees", pageState],

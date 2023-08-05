@@ -13,9 +13,10 @@ import {
   FormControl,
   Select,
   InputLabel,
+  FormHelperText,
   MenuItem,
 } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
@@ -38,6 +39,13 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
     reset,
     watch,
   } = useForm();
+
+  const { data: getBranches } = useQuery({
+    queryKey: ["branchesIDForEmpForm"],
+    queryFn: () => {
+      return axiosInstance.get(`/branches?Page=${1}&Limit=${50}`);
+    },
+  });
 
   const createEmployee = useMutation({
     mutationFn: (newEmployee) => {
@@ -101,7 +109,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
     } else {
       reset({
         name: "",
-        branchId: 0,
+        branchId: "",
         img: null,
         status: "Activo",
       });
@@ -193,27 +201,42 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
           />
 
           <div className="space-y-3 sm:space-y-0">
-            <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
-              <InputLabel id="demo-simple-select-helper-label">
-                Sucursal
-              </InputLabel>
+            <FormControl
+              className=" w-full sm:w-1/2 sm:pr-1 "
+              error={!!errors.branchId}
+            >
+              <InputLabel id="branch-select">Sucursal</InputLabel>
               <Controller
-                name="status"
+                name="branchId"
                 control={control}
-                rules={{ required: "La sucursal es requerida" }}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "La sucursal es requerida",
+                  },
+                }}
+                defaultValue={""}
                 render={({ field: { onChange, value } }) => (
                   <Select
                     labelId="branch-label"
                     id="branchId"
                     value={value}
-                    label="branchId"
+                    label="branch-Id"
                     onChange={onChange}
                   >
-                    <MenuItem value={"Activo"}>Activo</MenuItem>
-                    <MenuItem value={"Desactivado"}>Desactivado</MenuItem>
+                    {getBranches.data?.data?.map((item) => {
+                      return (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 )}
               />
+              {!!errors.branchId && (
+                <FormHelperText>La sucursal es requerida</FormHelperText>
+              )}
             </FormControl>
             <FormControl className=" w-full sm:w-1/2 sm:pl-1">
               <InputLabel id="demo-simple-select-helper-label">
