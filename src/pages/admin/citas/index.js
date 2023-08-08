@@ -15,27 +15,19 @@ export default function Appointments() {
   const columns = [
     { field: "name", headerName: "Nombre", width: 150 },
     {
-      field: "branchId",
+      field: "branch.name",
       headerName: "Sucursal",
       width: 250,
       renderCell: (cells) => {
-        const { data: branchId } = useQuery({
-          queryKey: ["branchId", cells.row.branchId],
-          queryFn: () => getAsyncBranchId(cells.row.branchId),
-        });
-        return <span>{branchId?.data?.name}</span>;
+        return <span>{cells.row.branch.name}</span>;
       },
     },
     {
-      field: "serviceId",
+      field: "service.name",
       headerName: "Servicio",
       width: 250,
       renderCell: (cells) => {
-        const { data: serviceId } = useQuery({
-          queryKey: ["serviceId", cells.row.serviceId],
-          queryFn: () => getAsyncServiceId(cells.row.serviceId),
-        });
-        return <span>{serviceId?.data?.name}</span>;
+        return <span>{cells.row.service.name}</span>;
       },
     },
     { field: "phone", headerName: "Telefono", width: 250 },
@@ -46,12 +38,12 @@ export default function Appointments() {
       width: 140,
       renderCell: (cells) => {
         return cells.row.status !== "Activo" ? (
-          <span className="bg-red-200 rounded-2xl px-2 py-1 flex items-center">
+          <span className="bg-red-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
             <span className="w-2 h-2 rounded-full mx-2 bg-red-700 animate-pulse  "></span>
             Desactivado
           </span>
         ) : (
-          <span className="bg-green-200 rounded-2xl px-2 py-1 flex items-center">
+          <span className="bg-green-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
             <span className="w-2 h-2 rounded-full mx-2 bg-green-700 animate-pulse  "></span>
             Activo
           </span>
@@ -66,11 +58,6 @@ export default function Appointments() {
         params?.pageSize ?? 5
       }`
     );
-  const getAsyncServiceId = async (id) =>
-    await axiosInstance.get(`/service/${id}`);
-
-  const getAsyncBranchId = async (id) =>
-    await axiosInstance.get(`/branch/${id}`);
 
   const getAppointments = useQuery({
     queryKey: ["appointments", pageState],

@@ -207,7 +207,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
             >
               <InputLabel id="branch-select">Sucursal</InputLabel>
               <Controller
-                name="branchId"
+                name="branch.id"
                 control={control}
                 rules={{
                   required: {

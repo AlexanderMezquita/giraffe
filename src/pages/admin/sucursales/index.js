@@ -58,12 +58,12 @@ export default function Branches() {
       width: 140,
       renderCell: (cells) => {
         return cells.row.status !== "Activo" ? (
-          <span className="bg-red-200 rounded-2xl px-2 py-1 flex items-center">
+          <span className="bg-red-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
             <span className="w-2 h-2 rounded-full mx-2 bg-red-700 animate-pulse  "></span>
             Desactivado
           </span>
         ) : (
-          <span className="bg-green-200 rounded-2xl px-2 py-1 flex items-center">
+          <span className="bg-green-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
             <span className="w-2 h-2 rounded-full mx-2 bg-green-700 animate-pulse  "></span>
             Activo
           </span>
@@ -175,6 +175,7 @@ export default function Branches() {
           handleClose={setFormOpen}
           toast={toast}
         />
+
         <DataTable
           columns={columns}
           setPageState={setPageState}
