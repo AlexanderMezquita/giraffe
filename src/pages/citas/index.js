@@ -12,6 +12,7 @@ import { Card } from "@mui/material";
 export default function HorizontalLinearStepper() {
   const steps = [
     "Elige la sucursal",
+    "Elige a tu servidor",
     "Elige tu servicio",
     "Dia y hora",
     "Tu información",

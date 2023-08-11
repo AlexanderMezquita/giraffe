@@ -9,6 +9,7 @@ import { QontoConnector, QontoStepIcon } from "@/styles/stepper-component";
 import Services from "@/components/reservations/service";
 import { useForm, FormProvider } from "react-hook-form";
 import Status from "./status_info";
+import Employees from "./employee";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -53,13 +54,17 @@ export default function Panels({ activeStep, steps, handleNext }) {
           </TabPanel>
           <TabPanel value={activeStep} index={1}>
             <Status />
-            <Services handleNext={handleNext} />
+            <Employees handleNext={handleNext} />
           </TabPanel>
           <TabPanel value={activeStep} index={2}>
             <Status />
-            <Calendar handleNext={handleNext} />
+            <Services handleNext={handleNext} />
           </TabPanel>
           <TabPanel value={activeStep} index={3}>
+            <Status />
+            <Calendar handleNext={handleNext} />
+          </TabPanel>
+          <TabPanel value={activeStep} index={4}>
             <Status />
             <Form />
           </TabPanel>
