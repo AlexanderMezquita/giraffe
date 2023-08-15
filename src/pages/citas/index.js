@@ -14,7 +14,7 @@ export default function HorizontalLinearStepper() {
     "Elige la sucursal",
     "Elige a tu servidor",
     "Elige tu servicio",
-    "Dia y hora",
+    "Día y hora",
     "Tu información",
   ];
 

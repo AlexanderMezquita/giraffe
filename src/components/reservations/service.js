@@ -17,6 +17,7 @@ export default function Services({ handleNext }) {
     data: getServices,
     isLoading,
     isError,
+    isFetching,
   } = useQuery({
     queryKey: ["getServicesIndex"],
     queryFn: () => {
@@ -59,7 +60,7 @@ export default function Services({ handleNext }) {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <Loading />
       ) : isError ? (
         <ReloadMessage />
