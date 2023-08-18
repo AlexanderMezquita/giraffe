@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAxios from "@/axios";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import {
   TextField,
   FormControl,
@@ -29,16 +29,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
   const [imgFile, setImgFile] = React.useState();
 
   const { axiosInstance } = useAxios();
-  const {
-    register,
-    formState: { errors },
-    control,
-    getValues,
-    handleSubmit,
-    setValue,
-    reset,
-    watch,
-  } = useForm();
+  const methods = useForm({});
 
   const { data: getBranches } = useQuery({
     queryKey: ["branchesIDForEmpForm"],
@@ -82,32 +73,33 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
   });
 
   const onSubmit = async (data) => {
-    try {
-      if (data.img !== null && imgFile) {
-        setImageLoading(true);
-        const url = await uploadImage(imgFile, "employees");
-        data.img = url;
-      }
-      employeeExist ? updateEmployee.mutate(data) : createEmployee.mutate(data);
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        toast.error("Error subiendo la imagen");
-      } else if (error instanceof AxiosError) {
-        toast.error("Error de creando o actualizando el empleado");
-        deleteImage(imgFile, "employees");
-      } else {
-        toast.error("Error porfavor intentelo de nuevo");
-      }
-    } finally {
-      setImageLoading(false);
-    }
+    alert(JSON.stringify(data));
+    // try {
+    //   if (data.img !== null && imgFile) {
+    //     setImageLoading(true);
+    //     const url = await uploadImage(imgFile, "employees");
+    //     data.img = url;
+    //   }
+    //   employeeExist ? updateEmployee.mutate(data) : createEmployee.mutate(data);
+    // } catch (error) {
+    //   if (error instanceof FirebaseError) {
+    //     toast.error("Error subiendo la imagen");
+    //   } else if (error instanceof AxiosError) {
+    //     toast.error("Error de creando o actualizando el empleado");
+    //     deleteImage(imgFile, "employees");
+    //   } else {
+    //     toast.error("Error porfavor intentelo de nuevo");
+    //   }
+    // } finally {
+    //   setImageLoading(false);
+    // }
   };
 
   React.useEffect(() => {
     if (employeeExist) {
-      reset(employee);
+      methods.reset(employee);
     } else {
-      reset({
+      methods.reset({
         name: "",
         branchId: "",
         img: null,
@@ -130,13 +122,13 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
     >
       <DialogTitle id="alert-dialog-title">Crear Empleado</DialogTitle>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
           <Button
             component="label"
             className="rounded-full absolute inset-0 m-2 hover:bg-black opacity-70 "
           >
-            {watch("img") ? (
+            {methods.watch("img") ? (
               ""
             ) : (
               <div className="w-full flex flex-col justify-center space-y-2 items-center">
@@ -145,7 +137,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
               </div>
             )}
             <Controller
-              control={control}
+              control={methods.control}
               name="img"
               render={({ field: { value, onChange, ...field } }) => {
                 return (
@@ -168,7 +160,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
             />
           </Button>
           <img
-            src={watch("img") ? getValues("img") : null}
+            src={methods.watch("img") ? methods.getValues("img") : null}
             alt="employee_image"
             className=" w-36 h-36 rounded-full transition-all text-[0] "
           />
@@ -182,7 +174,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
             label="Nombre*"
             placeholder="Julio Iglesias"
             fullWidth={true}
-            {...register("name", {
+            {...methods.register("name", {
               required: {
                 value: true,
                 message: "Este campo no puede estar vacío",
@@ -196,19 +188,19 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
             inputProps={{ maxLength: 50 }}
             color="primary"
             className="col-span-10 rounded-xl"
-            error={!!errors.name}
-            helperText={errors.name?.message}
+            error={!!methods.formState.errors.name}
+            helperText={methods.formState.errors.name?.message}
           />
 
           <div className="space-y-3 sm:space-y-0">
             <FormControl
               className=" w-full sm:w-1/2 sm:pr-1 "
-              error={!!errors.branchId}
+              error={!!methods.formState.errors.branchId}
             >
               <InputLabel id="branch-select">Sucursal</InputLabel>
               <Controller
                 name="branch.id"
-                control={control}
+                control={methods.control}
                 rules={{
                   required: {
                     value: true,
@@ -234,7 +226,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
                   </Select>
                 )}
               />
-              {!!errors.branchId && (
+              {!!methods.formState.errors.branchId && (
                 <FormHelperText>La sucursal es requerida</FormHelperText>
               )}
             </FormControl>
@@ -244,7 +236,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
               </InputLabel>
               <Controller
                 name="status"
-                control={control}
+                control={methods.control}
                 defaultValue={"Activo"}
                 rules={{ required: "El estatus es requerido" }}
                 render={({ field: { onChange, value } }) => (
@@ -262,6 +254,11 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
               />
             </FormControl>
           </div>
+          <FormProvider {...methods}>
+            <h1 className="py-1">Dias disponibles</h1>
+
+            <ToggleDays />
+          </FormProvider>
         </DialogContent>
         <DialogActions>
           <LoadingButton

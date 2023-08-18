@@ -261,8 +261,8 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               />
             </FormControl>
           </div>
-          <h1 className="py-1">Dias disponibles</h1>
-          <ToggleDays />
+          {/* <h1 className="py-1">Dias disponibles</h1>
+          <ToggleDays /> */}
         </DialogContent>
         <DialogActions>
           <LoadingButton
