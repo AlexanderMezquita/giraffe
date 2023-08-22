@@ -6,10 +6,10 @@ export default function ReloadMessage({ message }) {
       <ErrorOutlineIcon
         fontSize="large"
         color="grey"
-        className="text-neutral-300"
+        className="text-neutral-500"
       />
-      <h2>Ha occurrido un error</h2>
-      <p className="text-center text-neutral-400">
+      <h2 className="text-neutral-600">Ha occurrido un error</h2>
+      <p className="text-center text-neutral-500">
         Porfavor, vuelve a intentarlo dentro de unos minutos.
       </p>
     </section>

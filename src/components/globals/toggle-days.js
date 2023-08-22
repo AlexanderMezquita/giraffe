@@ -5,7 +5,24 @@ import { TextField } from "@mui/material";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import dayjs from "dayjs";
 
-const ToggleDays = () => {
+function TabPanel(props) {
+  const { children, value, index } = props;
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [children]);
+
+  return (
+    <fieldset
+      id={`fieldset-${index}`}
+      hidden={value !== index}
+      aria-labelledby={`simple-tab-${index}`}
+    >
+      {value === index && <React.Fragment>{children}</React.Fragment>}
+    </fieldset>
+  );
+}
+
+export default function ToggleDays() {
   const {
     register,
     formState: { errors },
@@ -15,6 +32,7 @@ const ToggleDays = () => {
 
   const { fields, append } = useFieldArray({ control, name: "schedules" });
   const [days, setDays] = useState();
+  const [activeStep, setActiveStep] = useState(0);
   const pattern = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
   const [objects, setObjects] = useState([]);
   const DAYS = [
@@ -114,12 +132,12 @@ const ToggleDays = () => {
       <ToggleButtonGroup
         className=" overflow-x-auto"
         arial-label="Days of the week"
-        value={days}
+        value={activeStep}
         size="large"
-        onChange={(event, value) => {
-          alert(value);
-          setDays(value);
-        }}
+        // onChange={(event, value) => {
+        //   alert(value);
+        //   setDays(value);
+        // }}
         fullWidth
       >
         {fields.map((field, index) => (
@@ -128,31 +146,15 @@ const ToggleDays = () => {
             value={index}
             aria-label={field?.key}
             color="primary"
-            // onClick={() => handleClick(day.key)}
+            onClick={() => setActiveStep(index)}
           >
             {field.label}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-      {/* <Button
-        type="button"
-        onClick={() =>
-          append({
-            employeeId: 0,
-            day: fields.length,
-            label: arrayOfWeekdays[fields.length],
-            entryTime: "string",
-            entryLunch: "string",
-            finishLunch: "string",
-            finishTime: "string",
-          })
-        }
-      >
-        Anadir dias
-      </Button> */}
       {fields.map((field, index) => {
         return (
-          <>
+          <TabPanel value={activeStep} index={index}>
             <h1>{arrayOfWeekdays[index]}</h1>
             <TextField
               key={field.id}
@@ -242,11 +244,9 @@ const ToggleDays = () => {
               error={!!errors.schedules?.entryTime}
               helperText={errors.schedules?.entryTime}
             />
-          </>
+          </TabPanel>
         );
       })}
     </>
   );
-};
-
-export default ToggleDays;
+}

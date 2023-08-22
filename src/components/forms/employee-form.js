@@ -203,7 +203,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
                 control={methods.control}
                 rules={{
                   required: {
-                    value: true,
+                    value: false,
                     message: "La sucursal es requerida",
                   },
                 }}
@@ -216,7 +216,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
                     label="branch-Id"
                     onChange={onChange}
                   >
-                    {getBranches.data?.data?.map((item) => {
+                    {getBranches?.data?.data?.map((item) => {
                       return (
                         <MenuItem key={item.id} value={item.id}>
                           {item.name}
