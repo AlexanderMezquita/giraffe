@@ -7,22 +7,10 @@ import dayjs from "dayjs";
 
 function TabPanel(props) {
   const { children, value, index } = props;
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [children]);
-
-  return (
-    <fieldset
-      id={`fieldset-${index}`}
-      hidden={value !== index}
-      aria-labelledby={`simple-tab-${index}`}
-    >
-      {value === index && <React.Fragment>{children}</React.Fragment>}
-    </fieldset>
-  );
+  return <>{value === index && <>{children}</>}</>;
 }
 
-export default function ToggleDays() {
+export default function ToggleDays({ employee, employeeExist }) {
   const {
     register,
     formState: { errors },
@@ -30,103 +18,120 @@ export default function ToggleDays() {
     reset,
   } = useFormContext({});
 
-  const { fields, append } = useFieldArray({ control, name: "schedules" });
-  const [days, setDays] = useState();
-  const [activeStep, setActiveStep] = useState(0);
+  const { fields } = useFieldArray({ control, name: "schedules" });
+  const [activeStep, setActiveStep] = useState(1);
   const pattern = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
-  const [objects, setObjects] = useState([]);
   const DAYS = [
     {
       key: 0,
       label: "D",
+      name: "Domingo",
     },
     {
       key: 1,
       label: "L",
+      name: "Lunes",
     },
     {
       key: 2,
       label: "M",
+      name: "Martes",
     },
     {
       key: 3,
       label: "M",
+      name: "Miércoles",
     },
     {
       key: 4,
       label: "J",
+      name: "Jueves",
     },
     {
       key: 5,
       label: "V",
+      name: "Viernes",
     },
     {
       key: 6,
       label: "S",
+      name: "Sábado",
     },
   ];
 
-  const handleClick = (item) => {
-    setObjects([...objects, { id: item }]);
-    // else {
-    //   const index = array.indexOf(item);
-    //   const updatedObjects = objects.slice(index, 1);
-    //   setObjects(updatedObjects)
-    // }
-  };
-
-  const arrayOfWeekdays = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-  ];
-
   useEffect(() => {
-    reset({
-      schedules: [
-        {
-          label: arrayOfWeekdays[0],
-          employeeId: 0,
-          day: 0,
-          entryTime: "",
-          entryLunch: "",
-          finishLunch: "",
-          finishTime: "",
-        },
-        {
-          label: arrayOfWeekdays[1],
-          employeeId: 0,
-          day: 1,
-          entryTime: "",
-          entryLunch: "",
-          finishLunch: "",
-          finishTime: "",
-        },
-        {
-          label: arrayOfWeekdays[2],
-          employeeId: 0,
-          day: 2,
-          entryTime: "",
-          entryLunch: "",
-          finishLunch: "",
-          finishTime: "",
-        },
-        {
-          label: arrayOfWeekdays[3],
-          employeeId: 0,
-          day: 3,
-          entryTime: "",
-          entryLunch: "",
-          finishLunch: "",
-          finishTime: "",
-        },
-      ],
-    });
-  }, []);
+    if (employeeExist) {
+      reset(employee.schedules);
+    } else {
+      reset({
+        schedules: [
+          {
+            label: DAYS[0].label,
+            employeeId: 0,
+            day: 0,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[1].label,
+            employeeId: 0,
+            day: 1,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[2].label,
+            employeeId: 0,
+            day: 2,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[3].label,
+            employeeId: 0,
+            day: 3,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[4].label,
+            employeeId: 0,
+            day: 4,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[5].label,
+            employeeId: 0,
+            day: 5,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+          {
+            label: DAYS[6].label,
+            employeeId: 0,
+            day: 6,
+            entryTime: "",
+            entryLunch: "",
+            finishLunch: "",
+            finishTime: "",
+          },
+        ],
+      });
+    }
+  }, [employee]);
   return (
     <>
       <ToggleButtonGroup
@@ -146,7 +151,9 @@ export default function ToggleDays() {
             value={index}
             aria-label={field?.key}
             color="primary"
-            onClick={() => setActiveStep(index)}
+            onClick={() => {
+              setActiveStep(index);
+            }}
           >
             {field.label}
           </ToggleButton>
@@ -155,95 +162,77 @@ export default function ToggleDays() {
       {fields.map((field, index) => {
         return (
           <TabPanel value={activeStep} index={index}>
-            <h1>{arrayOfWeekdays[index]}</h1>
-            <TextField
-              key={field.id}
-              id={field.id}
-              label="Hora de entrada*"
-              placeholder="08:00:00"
-              fullWidth={true}
-              {...register(`schedules.${index}.entryTime`, {
-                required: {
-                  value: true,
-                  message: "Este campo no puede estar vacío",
-                },
-                pattern: {
-                  value: pattern,
-                  message: "Solo este formato es aceptado 00:00:00",
-                },
-                maxLength: 10,
-              })}
-              inputProps={{ maxLength: 10 }}
-              color="primary"
-              error={!!errors.schedules?.entryTime}
-              helperText={errors.schedules?.entryTime}
-            />
-            <TextField
-              key={field.id}
-              id={field.id}
-              label="Hora de entrada de comida*"
-              placeholder="08:00:00"
-              fullWidth={true}
-              {...register(`schedules.${index}.entryLunch`, {
-                required: {
-                  value: true,
-                  message: "Este campo no puede estar vacío",
-                },
-                pattern: {
-                  value: pattern,
-                  message: "Solo este formato es aceptado 00:00:00",
-                },
-                maxLength: 10,
-              })}
-              inputProps={{ maxLength: 10 }}
-              color="primary"
-              error={!!errors.schedules?.entryTime}
-              helperText={errors.schedules?.entryTime}
-            />
-            <TextField
-              key={field.id}
-              id={field.id}
-              label="Hora de termino de comida*"
-              placeholder="08:00:00"
-              fullWidth={true}
-              {...register(`schedules.${index}.finishLunch`, {
-                required: {
-                  value: true,
-                  message: "Este campo no puede estar vacío",
-                },
-                pattern: {
-                  value: pattern,
-                  message: "Solo este formato es aceptado 00:00:00",
-                },
-                maxLength: 10,
-              })}
-              inputProps={{ maxLength: 10 }}
-              color="primary"
-              error={!!errors.schedules?.entryTime}
-              helperText={errors.schedules?.entryTime}
-            />
-            <TextField
-              key={field.id}
-              id={field.id}
-              label="Hora de salida*"
-              placeholder="08:00:00"
-              fullWidth={true}
-              {...register(`schedules.${index}.finishTime`, {
-                required: {
-                  value: true,
-                  message: "Este campo no puede estar vacío",
-                },
-                pattern: {
-                  value: pattern,
-                  message: "Solo este formato es aceptado 00:00:00",
-                },
-                maxLength: 10,
-              })}
-              inputProps={{ maxLength: 10 }}
-              color="primary"
-              error={!!errors.schedules?.entryTime}
-              helperText={errors.schedules?.entryTime}
-            />
+            <h2>{DAYS[index].name}</h2>
+            <React.Fragment key={field.id}>
+              <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
+                <TextField
+                  label="Hora de entrada*"
+                  placeholder="08:00:00"
+                  fullWidth={true}
+                  {...register(`schedules.${index}.entryTime`, {
+                    pattern: {
+                      value: pattern,
+                      message: "Solo este formato es aceptado 00:00:00",
+                    },
+                    maxLength: 10,
+                  })}
+                  inputProps={{ maxLength: 10 }}
+                  color="primary"
+                  error={!!errors.schedules?.[index]?.entryTime}
+                  helperText={errors.schedules?.[index]?.entryTime?.message}
+                />
+                <TextField
+                  label="Hora de entrada de comida*"
+                  placeholder="12:30:00"
+                  fullWidth={true}
+                  {...register(`schedules.${index}.entryLunch`, {
+                    pattern: {
+                      value: pattern,
+                      message: "Solo este formato es aceptado 00:00:00",
+                    },
+                    maxLength: 10,
+                  })}
+                  inputProps={{ maxLength: 10 }}
+                  color="primary"
+                  error={!!errors.schedules?.[index]?.entryLunch}
+                  helperText={errors.schedules?.[index]?.entryLunch?.message}
+                />
+              </div>
+              <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
+                <TextField
+                  label="Hora de termino de comida*"
+                  placeholder="01:30:00"
+                  fullWidth={true}
+                  {...register(`schedules.${index}.finishLunch`, {
+                    pattern: {
+                      value: pattern,
+                      message: "Solo este formato es aceptado 00:00:00",
+                    },
+                    maxLength: 10,
+                  })}
+                  inputProps={{ maxLength: 10 }}
+                  color="primary"
+                  error={!!errors.schedules?.finishLunch}
+                  helperText={errors.schedules?.[index]?.finishLunch?.message}
+                />
+                <TextField
+                  label="Hora de salida*"
+                  placeholder="05:30:00"
+                  fullWidth={true}
+                  {...register(`schedules.${index}.finishTime`, {
+                    pattern: {
+                      value: pattern,
+                      message: "Solo este formato es aceptado 00:00:00",
+                    },
+                    maxLength: 10,
+                  })}
+                  inputProps={{ maxLength: 10 }}
+                  color="primary"
+                  error={!!errors.schedules?.[index]?.finishTime}
+                  helperText={errors.schedules?.[index]?.finishTime?.message}
+                />
+              </div>
+            </React.Fragment>
           </TabPanel>
         );
       })}

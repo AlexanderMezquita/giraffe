@@ -73,7 +73,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
   });
 
   const onSubmit = async (data) => {
-    alert(JSON.stringify(data));
+    console.log(data);
     // try {
     //   if (data.img !== null && imgFile) {
     //     setImageLoading(true);
@@ -257,7 +257,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
           <FormProvider {...methods}>
             <h1 className="py-1">Dias disponibles</h1>
 
-            <ToggleDays />
+            <ToggleDays employee={employee} employeeExist={employeeExist} />
           </FormProvider>
         </DialogContent>
         <DialogActions>
