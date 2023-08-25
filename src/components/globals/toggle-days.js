@@ -10,7 +10,7 @@ function TabPanel(props) {
   return <>{value === index && <>{children}</>}</>;
 }
 
-export default function ToggleDays({ employee, employeeExist }) {
+export default function ToggleDays({ days }) {
   const {
     register,
     formState: { errors },
@@ -23,115 +23,35 @@ export default function ToggleDays({ employee, employeeExist }) {
   const pattern = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
   const DAYS = [
     {
-      key: 0,
       label: "D",
       name: "Domingo",
     },
     {
-      key: 1,
       label: "L",
       name: "Lunes",
     },
     {
-      key: 2,
       label: "M",
       name: "Martes",
     },
     {
-      key: 3,
       label: "M",
       name: "Miércoles",
     },
     {
-      key: 4,
       label: "J",
       name: "Jueves",
     },
     {
-      key: 5,
       label: "V",
       name: "Viernes",
     },
     {
-      key: 6,
       label: "S",
       name: "Sábado",
     },
   ];
 
-  useEffect(() => {
-    if (employeeExist) {
-      reset(employee.schedules);
-    } else {
-      reset({
-        schedules: [
-          {
-            label: DAYS[0].label,
-            employeeId: 0,
-            day: 0,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[1].label,
-            employeeId: 0,
-            day: 1,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[2].label,
-            employeeId: 0,
-            day: 2,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[3].label,
-            employeeId: 0,
-            day: 3,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[4].label,
-            employeeId: 0,
-            day: 4,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[5].label,
-            employeeId: 0,
-            day: 5,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-          {
-            label: DAYS[6].label,
-            employeeId: 0,
-            day: 6,
-            entryTime: "",
-            entryLunch: "",
-            finishLunch: "",
-            finishTime: "",
-          },
-        ],
-      });
-    }
-  }, [employee]);
   return (
     <>
       <ToggleButtonGroup
@@ -145,31 +65,31 @@ export default function ToggleDays({ employee, employeeExist }) {
         // }}
         fullWidth
       >
-        {fields.map((field, index) => (
+        {DAYS.map((item, index) => (
           <ToggleButton
             key={index}
             value={index}
-            aria-label={field?.key}
+            aria-label={index}
             color="primary"
             onClick={() => {
               setActiveStep(index);
             }}
           >
-            {field.label}
+            {item.label}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
       {fields.map((field, index) => {
         return (
-          <TabPanel value={activeStep} index={index}>
-            <h2>{DAYS[index].name}</h2>
-            <React.Fragment key={field.id}>
+          <TabPanel value={activeStep} index={field.day} key={field.id}>
+            <h2>{DAYS[field.day]?.name}</h2>
+            <React.Fragment>
               <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
                 <TextField
                   label="Hora de entrada*"
                   placeholder="08:00:00"
                   fullWidth={true}
-                  {...register(`schedules.${index}.entryTime`, {
+                  {...register(`schedules.${field.day}.entryTime`, {
                     pattern: {
                       value: pattern,
                       message: "Solo este formato es aceptado 00:00:00",
@@ -178,14 +98,14 @@ export default function ToggleDays({ employee, employeeExist }) {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.schedules?.[index]?.entryTime}
-                  helperText={errors.schedules?.[index]?.entryTime?.message}
+                  error={!!errors.schedules?.[field.day]?.entryTime}
+                  helperText={errors.schedules?.[field.day]?.entryTime?.message}
                 />
                 <TextField
                   label="Hora de entrada de comida*"
                   placeholder="12:30:00"
                   fullWidth={true}
-                  {...register(`schedules.${index}.entryLunch`, {
+                  {...register(`schedules.${field.day}.entryLunch`, {
                     pattern: {
                       value: pattern,
                       message: "Solo este formato es aceptado 00:00:00",
@@ -194,8 +114,10 @@ export default function ToggleDays({ employee, employeeExist }) {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.schedules?.[index]?.entryLunch}
-                  helperText={errors.schedules?.[index]?.entryLunch?.message}
+                  error={!!errors.schedules?.[field.day]?.entryLunch}
+                  helperText={
+                    errors.schedules?.[ifeld.day]?.entryLunch?.message
+                  }
                 />
               </div>
               <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
@@ -203,7 +125,7 @@ export default function ToggleDays({ employee, employeeExist }) {
                   label="Hora de termino de comida*"
                   placeholder="01:30:00"
                   fullWidth={true}
-                  {...register(`schedules.${index}.finishLunch`, {
+                  {...register(`schedules.${field.day}.finishLunch`, {
                     pattern: {
                       value: pattern,
                       message: "Solo este formato es aceptado 00:00:00",
@@ -212,14 +134,16 @@ export default function ToggleDays({ employee, employeeExist }) {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.schedules?.finishLunch}
-                  helperText={errors.schedules?.[index]?.finishLunch?.message}
+                  error={!!errors.schedules?.[field.day].finishLunch}
+                  helperText={
+                    errors.schedules?.[field.day]?.finishLunch?.message
+                  }
                 />
                 <TextField
                   label="Hora de salida*"
                   placeholder="05:30:00"
                   fullWidth={true}
-                  {...register(`schedules.${index}.finishTime`, {
+                  {...register(`schedules.${field.day}.finishTime`, {
                     pattern: {
                       value: pattern,
                       message: "Solo este formato es aceptado 00:00:00",
@@ -228,8 +152,10 @@ export default function ToggleDays({ employee, employeeExist }) {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.schedules?.[index]?.finishTime}
-                  helperText={errors.schedules?.[index]?.finishTime?.message}
+                  error={!!errors.schedules?.[field.day]?.finishTime}
+                  helperText={
+                    errors.schedules?.[field.day]?.finishTime?.message
+                  }
                 />
               </div>
             </React.Fragment>

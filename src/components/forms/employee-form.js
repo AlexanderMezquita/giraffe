@@ -45,12 +45,10 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
     onSuccess: () => {
       queryClient.invalidateQueries("employees");
       toast.success("Empleado creado exitosamente");
+      handleClose(false);
     },
     onError: () => {
       toast.error("Hubo un error creando el empleando, vuelve a intentarlo.");
-    },
-    onSettled: () => {
-      handleClose(false);
     },
   });
 
@@ -61,49 +59,108 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
     onSuccess: () => {
       queryClient.invalidateQueries("employee");
       toast.success("Empleado actualizado exitosamente");
+      handleClose(false);
     },
     onError: () => {
       toast.error(
         "Hubo un error actualizando el empleado, vuelve a intentarlo."
       );
     },
-    onSettled: () => {
-      handleClose(false);
-    },
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // try {
-    //   if (data.img !== null && imgFile) {
-    //     setImageLoading(true);
-    //     const url = await uploadImage(imgFile, "employees");
-    //     data.img = url;
-    //   }
-    //   employeeExist ? updateEmployee.mutate(data) : createEmployee.mutate(data);
-    // } catch (error) {
-    //   if (error instanceof FirebaseError) {
-    //     toast.error("Error subiendo la imagen");
-    //   } else if (error instanceof AxiosError) {
-    //     toast.error("Error de creando o actualizando el empleado");
-    //     deleteImage(imgFile, "employees");
-    //   } else {
-    //     toast.error("Error porfavor intentelo de nuevo");
-    //   }
-    // } finally {
-    //   setImageLoading(false);
-    // }
+    try {
+      if (data.img !== null && imgFile) {
+        setImageLoading(true);
+        const url = await uploadImage(imgFile, "employees");
+        data.img = url;
+      }
+      employeeExist ? updateEmployee.mutate(data) : createEmployee.mutate(data);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        toast.error("Error subiendo la imagen");
+      } else if (error instanceof AxiosError) {
+        toast.error("Error de creando o actualizando el empleado");
+        deleteImage(imgFile, "employees");
+      } else {
+        toast.error("Error porfavor intentelo de nuevo");
+      }
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   React.useEffect(() => {
     if (employeeExist) {
-      methods.reset(employee);
+      const filteredSchedules = employee.schedules
+        .filter((schedule) => schedule.day >= 0 && schedule.day <= 6)
+        .sort((a, b) => a.day - b.day);
+      const sortedEmploye = { ...employee, schedules: filteredSchedules };
+      methods.reset(sortedEmploye);
     } else {
       methods.reset({
         name: "",
-        branchId: "",
+        branch: {},
         img: null,
         status: "Activo",
+        schedules: [
+          {
+            employeeId: 0,
+            day: 0,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 1,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 2,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 3,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 4,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 5,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 6,
+            entryTime: null,
+            entryLunch: null,
+            finishLunch: null,
+            finishTime: null,
+          },
+        ],
       });
     }
   }, [employee, open]);
@@ -257,7 +314,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
           <FormProvider {...methods}>
             <h1 className="py-1">Dias disponibles</h1>
 
-            <ToggleDays employee={employee} employeeExist={employeeExist} />
+            <ToggleDays />
           </FormProvider>
         </DialogContent>
         <DialogActions>
