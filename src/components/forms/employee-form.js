@@ -92,11 +92,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
 
   React.useEffect(() => {
     if (employeeExist) {
-      const filteredSchedules = employee.schedules
-        .filter((schedule) => schedule.day >= 0 && schedule.day <= 6)
-        .sort((a, b) => a.day - b.day);
-      const sortedEmploye = { ...employee, schedules: filteredSchedules };
-      methods.reset(sortedEmploye);
+      methods.reset(employee);
     } else {
       methods.reset({
         name: "",

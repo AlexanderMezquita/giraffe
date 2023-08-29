@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CameraAltRounded } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAxios from "@/axios";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import {
   TextField,
   FormControl,
@@ -19,6 +19,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
+import { Delete } from "@mui/icons-material";
 import ToggleDays from "../globals/toggle-days";
 
 export default function BranchForm({ open, handleClose, branch, toast }) {
@@ -38,6 +39,10 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     reset,
     watch,
   } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "laborLessDays",
+  });
 
   const createBranch = useMutation({
     mutationFn: (newBranch) => {
@@ -96,6 +101,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
   };
 
   React.useEffect(() => {
+    console.log(branch);
     if (branchExist) {
       reset(branch);
     } else {
@@ -105,6 +111,14 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
         phone: "",
         img: null,
         status: "Activo",
+        laborLessDays: [
+          {
+            formHour: null,
+            toHour: null,
+            date: null,
+            fullDate: true,
+          },
+        ],
       });
     }
   }, [branch, open]);
@@ -261,17 +275,65 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               />
             </FormControl>
           </div>
-          {/* <h1 className="py-1">Dias disponibles</h1>
-          <ToggleDays /> */}
+          <h2 className="text-center">Dias libres</h2>
+          {Object.keys(fields).length >= 1 ? (
+            ""
+          ) : (
+            <p className="text-center text-neutral-500">
+              No hay dias libres agregados
+            </p>
+          )}
+          <ul className="divide-y-2  ">
+            {fields.map((field, index) => (
+              <li key={field.id} className="flex  space-x-2 py-2 ">
+                <TextField
+                  id="date"
+                  label="Fecha*"
+                  fullWidth={true}
+                  {...register(`laborLessDay.${index}.date`, {
+                    required: {
+                      value: true,
+                      message: "Este campo no puede estar vacío",
+                    },
+                    maxLength: 50,
+                  })}
+                  inputProps={{ maxLength: 50 }}
+                  color="primary"
+                  className="col-span-10 rounded-xl"
+                  // error={!!errors.laborLessDays?.[item.id]?.entryTime}
+                  // helperText={errors.schedules?.[item.id]?.entryTime?.message}
+                />
+                <Button
+                  variant="outlined"
+                  onClick={() => remove(index)}
+                  startIcon={<Delete className="ml-2.5" />}
+                />
+              </li>
+            ))}
+          </ul>
+          <Button
+            variant="outlined"
+            className=" float-right"
+            size="small"
+            onClick={() =>
+              append({
+                formHour: null,
+                toHour: null,
+                date: null,
+                fullDate: true,
+              })
+            }
+          >
+            Anadir dia libre
+          </Button>
         </DialogContent>
         <DialogActions>
           <LoadingButton
             target="_blank"
-            variant="outlined"
+            variant="contained"
             loading={
               createBranch.isLoading || updateBranch.isLoading || imageLoading
             }
-            color="success"
             type="submit"
           >
             {branchExist ? <span>Actualizar </span> : <span>Crear</span>}
