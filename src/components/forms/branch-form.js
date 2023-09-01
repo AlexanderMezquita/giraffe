@@ -20,6 +20,13 @@ import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
 import { Delete } from "@mui/icons-material";
+import dayjs from "../globals/date";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import FormControlLabel from "@mui/material//FormControlLabel";
+import { TimePicker } from "@mui/x-date-pickers";
+import Switch from "@mui/material/Switch";
 import ToggleDays from "../globals/toggle-days";
 
 export default function BranchForm({ open, handleClose, branch, toast }) {
@@ -79,29 +86,30 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
   });
 
   const onSubmit = async (data) => {
-    try {
-      if (data.img !== null && imgFile) {
-        setImageLoading(true);
-        const url = await uploadImage(imgFile, "branches");
-        data.img = url;
-      }
-      branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        toast.error("Error subiendo la imagen");
-      } else if (error instanceof AxiosError) {
-        toast.error("Error de creando o actualizando la sucursal");
-        deleteImage(imgFile, "branches");
-      } else {
-        toast.error("Error porfavor intentelo de nuevo");
-      }
-    } finally {
-      setImageLoading(false);
-    }
+    console.log(data);
+
+    // try {
+    //   if (data.img !== null && imgFile) {
+    //     setImageLoading(true);
+    //     const url = await uploadImage(imgFile, "branches");
+    //     data.img = url;
+    //   }
+    //   branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
+    // } catch (error) {
+    //   if (error instanceof FirebaseError) {
+    //     toast.error("Error subiendo la imagen");
+    //   } else if (error instanceof AxiosError) {
+    //     toast.error("Error de creando o actualizando la sucursal");
+    //     deleteImage(imgFile, "branches");
+    //   } else {
+    //     toast.error("Error porfavor intentelo de nuevo");
+    //   }
+    // } finally {
+    //   setImageLoading(false);
+    // }
   };
 
   React.useEffect(() => {
-    console.log(branch);
     if (branchExist) {
       reset(branch);
     } else {
@@ -113,7 +121,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
         status: "Activo",
         laborLessDays: [
           {
-            formHour: null,
+            fromHour: null,
             toHour: null,
             date: null,
             fullDate: true,
@@ -283,33 +291,77 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               No hay dias libres agregados
             </p>
           )}
-          <ul className="divide-y-2  ">
-            {fields.map((field, index) => (
-              <li key={field.id} className="flex  space-x-2 py-2 ">
-                <TextField
-                  id="date"
-                  label="Fecha*"
-                  fullWidth={true}
-                  {...register(`laborLessDay.${index}.date`, {
-                    required: {
-                      value: true,
-                      message: "Este campo no puede estar vacío",
-                    },
-                    maxLength: 50,
-                  })}
-                  inputProps={{ maxLength: 50 }}
-                  color="primary"
-                  className="col-span-10 rounded-xl"
-                  // error={!!errors.laborLessDays?.[item.id]?.entryTime}
-                  // helperText={errors.schedules?.[item.id]?.entryTime?.message}
-                />
-                <Button
-                  variant="outlined"
-                  onClick={() => remove(index)}
-                  startIcon={<Delete className="ml-2.5" />}
-                />
-              </li>
-            ))}
+          <ul className="divide-y-4  ">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {fields.map((field, index) => (
+                <li key={field.id} className=" sm:flex py-3">
+                  <div className="space-y-2">
+                    <Controller
+                      control={control}
+                      name={`laborLessDays.${index}.date`}
+                      render={({ field: { onChange }, formState }) => (
+                        <DatePicker
+                          className="w-full sm:w-auto"
+                          // onChange={(e) => console.log(dayjs(e).format("L"))}
+                          onChange={(e) => {
+                            onChange(dayjs(e).format("L"));
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name={`laborLessDays.${index}.fromHour`}
+                      render={({ field: { onChange } }) => (
+                        <TimePicker
+                          className="w-full sm:w-auto"
+                          timeSteps={{ hours: 1, minutes: 30 }}
+                          TextField
+                          onChange={(e) => {
+                            onChange(dayjs(e).format("LT"));
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name={`laborLessDays.${index}.toHour`}
+                      render={({ field: { onChange } }) => (
+                        <TimePicker
+                          className="w-full sm:w-auto"
+                          timeSteps={{ hours: 1, minutes: 30 }}
+                          onChange={(e) => {
+                            onChange(dayjs(e).format("LT"));
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="flex py-2 justify-center">
+                    {/* <Controller
+                      control={control}
+                      name={`laborLessDay.${index}.fullDate`}
+                      render={({ field: onChange }) => (
+                        <FormControlLabel
+                          value="end"
+                          control={
+                            <Switch onChange={onChange} color="primary" />
+                          }
+                          label="Dia completo"
+                          labelPlacement="end"
+                        />
+                      )}
+                    /> */}
+                    <Button
+                      variant="outlined"
+                      className=" w-full sm:w-auto"
+                      onClick={() => remove(index)}
+                      startIcon={<Delete className="ml-2.5" />}
+                    />
+                  </div>
+                </li>
+              ))}
+            </LocalizationProvider>
           </ul>
           <Button
             variant="outlined"
