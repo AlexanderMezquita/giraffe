@@ -34,6 +34,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
+  const pattern = /^(0[0-9]|1[0-9]|2[0-3]):(00|30):00$/;
 
   const { axiosInstance } = useAxios();
   const {
@@ -299,42 +300,54 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                     <Controller
                       control={control}
                       name={`laborLessDays.${index}.date`}
-                      render={({ field: { onChange }, formState }) => (
+                      rules={{ required: true }}
+                      render={({ field: { onChange, value } }) => (
                         <DatePicker
+                          value={value ? dayjs(value) : null}
                           className="w-full sm:w-auto"
-                          // onChange={(e) => console.log(dayjs(e).format("L"))}
                           onChange={(e) => {
-                            onChange(dayjs(e).format("L"));
+                            onChange(dayjs(e).format("YYYY-MM-DD"));
                           }}
                         />
                       )}
                     />
-                    <Controller
-                      control={control}
-                      name={`laborLessDays.${index}.fromHour`}
-                      render={({ field: { onChange } }) => (
-                        <TimePicker
-                          className="w-full sm:w-auto"
-                          timeSteps={{ hours: 1, minutes: 30 }}
-                          TextField
-                          onChange={(e) => {
-                            onChange(dayjs(e).format("LT"));
-                          }}
-                        />
-                      )}
+                    <TextField
+                      label="Hora de inicio*"
+                      placeholder="01:30:00"
+                      {...register(`laborLessDays.${index}.fromHour`, {
+                        required: { value: true },
+                        pattern: {
+                          value: pattern,
+                          message:
+                            "Solo este formato es aceptado HH:MM:SS con intervalos de 30 minutos",
+                        },
+                        maxLength: 10,
+                      })}
+                      inputProps={{ maxLength: 10 }}
+                      color="primary"
+                      error={!!errors.laborLessDays?.[index].fromHour}
+                      helperText={
+                        errors.laborLessDays?.[index]?.fromHour?.message
+                      }
                     />
-                    <Controller
-                      control={control}
-                      name={`laborLessDays.${index}.toHour`}
-                      render={({ field: { onChange } }) => (
-                        <TimePicker
-                          className="w-full sm:w-auto"
-                          timeSteps={{ hours: 1, minutes: 30 }}
-                          onChange={(e) => {
-                            onChange(dayjs(e).format("LT"));
-                          }}
-                        />
-                      )}
+                    <TextField
+                      label="Hora de término*"
+                      placeholder="01:30:00"
+                      {...register(`laborLessDays.${index}.toHour`, {
+                        required: { value: true },
+                        pattern: {
+                          value: pattern,
+                          message:
+                            "Solo este formato es aceptado HH:MM:SS con intervalos de 30 minutos",
+                        },
+                        maxLength: 10,
+                      })}
+                      inputProps={{ maxLength: 10 }}
+                      color="primary"
+                      error={!!errors.laborLessDays?.[index].toHour}
+                      helperText={
+                        errors.laborLessDays?.[index]?.toHour?.message
+                      }
                     />
                   </div>
                   <div className="flex py-2 justify-center">
@@ -352,6 +365,25 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                         />
                       )}
                     /> */}
+                    <Controller
+                      control={control}
+                      name={`laborLessDays.${index}.fullDate`}
+                      defaultValue={false}
+                      render={({ field: { onChange, value } }) => (
+                        <FormControlLabel
+                          value="end"
+                          control={
+                            <Switch
+                              checked={value}
+                              onChange={onChange}
+                              color="primary"
+                            />
+                          }
+                          label="Dia completo"
+                          labelPlacement="end"
+                        />
+                      )}
+                    />
                     <Button
                       variant="outlined"
                       className=" w-full sm:w-auto"
@@ -369,7 +401,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             size="small"
             onClick={() =>
               append({
-                formHour: null,
+                fromHour: null,
                 toHour: null,
                 date: null,
                 fullDate: true,
