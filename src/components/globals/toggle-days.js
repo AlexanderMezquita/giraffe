@@ -11,12 +11,7 @@ function TabPanel(props) {
 }
 
 export default function ToggleDays({ days }) {
-  const {
-    register,
-    formState: { errors },
-    control,
-    reset,
-  } = useFormContext({});
+  const { register, errors, control, reset } = useFormContext({});
 
   const { fields } = useFieldArray({ control, name: "schedules" });
   const [activeStep, setActiveStep] = useState(1);
@@ -83,82 +78,41 @@ export default function ToggleDays({ days }) {
         return (
           <TabPanel value={activeStep} index={field.day} key={field.id}>
             <h2>{DAYS[field.day]?.name}</h2>
-            <React.Fragment>
-              <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
-                <TextField
-                  label="Hora de entrada*"
-                  placeholder="08:00:00"
-                  fullWidth={true}
-                  {...register(`schedules.${field.day}.entryTime`, {
-                    pattern: {
-                      value: pattern,
-                      message: "Solo este formato es aceptado 00:00:00",
-                    },
-                    maxLength: 10,
-                  })}
-                  inputProps={{ maxLength: 10 }}
-                  color="primary"
-                  error={!!errors.schedules?.[field.day]?.entryTime}
-                  helperText={errors.schedules?.[field.day]?.entryTime?.message}
-                />
-                <TextField
-                  label="Hora de entrada de comida*"
-                  placeholder="12:30:00"
-                  fullWidth={true}
-                  {...register(`schedules.${field.day}.entryLunch`, {
-                    pattern: {
-                      value: pattern,
-                      message: "Solo este formato es aceptado 00:00:00",
-                    },
-                    maxLength: 10,
-                  })}
-                  inputProps={{ maxLength: 10 }}
-                  color="primary"
-                  error={!!errors.schedules?.[field.day]?.entryLunch}
-                  helperText={
-                    errors.schedules?.[ifeld.day]?.entryLunch?.message
-                  }
-                />
-              </div>
-              <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0">
-                <TextField
-                  label="Hora de termino de comida*"
-                  placeholder="01:30:00"
-                  fullWidth={true}
-                  {...register(`schedules.${field.day}.finishLunch`, {
-                    pattern: {
-                      value: pattern,
-                      message: "Solo este formato es aceptado 00:00:00",
-                    },
-                    maxLength: 10,
-                  })}
-                  inputProps={{ maxLength: 10 }}
-                  color="primary"
-                  error={!!errors.schedules?.[field.day].finishLunch}
-                  helperText={
-                    errors.schedules?.[field.day]?.finishLunch?.message
-                  }
-                />
-                <TextField
-                  label="Hora de salida*"
-                  placeholder="05:30:00"
-                  fullWidth={true}
-                  {...register(`schedules.${field.day}.finishTime`, {
-                    pattern: {
-                      value: pattern,
-                      message: "Solo este formato es aceptado 00:00:00",
-                    },
-                    maxLength: 10,
-                  })}
-                  inputProps={{ maxLength: 10 }}
-                  color="primary"
-                  error={!!errors.schedules?.[field.day]?.finishTime}
-                  helperText={
-                    errors.schedules?.[field.day]?.finishTime?.message
-                  }
-                />
-              </div>
-            </React.Fragment>
+            <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0 ">
+              <TextField
+                label="Hora de entrada*"
+                placeholder="08:00:00"
+                fullWidth={true}
+                {...register(`schedules.${field.day}.entryTime`, {
+                  pattern: {
+                    value: pattern,
+                    message: "Solo este formato es aceptado 00:00:00",
+                  },
+                  maxLength: 10,
+                })}
+                inputProps={{ maxLength: 10 }}
+                color="primary"
+                error={!!errors.schedules?.[field.day]?.entryTime}
+                helperText={errors.schedules?.[field.day]?.entryTime?.message}
+              />
+
+              <TextField
+                label="Hora de salida*"
+                placeholder="05:30:00"
+                fullWidth={true}
+                {...register(`schedules.${field.day}.finishTime`, {
+                  pattern: {
+                    value: pattern,
+                    message: "Solo este formato es aceptado 00:00:00",
+                  },
+                  maxLength: 10,
+                })}
+                inputProps={{ maxLength: 10 }}
+                color="primary"
+                error={!!errors.schedules?.[field.day]?.finishTime}
+                helperText={errors.schedules?.[field.day]?.finishTime?.message}
+              />
+            </div>
           </TabPanel>
         );
       })}

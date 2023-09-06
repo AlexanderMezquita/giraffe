@@ -14,6 +14,7 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  Divider,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteImage, uploadImage } from "@/utils/image-handler";
@@ -28,6 +29,7 @@ import FormControlLabel from "@mui/material//FormControlLabel";
 import { TimePicker } from "@mui/x-date-pickers";
 import Switch from "@mui/material/Switch";
 import ToggleDays from "../globals/toggle-days";
+import { FormProvider } from "react-hook-form";
 
 export default function BranchForm({ open, handleClose, branch, toast }) {
   const branchExist = Object.keys(branch).length >= 1;
@@ -88,7 +90,6 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
 
   const onSubmit = async (data) => {
     console.log(data);
-
     // try {
     //   if (data.img !== null && imgFile) {
     //     setImageLoading(true);
@@ -128,6 +129,50 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             fullDate: true,
           },
         ],
+        schedules: [
+          {
+            employeeId: 0,
+            day: 0,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 1,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 2,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 3,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 4,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 5,
+            entryTime: null,
+            finishTime: null,
+          },
+          {
+            employeeId: 0,
+            day: 6,
+            entryTime: null,
+            finishTime: null,
+          },
+        ],
       });
     }
   }, [branch, open]);
@@ -137,7 +182,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
       open={open}
       fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, padding: "10px" },
+        style: { borderRadius: 15, paddingTop: "15px", paddingBottom: "15px" },
       }}
       maxWidth={"sm"}
       onClose={() => handleClose(false)}
@@ -284,6 +329,13 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               />
             </FormControl>
           </div>
+          <Divider />
+          <FormProvider {...{ register, errors, control }}>
+            <h2 className="py-1 text-center">Dias disponibles</h2>
+
+            <ToggleDays />
+          </FormProvider>
+          <Divider />
           <h2 className="text-center">Dias libres</h2>
           {Object.keys(fields).length >= 1 ? (
             ""
@@ -292,11 +344,30 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               No hay dias libres agregados
             </p>
           )}
-          <ul className="divide-y-4  ">
+          <ul className="divide-y-2  ">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {fields.map((field, index) => (
-                <li key={field.id} className=" sm:flex py-3">
-                  <div className="space-y-2">
+                <li key={field.id} className="py-3">
+                  <Controller
+                    control={control}
+                    name={`laborLessDays.${index}.fullDate`}
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControlLabel
+                        value="start"
+                        control={
+                          <Switch
+                            checked={value}
+                            onChange={onChange}
+                            color="primary"
+                          />
+                        }
+                        label="Dia completo"
+                        labelPlacement="start"
+                      />
+                    )}
+                  />
+                  <div className="md:flex md:space-x-2 md:space-y-0 space-y-2 py-3">
                     <Controller
                       control={control}
                       name={`laborLessDays.${index}.date`}
@@ -304,7 +375,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                       render={({ field: { onChange, value } }) => (
                         <DatePicker
                           value={value ? dayjs(value) : null}
-                          className="w-full sm:w-auto"
+                          className="w-full "
                           onChange={(e) => {
                             onChange(dayjs(e).format("YYYY-MM-DD"));
                           }}
@@ -313,6 +384,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                     />
                     <TextField
                       label="Hora de inicio*"
+                      fullWidth
                       placeholder="01:30:00"
                       {...register(`laborLessDays.${index}.fromHour`, {
                         required: { value: true },
@@ -333,6 +405,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                     <TextField
                       label="Hora de término*"
                       placeholder="01:30:00"
+                      fullWidth
                       {...register(`laborLessDays.${index}.toHour`, {
                         required: { value: true },
                         pattern: {
@@ -349,43 +422,9 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
                         errors.laborLessDays?.[index]?.toHour?.message
                       }
                     />
-                  </div>
-                  <div className="flex py-2 justify-center">
-                    {/* <Controller
-                      control={control}
-                      name={`laborLessDay.${index}.fullDate`}
-                      render={({ field: onChange }) => (
-                        <FormControlLabel
-                          value="end"
-                          control={
-                            <Switch onChange={onChange} color="primary" />
-                          }
-                          label="Dia completo"
-                          labelPlacement="end"
-                        />
-                      )}
-                    /> */}
-                    <Controller
-                      control={control}
-                      name={`laborLessDays.${index}.fullDate`}
-                      defaultValue={false}
-                      render={({ field: { onChange, value } }) => (
-                        <FormControlLabel
-                          value="end"
-                          control={
-                            <Switch
-                              checked={value}
-                              onChange={onChange}
-                              color="primary"
-                            />
-                          }
-                          label="Dia completo"
-                          labelPlacement="end"
-                        />
-                      )}
-                    />
                     <Button
                       variant="outlined"
+                      size="large"
                       className=" w-full sm:w-auto"
                       onClick={() => remove(index)}
                       startIcon={<Delete className="ml-2.5" />}
@@ -395,6 +434,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
               ))}
             </LocalizationProvider>
           </ul>
+
           <Button
             variant="outlined"
             className=" float-right"
@@ -411,6 +451,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             Anadir dia libre
           </Button>
         </DialogContent>
+
         <DialogActions>
           <LoadingButton
             target="_blank"
