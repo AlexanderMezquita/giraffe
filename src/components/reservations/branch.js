@@ -4,7 +4,7 @@ import Loading from "../globals/loading";
 import { useFormContext } from "react-hook-form";
 import { IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import AlertDialog from "../globals/dialog";
+import AlertDialog from "../globals/dialogs/dialog";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import ReloadMessage from "../globals/reload-message";

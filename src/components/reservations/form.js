@@ -5,16 +5,30 @@ import Checkbox from "@mui/material/Checkbox";
 import InfoIcon from "@mui/icons-material/Info";
 
 import { useFormContext } from "react-hook-form";
+import { useState } from "react";
+import FirstTimeDialog from "../globals/dialogs/first-time";
 
 export default function Form() {
+  const [open, setOpen] = useState(false);
   const {
     register,
     control,
     formState: { errors },
   } = useFormContext();
+
+  const handleFirstTimeDialog = (event) => {
+    if (event.target.checked) {
+      setOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className=" flex  flex-col pb-10 sm:pb-5  ">
-      <div className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 w-full mx-0 sm:w-3/4 sm:mx-auto gap-4 ">
+      <FirstTimeDialog open={open} handleClose={handleClose} />
+      <fieldset className=" p-5 pb-5 sm:pb-0 grid grid-cols-10 w-full mx-0 sm:w-3/4 sm:mx-auto gap-4 ">
         <TextField
           id="name"
           label="Nombre*"
@@ -127,7 +141,14 @@ export default function Form() {
           rows={5}
           multiline
         />
-      </div>
+
+        <FormControlLabel
+          className="col-span-10"
+          control={<Checkbox />}
+          onChange={handleFirstTimeDialog}
+          label={<p>Primera vez que haces una cita con nosotros?</p>}
+        />
+      </fieldset>
 
       <footer className=" p-5 w-full mx-0 sm:w-3/4 sm:mx-auto z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
         <FormControlLabel

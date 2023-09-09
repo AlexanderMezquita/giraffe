@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import IconButton from "@mui/material/IconButton";
-import DeleteDialog from "@/components/globals/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
 import useAxios from "@/axios";
 import { useState } from "react";
 import { toast } from "react-toastify";

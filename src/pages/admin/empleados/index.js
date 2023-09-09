@@ -5,7 +5,7 @@ import PageHeader from "@/components/globals/page_header";
 import { Add } from "@mui/icons-material";
 import useAxios from "@/axios";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import DeleteDialog from "@/components/globals/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
 import DataTable from "@/components/globals/datagrid";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";

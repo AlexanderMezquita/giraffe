@@ -10,8 +10,8 @@ function TabPanel(props) {
   return <>{value === index && <>{children}</>}</>;
 }
 
-export default function ToggleDays({ days }) {
-  const { register, errors, control, reset } = useFormContext({});
+export default function ToggleDays() {
+  const { register, errors, control } = useFormContext({});
 
   const { fields } = useFieldArray({ control, name: "schedules" });
   const [activeStep, setActiveStep] = useState(1);
@@ -78,7 +78,7 @@ export default function ToggleDays({ days }) {
         return (
           <TabPanel value={activeStep} index={field.day} key={field.id}>
             <h2>{DAYS[field.day]?.name}</h2>
-            <div className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0 ">
+            <fieldset className="md:flex md:space-x-3 md:space-y-0 space-y-3 space-x-0 ">
               <TextField
                 label="Hora de entrada*"
                 placeholder="08:00:00"
@@ -95,7 +95,6 @@ export default function ToggleDays({ days }) {
                 error={!!errors.schedules?.[field.day]?.entryTime}
                 helperText={errors.schedules?.[field.day]?.entryTime?.message}
               />
-
               <TextField
                 label="Hora de salida*"
                 placeholder="05:30:00"
@@ -112,7 +111,7 @@ export default function ToggleDays({ days }) {
                 error={!!errors.schedules?.[field.day]?.finishTime}
                 helperText={errors.schedules?.[field.day]?.finishTime?.message}
               />
-            </div>
+            </fieldset>
           </TabPanel>
         );
       })}

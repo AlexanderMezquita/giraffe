@@ -10,7 +10,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatNumber } from "@/utils/methods";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-import DeleteDialog from "@/components/globals/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
 import { useMutation } from "@tanstack/react-query";
 import BranchForm from "@/components/forms/branch-form";
 import { toast } from "react-toastify";

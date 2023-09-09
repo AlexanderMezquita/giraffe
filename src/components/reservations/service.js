@@ -6,9 +6,12 @@ import { formatCurrency } from "@/utils/methods";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import { Avatar } from "@mui/material";
+import ServiceDialog from "../globals/dialogs/service-dialog";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
+  const [selectedService, setSelectedService] = React.useState({});
+  const [open, setOpen] = React.useState(false);
   const { axiosInstance } = useAxios();
   const noServices =
     "Parece que no hay servicios disponibles en este momento, vuelve a intentarlo más tarde.";
@@ -31,7 +34,7 @@ export default function Services({ handleNext }) {
       return (
         <li
           key={index}
-          onClick={() => handleService(item)}
+          onClick={() => handleServiceDialog(item)}
           className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
         >
           <div className="flex items-center gap-2">
@@ -52,14 +55,33 @@ export default function Services({ handleNext }) {
       );
     });
 
+  const handleServiceDialog = (service) => {
+    setSelectedService(service);
+    setOpen(true);
+  };
+
   const handleService = (value) => {
     setValue("service.name", value.name);
     setValue("service.id", value.id);
-    handleNext();
+    setOpen(false);
+    setTimeout(() => {
+      handleNext();
+    }, 80);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
+      <ServiceDialog
+        service={selectedService}
+        open={open}
+        onConfirm={() => {
+          handleService(selectedService);
+        }}
+        handleClose={handleClose}
+      />
       {isLoading || isFetching ? (
         <Loading />
       ) : isError ? (

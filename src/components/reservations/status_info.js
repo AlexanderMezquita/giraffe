@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
 export default function Status() {
-  const { getValues } = useFormContext();
+  const { watch } = useFormContext();
 
   const getMonth = (value) => {
     switch (value) {
@@ -34,14 +34,14 @@ export default function Status() {
 
   return (
     <div className=" p-3  rounded-lg   bg-tertiary/80 mx-5   ">
-      <h2 className="font-semibold font-sans">{getValues("service.name")}</h2>
+      <h2 className="font-semibold font-sans">{watch("service.name")}</h2>
       <p className="text-neutral-600 text-[12px]">
-        {getValues("branch.name")}
-        {getValues("time") ? (
+        {watch("branch.name")}
+        {watch("time") ? (
           <span>
-            <span>, {getValues("date.$D")} </span>
-            <span>de {getMonth(getValues("date.$M"))} </span>
-            <span> a las {getValues("time")}</span>{" "}
+            <span>, {watch("date.$D")} </span>
+            <span>de {getMonth(watch("date.$M"))} </span>
+            <span> a las {watch("time")}</span>{" "}
           </span>
         ) : (
           ""
