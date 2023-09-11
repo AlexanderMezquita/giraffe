@@ -60,10 +60,10 @@ export default function Services({ handleNext }) {
     setOpen(true);
   };
 
-  const handleService = (value) => {
-    setValue("service.name", value.name);
-    setValue("service.id", value.id);
-    setOpen(false);
+  const handleService = () => {
+    setValue("service.name", selectedService.name);
+    setValue("service.id", selectedService.id);
+    handleClose();
     setTimeout(() => {
       handleNext();
     }, 80);

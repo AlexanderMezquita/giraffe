@@ -23,12 +23,23 @@ import { AxiosError } from "axios";
 import ToggleDays from "../globals/toggle-days";
 import { FormProvider } from "react-hook-form";
 import LaborlessDays from "../globals/laborless-days";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Slide from "@mui/material/Slide";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function BranchForm({ open, handleClose, branch, toast }) {
   const branchExist = Object.keys(branch).length >= 1;
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { axiosInstance } = useAxios();
   const {
@@ -163,14 +174,33 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
       open={open}
       fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, paddingTop: "15px", paddingBottom: "15px" },
+        style: { borderRadius: 15, paddingTop: "10px", paddingBottom: "15px" },
       }}
+      TransitionComponent={Transition}
+      fullScreen={fullScreen}
       maxWidth={"sm"}
       onClose={() => handleClose(false)}
       aria-labelledby="branch-form"
       aria-describedby="create a branch using this dialog"
     >
-      <DialogTitle id="alert-dialog-title">Crear Sucursal</DialogTitle>
+      <IconButton
+        edge="start"
+        color="inherit"
+        onClick={() => {
+          handleClose(false);
+        }}
+        aria-label="close"
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 22,
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <DialogTitle sx={{ m: 0, p: 2 }} id="alert-dialog-title">
+        Crear Sucursal
+      </DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">

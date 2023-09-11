@@ -21,12 +21,23 @@ import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
 import ToggleDays from "../globals/toggle-days";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Slide from "@mui/material/Slide";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function EmployeeForm({ open, handleClose, employee, toast }) {
   const employeeExist = Object.keys(employee).length >= 1;
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { axiosInstance } = useAxios();
   const methods = useForm({});
@@ -99,64 +110,64 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
         branch: {},
         img: null,
         status: "Activo",
-        schedules: [
-          {
-            employeeId: 0,
-            day: 0,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 1,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 2,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 3,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 4,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 5,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-          {
-            employeeId: 0,
-            day: 6,
-            entryTime: null,
-            entryLunch: null,
-            finishLunch: null,
-            finishTime: null,
-          },
-        ],
+        // schedules: [
+        //   {
+        //     employeeId: 0,
+        //     day: 0,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 1,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 2,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 3,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 4,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 5,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        //   {
+        //     employeeId: 0,
+        //     day: 6,
+        //     entryTime: null,
+        //     entryLunch: null,
+        //     finishLunch: null,
+        //     finishTime: null,
+        //   },
+        // ],
       });
     }
   }, [employee, open]);
@@ -169,11 +180,30 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
         style: { borderRadius: 15, padding: "10px" },
       }}
       maxWidth={"sm"}
+      TransitionComponent={Transition}
+      fullScreen={fullScreen}
       onClose={() => handleClose(false)}
       aria-labelledby="employee-form"
       aria-describedby="create an employee using this dialog"
     >
-      <DialogTitle id="alert-dialog-title">Crear Empleado</DialogTitle>
+      <IconButton
+        edge="start"
+        color="inherit"
+        onClick={() => {
+          handleClose(false);
+        }}
+        aria-label="close"
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 22,
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <DialogTitle sx={{ m: 0, p: 2 }} id="alert-dialog-title">
+        Crear Empleado
+      </DialogTitle>
 
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
@@ -307,11 +337,11 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
               />
             </FormControl>
           </div>
-          <FormProvider {...methods}>
+          {/* <FormProvider {...methods}>
             <h1 className="py-1">Dias disponibles</h1>
 
             <ToggleDays />
-          </FormProvider>
+          </FormProvider> */}
         </DialogContent>
         <DialogActions>
           <LoadingButton
