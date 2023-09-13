@@ -177,7 +177,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
       open={open}
       fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, padding: "10px" },
+        style: { borderRadius: fullScreen ? 0 : 15, padding: "10px" },
       }}
       maxWidth={"sm"}
       TransitionComponent={Transition}

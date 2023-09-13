@@ -174,7 +174,11 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
       open={open}
       fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, paddingTop: "10px", paddingBottom: "15px" },
+        style: {
+          borderRadius: fullScreen ? 0 : 15,
+          paddingTop: "10px",
+          paddingBottom: "15px",
+        },
       }}
       TransitionComponent={Transition}
       fullScreen={fullScreen}

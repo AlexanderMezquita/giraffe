@@ -36,6 +36,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const [imgFile, setImgFile] = React.useState();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const minutesList = ["15 min", "30 min", "45 min", "1h", "1h 30m", "2h"];
 
   const { axiosInstance } = useAxios();
   const {
@@ -123,7 +124,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       open={open}
       fullWidth={true}
       PaperProps={{
-        style: { borderRadius: 15, padding: "10px" },
+        style: { borderRadius: fullScreen ? 0 : 15, padding: "10px" },
       }}
       TransitionComponent={Transition}
       fullScreen={fullScreen}
@@ -226,7 +227,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             placeholder="Procedimiento básico donde se recorta o da forma al cabello sin realizar cambios drásticos en el estilo actual"
             fullWidth={true}
             multiline={true}
-            minRows={4}
+            rows={4}
             {...register("description", {
               required: {
                 value: true,
@@ -244,7 +245,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             helperText={errors.description?.message}
           />
           <div className="space-y-3 sm:space-y-0">
-            <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
+            <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
               <TextField
                 id="price"
                 label="Precio*"
@@ -262,7 +263,35 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                 helperText={errors.price?.message}
               />
             </FormControl>
-            <FormControl className=" w-full sm:w-1/2 sm:pl-1">
+            <FormControl className=" w-full sm:w-1/3 sm:pl-1">
+              <InputLabel id="demo-simple-select-helper-label">
+                Tiempo estimado
+              </InputLabel>
+              <Controller
+                name="estimatedTime"
+                control={control}
+                defaultValue={"30 min"}
+                rules={{ required: "El tiempo estimado es requerido" }}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    labelId="status-label"
+                    id="estimatedTime"
+                    value={value}
+                    label="estimatedTime"
+                    onChange={onChange}
+                  >
+                    {minutesList.map((item) => {
+                      return (
+                        <MenuItem key={item} value={item}>
+                          {item}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                )}
+              />
+            </FormControl>
+            <FormControl className=" w-full sm:w-1/3 sm:pl-1">
               <InputLabel id="demo-simple-select-helper-label">
                 Estatus
               </InputLabel>
