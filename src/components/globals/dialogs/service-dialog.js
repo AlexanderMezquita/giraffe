@@ -43,8 +43,8 @@ export default function ServiceDialog({
           <article className="flex flex-wrap lg:flex-nowrap w-full md:gap-9 gap-3 px-5 overflow-y-auto">
             <img
               alt={service.name}
-              src={service.img}
-              className=" w-full lg:w-6/12 rounded-lg"
+              src={service.img ?? "/brand.png"}
+              className=" w-full  object-cover lg:w-6/12 rounded-lg border-4 border-secondary"
             />
             <div>
               <p>{service.description}</p>
@@ -55,7 +55,10 @@ export default function ServiceDialog({
                     {formatCurrency(service.price)}
                   </span>
                 </li>
-                <li>Tiempo estimado:</li>
+                <li>
+                  Tiempo estimado:{" "}
+                  <span className="font-bold">{service.estimatedTime}</span>
+                </li>
               </ul>
             </div>
           </article>

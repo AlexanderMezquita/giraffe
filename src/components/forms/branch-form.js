@@ -60,12 +60,10 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
       toast.success("Sucursal creada exitosamente");
+      handleClose(false);
     },
     onError: () => {
       toast.error("Hubo un error creando la sucursal, vuelve a intentarlo.");
-    },
-    onSettled: () => {
-      handleClose(false);
     },
   });
 
@@ -76,19 +74,28 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     onSuccess: () => {
       queryClient.invalidateQueries("branches");
       toast.success("Sucursal actualizada exitosamente");
+      handleClose(false);
     },
     onError: () => {
       toast.error(
         "Hubo un error actualizando la sucursal, vuelve a intentarlo."
       );
     },
-    onSettled: () => {
-      handleClose(false);
-    },
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const modifiedData = {
+      ...data,
+      schedules: data.schedules.map((fieldValue) => ({
+        entryTime: fieldValue.entryTime === "" ? null : fieldValue.entryTime,
+        finishTime: fieldValue.finishTime === "" ? null : fieldValue.finishTime,
+      })),
+      laborLessDays: data.laborLessDays.map((fieldValue) => ({
+        fromHour: fieldValue.fromHour === "" ? null : fieldValue.fromHout,
+        toHour: fieldValue.toHour === "" ? null : fieldValue.toHour,
+      })),
+    };
+    console.log(modifiedData);
     // try {
     //   if (data.img !== null && imgFile) {
     //     setImageLoading(true);
@@ -112,6 +119,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
 
   React.useEffect(() => {
     if (branchExist) {
+      console.log(branch);
       reset(branch);
     } else {
       reset({
@@ -123,43 +131,43 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
         laborLessDays: [],
         schedules: [
           {
-            employeeId: 0,
+            branchId: 0,
             day: 0,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 1,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 2,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 3,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 4,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 5,
             entryTime: null,
             finishTime: null,
           },
           {
-            employeeId: 0,
+            branchId: 0,
             day: 6,
             entryTime: null,
             finishTime: null,

@@ -346,13 +346,12 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
         <DialogActions>
           <LoadingButton
             target="_blank"
-            variant="outlined"
+            variant="contained"
             loading={
               createEmployee.isLoading ||
               updateEmployee.isLoading ||
               imageLoading
             }
-            color="success"
             type="submit"
           >
             {employeeExist ? <span>Actualizar </span> : <span>Crear</span>}

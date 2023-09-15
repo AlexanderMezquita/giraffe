@@ -192,7 +192,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
           <img
             src={watch("img") ? getValues("img") : null}
             alt="service_image"
-            className=" w-36 h-36 rounded-full transition-all text-[0] "
+            className=" w-36 h-36 object-cover rounded-full transition-all text-[0] "
           />
         </figure>
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
@@ -319,11 +319,10 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
         <DialogActions>
           <LoadingButton
             target="_blank"
-            variant="outlined"
+            variant="contained"
             loading={
               createService.isLoading || updateService.isLoading || imageLoading
             }
-            color="success"
             type="submit"
           >
             {serviceExist ? <span>Actualizar </span> : <span>Crear</span>}
