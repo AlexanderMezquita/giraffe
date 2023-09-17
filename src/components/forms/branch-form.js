@@ -48,7 +48,6 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
     getValues,
     handleSubmit,
     control,
-    setValue,
     reset,
     watch,
   } = useForm();
@@ -89,37 +88,41 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
       schedules: data.schedules.map((fieldValue) => ({
         entryTime: fieldValue.entryTime === "" ? null : fieldValue.entryTime,
         finishTime: fieldValue.finishTime === "" ? null : fieldValue.finishTime,
+        branchId: fieldValue.branchId,
+        day: fieldValue.day,
       })),
       laborLessDays: data.laborLessDays.map((fieldValue) => ({
-        fromHour: fieldValue.fromHour === "" ? null : fieldValue.fromHout,
+        fromHour: fieldValue.fromHour === "" ? null : fieldValue.fromHour,
         toHour: fieldValue.toHour === "" ? null : fieldValue.toHour,
+        date: fieldValue.date,
+        fullDate: fieldValue.fullDate,
       })),
     };
-    console.log(modifiedData);
-    // try {
-    //   if (data.img !== null && imgFile) {
-    //     setImageLoading(true);
-    //     const url = await uploadImage(imgFile, "branches");
-    //     data.img = url;
-    //   }
-    //   branchExist ? updateBranch.mutate(data) : createBranch.mutate(data);
-    // } catch (error) {
-    //   if (error instanceof FirebaseError) {
-    //     toast.error("Error subiendo la imagen");
-    //   } else if (error instanceof AxiosError) {
-    //     toast.error("Error de creando o actualizando la sucursal");
-    //     deleteImage(imgFile, "branches");
-    //   } else {
-    //     toast.error("Error porfavor intentelo de nuevo");
-    //   }
-    // } finally {
-    //   setImageLoading(false);
-    // }
+    try {
+      if (modifiedData.img !== null && imgFile) {
+        setImageLoading(true);
+        const url = await uploadImage(imgFile, "branches");
+        modifiedData.img = url;
+      }
+      branchExist
+        ? updateBranch.mutate(modifiedData)
+        : createBranch.mutate(modifiedData);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        toast.error("Error subiendo la imagen");
+      } else if (error instanceof AxiosError) {
+        toast.error("Error de creando o actualizando la sucursal");
+        deleteImage(imgFile, "branches");
+      } else {
+        toast.error("Error porfavor intentelo de nuevo");
+      }
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   React.useEffect(() => {
     if (branchExist) {
-      console.log(branch);
       reset(branch);
     } else {
       reset({

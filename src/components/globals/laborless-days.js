@@ -73,7 +73,9 @@ export default function LaborlessDays() {
                   disabled={watch(`laborLessDays.${index}.fullDate`)}
                   placeholder="01:30:00"
                   {...register(`laborLessDays.${index}.fromHour`, {
-                    required: { value: true },
+                    required: {
+                      value: !watch(`laborLessDays.${index}.fullDate`),
+                    },
                     pattern: {
                       value: pattern,
                       message:
@@ -83,7 +85,7 @@ export default function LaborlessDays() {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.laborLessDays?.[index].fromHour}
+                  error={!!errors.laborLessDays?.[index]?.fromHour}
                   helperText={errors.laborLessDays?.[index]?.fromHour?.message}
                 />
                 <TextField
@@ -92,7 +94,9 @@ export default function LaborlessDays() {
                   disabled={watch(`laborLessDays.${index}.fullDate`)}
                   fullWidth
                   {...register(`laborLessDays.${index}.toHour`, {
-                    required: { value: true },
+                    required: {
+                      value: !watch(`laborLessDays.${index}.fullDate`),
+                    },
                     pattern: {
                       value: pattern,
                       message:
@@ -102,7 +106,7 @@ export default function LaborlessDays() {
                   })}
                   inputProps={{ maxLength: 10 }}
                   color="primary"
-                  error={!!errors.laborLessDays?.[index].toHour}
+                  error={!!errors.laborLessDays?.[index]?.toHour}
                   helperText={errors.laborLessDays?.[index]?.toHour?.message}
                 />
                 <Button
