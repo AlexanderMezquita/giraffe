@@ -229,7 +229,6 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
                     value={value?.fileName}
                     onChange={(e) => {
                       if (e.target.files[0]) {
-                        // console.log(e.target.files[0]);
                         onChange(URL.createObjectURL(e.target.files[0]));
                         setImgFile(e.target.files[0]);
                       }
@@ -249,7 +248,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
           />
         </figure>
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
-          Permitido *.jpeg, *.jpg, *.png, max size of 3.1 MB
+          Permitido *.jpeg, *.jpg, *.png.
         </p>
         <DialogContent className=" space-y-3">
           <TextField

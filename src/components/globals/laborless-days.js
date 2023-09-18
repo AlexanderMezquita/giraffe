@@ -56,13 +56,22 @@ export default function LaborlessDays() {
                 <Controller
                   control={control}
                   name={`laborLessDays.${index}.date`}
-                  rules={{ required: true }}
-                  render={({ field: { onChange, value } }) => (
+                  rules={{ required: true, message: "El día es requerido" }}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
                     <DatePicker
                       value={value ? dayjs(value) : null}
                       className="w-full "
                       onChange={(e) => {
                         onChange(dayjs(e).format("YYYY-MM-DD"));
+                      }}
+                      slotProps={{
+                        textField: {
+                          error: !!error,
+                          // helperText: error?.message,
+                        },
                       }}
                     />
                   )}
