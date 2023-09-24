@@ -1,9 +1,8 @@
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import Date from "../globals/date";
-export default function ContactInfo() {
-  const currentDate = Date().day();
+import dayjs from "../globals/date";
 
+export default function ContactInfo() {
   const weekDays = [
     { name: "Dom", hours: "Cerrado" },
     { name: "Lun", hours: "9:00 am - 5:00 pm" },
@@ -60,7 +59,7 @@ export default function ContactInfo() {
           return (
             <li
               className={`${
-                currentDate == index ? "font-bold text-neutral-700" : ""
+                dayjs().day() == index ? "font-bold text-neutral-700" : ""
               } flex justify-between `}
               key={item.name}
             >

@@ -15,7 +15,7 @@ function TabPanel(props) {
   const { children, value, index } = props;
   React.useEffect(() => {
     window.scrollTo(0, 0);
-  }, [children]);
+  }, [value]);
 
   return (
     <fieldset
