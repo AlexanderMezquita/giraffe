@@ -50,31 +50,32 @@ export default function Calendar({ handleNext }) {
         // Parse the current time
         const currentTimeParsed = dayjs(currentTime, "HH:mm:ss");
         // Calculate the minutes past the last 30-minute interval
-        const minutesPast30 = currentTimeParsed.minute() % 30;
-        // Subtract the minutes past the last 30-minute interval
-        let adjustedTime = currentTimeParsed.subtract(minutesPast30, "minute");
-        if (minutesPast30 >= 30) {
-          // If it is, add an hour to the current time
-          adjustedTime = currentTimeParsed.add(1, "hour");
+        let adjustedTime;
+
+        if (currentTimeParsed.minute() >= 30) {
+          // If it is, set the minute to 0 and add 1 hour to round to the next hour
+          adjustedTime = currentTimeParsed.add(1, "hour").set("minute", 0);
         } else {
-          adjustedTime = currentTimeParsed.add(30, "minute");
+          // If it's less than 30, set the minute to 30 to round to the next half hour
+          adjustedTime = currentTimeParsed.set("minute", 30);
         }
 
+        console.log(adjustedTime.format("HH:mm:ss"));
+
         // Format the adjusted time back to "HH:mm:ss" format
-        const formattedTime = adjustedTime.format("HH:mm:ss");
-        // Remove the hours that have passed
-        if (
-          formattedTime <
-          dayjs(formattedTime, "HH:mm:ss")
-            .subtract(1, "hour")
-            .format("HH:mm:ss")
-        ) {
-          openingTime = dayjs(openingTime, "HH:mm:ss")
-            .add(30, "minute")
-            .format("HH:mm:ss");
-        } else {
-          openingTime = formattedTime;
-        }
+        let formattedTime = adjustedTime.format("HH:mm:ss");
+
+        // // Remove the hours that have passed
+        // if (
+        //   formattedTime <
+        //   dayjs(currentTime, "HH:mm:ss").subtract(1, "hour").format("HH:mm:ss")
+        // ) {
+        //   openingTime = dayjs(openingTime, "HH:mm:ss")
+        //     .add(30, "minute")
+        //     .format("HH:mm:ss");
+        // } else {
+        //   openingTime = formattedTime;
+        // }
       }
 
       let currentTime = openingTime;
@@ -94,6 +95,7 @@ export default function Calendar({ handleNext }) {
 
       return openingHoursList;
     } catch (error) {
+      console.log(error);
       return [];
     }
   }
@@ -113,9 +115,9 @@ export default function Calendar({ handleNext }) {
     return day === 0;
   };
 
-  React.useEffect(() => {
-    console.log(hours.length);
-  }, [watch("date")]);
+  // React.useEffect(() => {
+  //   console.log(hours.length);
+  // }, [watch("date")]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
@@ -134,7 +136,7 @@ export default function Calendar({ handleNext }) {
               maxDate={dayjs().add(45, "day")}
               value={value ?? null}
               onChange={onChange}
-              // shouldDisableDate={isWeekend}
+              shouldDisableDate={isWeekend}
               disablePast
               // shouldDisableDate={dis}
             />
