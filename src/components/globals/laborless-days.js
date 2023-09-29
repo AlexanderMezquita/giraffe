@@ -136,6 +136,7 @@ export default function LaborlessDays() {
         size="small"
         onClick={() => {
           append({
+            branchId: 0,
             fromHour: null,
             toHour: null,
             date: null,

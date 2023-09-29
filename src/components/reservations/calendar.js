@@ -60,22 +60,20 @@ export default function Calendar({ handleNext }) {
           adjustedTime = currentTimeParsed.set("minute", 30);
         }
 
-        console.log(adjustedTime.format("HH:mm:ss"));
-
         // Format the adjusted time back to "HH:mm:ss" format
-        let formattedTime = adjustedTime.format("HH:mm:ss");
+        let formattedTime = dayjs(adjustedTime, "HH:mm:ss");
 
         // // Remove the hours that have passed
-        // if (
-        //   formattedTime <
-        //   dayjs(currentTime, "HH:mm:ss").subtract(1, "hour").format("HH:mm:ss")
-        // ) {
-        //   openingTime = dayjs(openingTime, "HH:mm:ss")
-        //     .add(30, "minute")
-        //     .format("HH:mm:ss");
-        // } else {
-        //   openingTime = formattedTime;
-        // }
+        if (
+          openingTime <
+          dayjs(formattedTime, "HH:mm:ss").add(1, "hour").format("HH:mm:ss")
+        ) {
+          openingTime = dayjs(formattedTime, "HH:mm:ss")
+            .add(1, "hour")
+            .format("HH:mm:ss");
+        } else {
+          openingTime = openingTime;
+        }
       }
 
       let currentTime = openingTime;
@@ -98,6 +96,20 @@ export default function Calendar({ handleNext }) {
       console.log(error);
       return [];
     }
+  }
+
+  const disabledDates = ["2023-10-16", "2023-10-20"];
+  const disabledDaysOfWeek = [0, 6];
+  function isDateDisabled(date) {
+    // Convert the date to a string in yyyy-MM-dd format
+    const dateString = date.toISOString().slice(0, 10);
+    const dayOfWeek = dayjs(date).day();
+
+    // Check if the date is in the disabledDates array
+    return (
+      disabledDates.includes(dateString) ||
+      disabledDaysOfWeek.includes(dayOfWeek)
+    );
   }
 
   const hours = generateOpeningHoursList(
@@ -136,7 +148,7 @@ export default function Calendar({ handleNext }) {
               maxDate={dayjs().add(45, "day")}
               value={value ?? null}
               onChange={onChange}
-              shouldDisableDate={isWeekend}
+              shouldDisableDate={isDateDisabled}
               disablePast
               // shouldDisableDate={dis}
             />

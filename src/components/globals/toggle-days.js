@@ -15,7 +15,7 @@ export default function ToggleDays() {
 
   const { fields } = useFieldArray({ control, name: "schedules" });
   const [activeStep, setActiveStep] = useState(1);
-  const pattern = /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
+  const pattern = /^(?:[01]\d|2[0-3]):(?:00|30):00$/;
   const DAYS = [
     {
       label: "D",
@@ -86,7 +86,8 @@ export default function ToggleDays() {
                 {...register(`schedules.${field.day}.entryTime`, {
                   pattern: {
                     value: pattern,
-                    message: "Solo este formato es aceptado 00:00:00",
+                    message:
+                      "Solo este formato es aceptado 00:00:00 con intervalos de 30 minutos",
                   },
                   maxLength: 10,
                 })}
@@ -102,7 +103,8 @@ export default function ToggleDays() {
                 {...register(`schedules.${field.day}.finishTime`, {
                   pattern: {
                     value: pattern,
-                    message: "Solo este formato es aceptado 00:00:00",
+                    message:
+                      "Solo este formato es aceptado 00:00:00 con intervalos de 30 minutos",
                   },
                   maxLength: 10,
                 })}
