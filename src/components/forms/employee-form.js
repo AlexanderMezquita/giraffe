@@ -20,7 +20,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
-import ToggleDays from "../globals/toggle-days";
+import ToggleDays from "./toggle-days";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";

@@ -20,9 +20,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
-import ToggleDays from "../globals/toggle-days";
+import ToggleDays from "./toggle-days";
 import { FormProvider } from "react-hook-form";
-import LaborlessDays from "../globals/laborless-days";
+import LaborlessDays from "./laborless-days";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";
@@ -96,6 +96,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
         toHour: fieldValue.toHour === "" ? null : fieldValue.toHour,
         date: fieldValue.date,
         fullDate: fieldValue.fullDate,
+        branchId: fieldValue.branchId,
       })),
     };
     try {
@@ -364,7 +365,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
           <Divider />
           <h2 className="text-center">Dias libres</h2>
           <FormProvider {...{ register, errors, control, watch }}>
-            <LaborlessDays />
+            <LaborlessDays branchId={branch.id} />
           </FormProvider>
         </DialogContent>
 

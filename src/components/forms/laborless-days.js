@@ -11,7 +11,7 @@ import { Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-export default function LaborlessDays() {
+export default function LaborlessDays({ branchId }) {
   const { register, errors, control, watch } = useFormContext({});
   const pattern = /^(0[0-9]|1[0-9]|2[0-3]):(00|30):00$/;
 
@@ -121,7 +121,7 @@ export default function LaborlessDays() {
                 <Button
                   variant="outlined"
                   size="large"
-                  className=" w-full sm:w-auto"
+                  className=" w-full sm:w-auto float-right"
                   onClick={() => remove(index)}
                   startIcon={<Delete className="ml-2.5" />}
                 />
@@ -136,7 +136,7 @@ export default function LaborlessDays() {
         size="small"
         onClick={() => {
           append({
-            branchId: 0,
+            branchId: branchId ? branchId : 0,
             fromHour: null,
             toHour: null,
             date: null,

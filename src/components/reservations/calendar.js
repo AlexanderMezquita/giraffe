@@ -10,9 +10,11 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import ReloadMessage from "../globals/reload-message.js";
 import Loading from "../globals/loading.js";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Calendar({ handleNext }) {
   const { setValue, getValues, watch, control } = useFormContext();
+
   const { axiosInstance } = useAxios();
 
   const {
@@ -29,6 +31,14 @@ export default function Calendar({ handleNext }) {
       ),
 
     enabled: !!watch("date"),
+  });
+
+  const { data: getDaysOff, isLoading: isLoadingDayOff } = useQuery({
+    queryKey: ["branchScheduleDayOff", watch("branch.id")],
+    queryFn: () =>
+      axiosInstance.get(
+        `/branch/schedule/dayoff?branchId=${watch("branch.id")}`
+      ),
   });
 
   function generateOpeningHoursList(openingTime, closingTime) {
@@ -98,8 +108,6 @@ export default function Calendar({ handleNext }) {
     }
   }
 
-  const disabledDates = ["2023-10-16", "2023-10-20"];
-  const disabledDaysOfWeek = [0, 6];
   function isDateDisabled(date) {
     // Convert the date to a string in yyyy-MM-dd format
     const dateString = date.toISOString().slice(0, 10);
@@ -107,8 +115,8 @@ export default function Calendar({ handleNext }) {
 
     // Check if the date is in the disabledDates array
     return (
-      disabledDates.includes(dateString) ||
-      disabledDaysOfWeek.includes(dayOfWeek)
+      getDaysOff?.data?.laborLessDays?.includes(dateString) ||
+      getDaysOff?.data?.freeDays?.includes(dayOfWeek)
     );
   }
 
@@ -120,16 +128,6 @@ export default function Calendar({ handleNext }) {
     setValue("time", value);
     handleNext();
   };
-
-  const isWeekend = (date) => {
-    const day = date.day();
-
-    return day === 0;
-  };
-
-  // React.useEffect(() => {
-  //   console.log(hours.length);
-  // }, [watch("date")]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
@@ -143,7 +141,11 @@ export default function Calendar({ handleNext }) {
           name="date"
           render={({ field: { onChange, value } }) => (
             <DateCalendar
+              loading={isLoadingDayOff}
               views={["day"]}
+              renderLoading={() => (
+                <CircularProgress className="text-primary " />
+              )}
               showDaysOutsideCurrentMonth={false}
               maxDate={dayjs().add(45, "day")}
               value={value ?? null}
