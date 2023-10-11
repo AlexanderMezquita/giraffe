@@ -87,6 +87,7 @@ export default function Form() {
         <TextField
           id="phone"
           label="Teléfono*"
+          type="tel"
           placeholder="809-XXX-XXXX"
           {...register("phone", {
             required: {

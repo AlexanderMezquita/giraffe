@@ -357,7 +357,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
             </FormControl>
           </div>
           <Divider />
-          <FormProvider {...{ register, errors, control }}>
+          <FormProvider {...{ register, errors, control, watch }}>
             <h2 className="py-1 text-center">Dias disponibles</h2>
 
             <ToggleDays />

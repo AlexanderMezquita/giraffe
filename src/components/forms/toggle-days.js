@@ -11,7 +11,7 @@ function TabPanel(props) {
 }
 
 export default function ToggleDays() {
-  const { register, errors, control } = useFormContext({});
+  const { register, errors, control, watch } = useFormContext({});
 
   const { fields } = useFieldArray({ control, name: "schedules" });
   const [activeStep, setActiveStep] = useState(1);
@@ -86,6 +86,7 @@ export default function ToggleDays() {
                 {...register(`schedules.${field.day}.entryTime`, {
                   pattern: {
                     value: pattern,
+                    required: true,
                     message:
                       "Solo este formato es aceptado 00:00:00 con intervalos de 30 minutos",
                   },
@@ -103,6 +104,7 @@ export default function ToggleDays() {
                 {...register(`schedules.${field.day}.finishTime`, {
                   pattern: {
                     value: pattern,
+                    required: true,
                     message:
                       "Solo este formato es aceptado 00:00:00 con intervalos de 30 minutos",
                   },
