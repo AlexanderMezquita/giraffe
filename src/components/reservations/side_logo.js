@@ -17,8 +17,11 @@ export default function SideLogo() {
   ];
 
   return (
-    <Card variant="outlined" className="rounded-xl m-2 p-4 h-full">
-      <aside className="hidden w-44 lg:block mt-2 ">
+    <Card
+      variant="outlined"
+      className="rounded-xl m-2 hidden lg:block p-4 h-full"
+    >
+      <aside className=" w-44  mt-2 ">
         <Image
           alt="logo"
           src="/brand.png"

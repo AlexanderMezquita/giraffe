@@ -15,8 +15,11 @@ export default function ContactInfo() {
   ];
 
   return (
-    <Card variant="outlined" className="rounded-xl m-2 p-4 h-full">
-      <aside className="hidden w-56 [@media(min-width:1100px)]:block  mt-2 ">
+    <Card
+      variant="outlined"
+      className=" hidden [@media(min-width:1100px)]:block rounded-xl m-2 p-4 h-full"
+    >
+      <aside className=" w-56   mt-2 ">
         <h2 className="mb-5">Información de contacto</h2>
         {/* <Image alt="logo" src="/logo.png" width={300} height={50} /> */}
 

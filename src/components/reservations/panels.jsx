@@ -10,6 +10,7 @@ import Services from "@/components/reservations/service";
 import { useForm, FormProvider } from "react-hook-form";
 import Status from "./status_info";
 import Employees from "./employee";
+import dayjs from "../globals/date.js";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -30,7 +31,28 @@ function TabPanel(props) {
 
 export default function Panels({ activeStep, steps, handleNext }) {
   const methods = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+
+  function addTimeStringToDate(dateTimeString, timeString) {
+    // Parse the input date-time string
+    const parsedDateTime = dayjs(dateTimeString);
+
+    // Parse the time string using Day.js
+    const parsedTime = dayjs(timeString, "h:mm A");
+
+    // Extract hours and minutes from the parsed time
+    const hours = parsedTime.hour();
+    const minutes = parsedTime.minute();
+
+    // Set the hours, minutes, and seconds of the target date-time
+    return parsedDateTime
+      .set("hour", hours)
+      .set("minute", minutes)
+      .set("second", 0);
+  }
+  const onSubmit = (data) => {
+    data.date = addTimeStringToDate(data.date, data.time);
+    alert(JSON.stringify(data));
+  };
 
   return (
     <React.Fragment>
