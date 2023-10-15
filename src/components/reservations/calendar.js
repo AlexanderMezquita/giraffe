@@ -47,19 +47,17 @@ export default function Calendar({ handleNext }) {
       if (openingTime >= closingTime) {
         throw new Error("Opening time must be earlier than closing time.");
       }
-
+      const selectedDate = dayjs(watch("date"));
       // Get the current day and time
       const currentDate = dayjs();
       // Check if the current day matches the date param in the form
       if (
-        currentDate.format("YYYY-MM-DD") ===
-        dayjs(watch("date")).format("YYYY-MM-DD")
+        currentDate.format("YYYY-MM-DD") === selectedDate.format("YYYY-MM-DD")
       ) {
         // Get the current time in HH:mm:ss format
         const currentTime = currentDate.format("HH:mm:ss");
         // Parse the current time
         const currentTimeParsed = dayjs(currentTime, "HH:mm:ss");
-        // Calculate the minutes past the last 30-minute interval
         let adjustedTime;
 
         if (currentTimeParsed.minute() >= 30) {
@@ -69,20 +67,19 @@ export default function Calendar({ handleNext }) {
           // If it's less than 30, set the minute to 30 to round to the next half hour
           adjustedTime = currentTimeParsed.set("minute", 30);
         }
-
-        // Format the adjusted time back to "HH:mm:ss" format
         let formattedTime = dayjs(adjustedTime, "HH:mm:ss");
 
-        // // Remove the hours that have passed
+        // Remove the hours that have passed
         if (
-          openingTime <
-          dayjs(formattedTime, "HH:mm:ss").add(1, "hour").format("HH:mm:ss")
+          dayjs(openingTime, "HH:mm:ss").isAfter(
+            dayjs(formattedTime, "HH:mm:ss").add(1, "hour")
+          )
         ) {
           openingTime = dayjs(formattedTime, "HH:mm:ss")
             .add(1, "hour")
             .format("HH:mm:ss");
         } else {
-          openingTime = openingTime;
+          openingTime = null;
         }
       }
 
