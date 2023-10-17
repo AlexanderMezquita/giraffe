@@ -51,6 +51,9 @@ export default function Calendar({ handleNext }) {
       // Get the current day and time
       const currentDate = dayjs();
       // Check if the current day matches the date param in the form
+
+      const openingHoursList = [];
+
       if (
         currentDate.format("YYYY-MM-DD") === selectedDate.format("YYYY-MM-DD")
       ) {
@@ -68,34 +71,48 @@ export default function Calendar({ handleNext }) {
           adjustedTime = currentTimeParsed.set("minute", 30);
         }
         let formattedTime = dayjs(adjustedTime, "HH:mm:ss");
-
+        const nextHourEndOfDay = dayjs(formattedTime, "HH:mm:ss")
+          .add(1, "hour")
+          .endOf("day");
+        const nextHour = dayjs(formattedTime, "HH:mm:ss").add(1, "hour");
         // Remove the hours that have passed
-        if (
-          dayjs(openingTime, "HH:mm:ss").isAfter(
-            dayjs(formattedTime, "HH:mm:ss").add(1, "hour")
-          )
-        ) {
+        if (dayjs(openingTime, "HH:mm:ss").isBefore(nextHour)) {
           openingTime = dayjs(formattedTime, "HH:mm:ss")
             .add(1, "hour")
             .format("HH:mm:ss");
-        } else {
-          openingTime = null;
         }
-      }
+        let currentOpeningTime = openingTime;
 
-      let currentTime = openingTime;
-      const openingHoursList = [];
+        // Generate a list of opening hours in 30-minute intervals
+        while (
+          currentOpeningTime < closingTime &&
+          nextHour.isBefore(nextHourEndOfDay)
+        ) {
+          // Use a 12-hour clock format without seconds
+          const formattedTime = dayjs(currentOpeningTime, "HH:mm:ss").format(
+            "h:mm A"
+          );
+          openingHoursList.push(formattedTime);
 
-      // Generate a list of opening hours in 30-minute intervals
-      while (currentTime < closingTime) {
-        // Use a 12-hour clock format without seconds
-        const formattedTime = dayjs(currentTime, "HH:mm:ss").format("h:mm A");
-        openingHoursList.push(formattedTime);
+          // Increment currentTime by 30 minutes
+          currentOpeningTime = dayjs(currentOpeningTime, "HH:mm:ss")
+            .add(30, "minute")
+            .format("HH:mm:ss");
+        }
+      } else {
+        let newOpeningTime = openingTime;
+        while (newOpeningTime < closingTime) {
+          // Use a 12-hour clock format without seconds
+          const formattedTime = dayjs(newOpeningTime, "HH:mm:ss").format(
+            "h:mm A"
+          );
+          openingHoursList.push(formattedTime);
 
-        // Increment currentTime by 30 minutes
-        currentTime = dayjs(currentTime, "HH:mm:ss")
-          .add(30, "minute")
-          .format("HH:mm:ss");
+          // Increment currentTime by 30 minutes
+          newOpeningTime = dayjs(newOpeningTime, "HH:mm:ss")
+            .add(30, "minute")
+            .format("HH:mm:ss");
+        }
       }
 
       return openingHoursList;
