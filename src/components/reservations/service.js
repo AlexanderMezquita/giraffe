@@ -8,6 +8,7 @@ import useAxios from "@/axios";
 import { Avatar } from "@mui/material";
 import ServiceDialog from "../globals/dialogs/service-dialog";
 import EmptyMessage from "../globals/empty-message";
+import Button from "@mui/material/Button";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
@@ -35,23 +36,54 @@ export default function Services({ handleNext }) {
       return (
         <li
           key={index}
-          onClick={() => handleServiceDialog(item)}
-          className="flex items-center justify-between gap-2 hover:bg-tertiary/50 transition-all duration-300 cursor-pointer px-5 py-2  "
+          // onClick={() => handleServiceDialog(item)}
+          className="flex md:flex-row flex-col-reverse  gap-4 p-5 border m-4  "
         >
-          <div className="flex items-center gap-2">
+          {!item.img ? (
             <Avatar
-              width={60}
-              height={40}
+              variant="square"
               src={item.img}
               alt={item.name}
-              className="rounded-full border-4 border-secondary object-cover w-[60px] h-[60px]"
+              className=" border-4 border-secondary object-cover md:w-44 md:h-48 w-full "
             />
-            <div className=" flex flex-col justify-around ">
-              <h2 className=" font-semibold font-sans ">{item.name}</h2>
-              <p className=" text-neutral-500">{formatCurrency(item.price)}</p>
+          ) : (
+            ""
+          )}
+          <div className="flex flex-col flex-grow gap-4">
+            <div className=" flex  justify-between w-full">
+              <div>
+                <h2 className=" font-semibold font-sans ">{item.name}</h2>
+                <p className=" text-neutral-500">
+                  {formatCurrency(item.price)}
+                </p>
+              </div>
+              <div>
+                <Button
+                  // onClick={() => handleClose(false)}
+                  variant="contained"
+                >
+                  Reservar
+                </Button>
+              </div>
+            </div>
+            <div className="text-neutral-500 space-y-2">
+              {item.description ? <p>{item.description}</p> : null}
+              {/* <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
+                architecto molestias sequi officia dolore nihil, cum,
+                accusantium, deserunt dolorum ex minima. Molestias officiis
+                aperiam animi autem iusto eaque nam placeat deleniti veniam.
+                Reprehenderit consequuntur porro sit quam neque, dolores dolorem
+                ullam magnam autem cupiditate. Assumenda consequatur id tenetur
+                totam explicabo quo rerum illum. Labore incidunt ratione fugit
+                exercitationem eligendi ducimus aspernatur, saepe accusantium,
+                harum illum, excepturi dignissimos.
+              </p> */}
+              {item.estimatedTime ? (
+                <p>Tiempo estimado: {item.estimatedTime}</p>
+              ) : null}
             </div>
           </div>
-          <ArrowForwardIosIcon className="text-sm text-neutral-400" />
         </li>
       );
     });

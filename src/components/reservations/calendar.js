@@ -50,8 +50,6 @@ export default function Calendar({ handleNext }) {
       const selectedDate = dayjs(watch("date"));
       // Get the current day and time
       const currentDate = dayjs();
-      // Check if the current day matches the date param in the form
-
       const openingHoursList = [];
 
       if (
@@ -71,24 +69,26 @@ export default function Calendar({ handleNext }) {
           adjustedTime = currentTimeParsed.set("minute", 30);
         }
         let formattedTime = dayjs(adjustedTime, "HH:mm:ss");
-        const nextHourEndOfDay = dayjs(formattedTime, "HH:mm:ss")
-          .add(1, "hour")
-          .endOf("day");
         const nextHour = dayjs(formattedTime, "HH:mm:ss").add(1, "hour");
+
         // Remove the hours that have passed
-        if (dayjs(openingTime, "HH:mm:ss").isBefore(nextHour)) {
+        if (
+          dayjs(openingTime, "HH:mm:ss").isSame(nextHour, "day") &&
+          dayjs(openingTime, "HH:mm:ss").isBefore(nextHour)
+        ) {
           openingTime = dayjs(formattedTime, "HH:mm:ss")
             .add(1, "hour")
             .format("HH:mm:ss");
+        } else if (dayjs(openingTime, "HH:mm:ss").isSame(nextHour, "day")) {
+          openingTime = openingTime;
+        } else {
+          openingTime = null;
         }
         let currentOpeningTime = openingTime;
 
         // Generate a list of opening hours in 30-minute intervals
-        while (
-          currentOpeningTime < closingTime &&
-          nextHour.isBefore(nextHourEndOfDay)
-        ) {
-          // Use a 12-hour clock format without seconds
+        while (currentOpeningTime < closingTime) {
+          // Use a 12-hour clock format
           const formattedTime = dayjs(currentOpeningTime, "HH:mm:ss").format(
             "h:mm A"
           );
@@ -100,9 +100,12 @@ export default function Calendar({ handleNext }) {
             .format("HH:mm:ss");
         }
       } else {
+        if (selectedDate.isBefore(currentDate, "day")) {
+          return openingHoursList;
+        }
         let newOpeningTime = openingTime;
         while (newOpeningTime < closingTime) {
-          // Use a 12-hour clock format without seconds
+          // Use a 12-hour clock format
           const formattedTime = dayjs(newOpeningTime, "HH:mm:ss").format(
             "h:mm A"
           );
@@ -117,7 +120,6 @@ export default function Calendar({ handleNext }) {
 
       return openingHoursList;
     } catch (error) {
-      console.log(error);
       return [];
     }
   }
@@ -166,7 +168,6 @@ export default function Calendar({ handleNext }) {
               onChange={onChange}
               shouldDisableDate={isDateDisabled}
               disablePast
-              // shouldDisableDate={dis}
             />
           )}
         />
