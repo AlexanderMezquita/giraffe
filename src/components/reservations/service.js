@@ -12,8 +12,6 @@ import Button from "@mui/material/Button";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
-  const [selectedService, setSelectedService] = React.useState({});
-  const [open, setOpen] = React.useState(false);
   const { axiosInstance } = useAxios();
   const noServices =
     "Parece que no hay servicios disponibles en este momento, vuelve a intentarlo más tarde.";
@@ -36,15 +34,14 @@ export default function Services({ handleNext }) {
       return (
         <li
           key={index}
-          // onClick={() => handleServiceDialog(item)}
-          className="flex md:flex-row flex-col-reverse  gap-4 p-5 border m-4  "
+          onClick={() => handleService(item)}
+          className="flex sm:flex-row flex-col-reverse  gap-4 p-5 border m-4  "
         >
-          {!item.img ? (
-            <Avatar
-              variant="square"
+          {item.img ? (
+            <img
               src={item.img}
               alt={item.name}
-              className=" border-4 border-secondary object-cover md:w-44 md:h-48 w-full "
+              className=" border-4 border-secondary object-contain md:object-cover w-full md:w-44 md:h-48 "
             />
           ) : (
             ""
@@ -54,7 +51,7 @@ export default function Services({ handleNext }) {
               <div>
                 <h2 className=" font-semibold font-sans ">{item.name}</h2>
                 <p className=" text-neutral-500">
-                  {formatCurrency(item.price)}
+                  DOP {formatCurrency(item.price)}
                 </p>
               </div>
               <div>
@@ -88,33 +85,14 @@ export default function Services({ handleNext }) {
       );
     });
 
-  const handleServiceDialog = (service) => {
-    setSelectedService(service);
-    setOpen(true);
+  const handleService = (item) => {
+    setValue("service.name", item.name);
+    setValue("service.id", item.id);
+    handleNext();
   };
 
-  const handleService = () => {
-    setValue("service.name", selectedService.name);
-    setValue("service.id", selectedService.id);
-    handleClose();
-    setTimeout(() => {
-      handleNext();
-    }, 80);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
-      <ServiceDialog
-        service={selectedService}
-        open={open}
-        onConfirm={() => {
-          handleService(selectedService);
-        }}
-        handleClose={handleClose}
-      />
       {isLoading || isFetching ? (
         <Loading />
       ) : isError ? (
