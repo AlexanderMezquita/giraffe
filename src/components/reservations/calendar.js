@@ -125,6 +125,11 @@ export default function Calendar({ handleNext }) {
   }
 
   function isDateDisabled(date) {
+    const cutoffTime = getSchedule?.data[0].entryTime;
+    const currentTime = dayjs();
+    const selectedDate = dayjs(date);
+    const cutoff = dayjs(cutoffTime, "HH:mm:ss");
+
     // Convert the date to a string in yyyy-MM-dd format
     const dateString = date.toISOString().slice(0, 10);
     const dayOfWeek = dayjs(date).day();
@@ -132,7 +137,8 @@ export default function Calendar({ handleNext }) {
     // Check if the date is in the disabledDates array
     return (
       getDaysOff?.data?.laborLessDays?.includes(dateString) ||
-      getDaysOff?.data?.freeDays?.includes(dayOfWeek)
+      getDaysOff?.data?.freeDays?.includes(dayOfWeek) ||
+      (selectedDate.isSame(currentTime, "day") && currentTime.isAfter(cutoff))
     );
   }
 
