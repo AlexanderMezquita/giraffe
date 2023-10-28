@@ -36,9 +36,7 @@ export default function Calendar({ handleNext }) {
   const { data: getDaysOff, isLoading: isLoadingDayOff } = useQuery({
     queryKey: ["branchScheduleDayOff", watch("branch.id")],
     queryFn: () =>
-      axiosInstance.get(
-        `/branch/schedule/dayoff?branchId=${watch("branch.id")}`
-      ),
+      axiosInstance.get(`/branch/schedule/day?branchId=${watch("branch.id")}`),
   });
 
   function generateOpeningHoursList(openingTime, closingTime) {
@@ -125,7 +123,7 @@ export default function Calendar({ handleNext }) {
   }
 
   function isDateDisabled(date) {
-    const cutoffTime = getSchedule?.data[0].entryTime;
+    const cutoffTime = getDaysOff?.data.cutoffTime;
     const currentTime = dayjs();
     const selectedDate = dayjs(date);
     const cutoff = dayjs(cutoffTime, "HH:mm:ss");
@@ -133,7 +131,6 @@ export default function Calendar({ handleNext }) {
     // Convert the date to a string in yyyy-MM-dd format
     const dateString = date.toISOString().slice(0, 10);
     const dayOfWeek = dayjs(date).day();
-
     // Check if the date is in the disabledDates array
     return (
       getDaysOff?.data?.laborLessDays?.includes(dateString) ||

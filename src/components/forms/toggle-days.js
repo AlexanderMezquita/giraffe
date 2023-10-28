@@ -12,7 +12,6 @@ function TabPanel(props) {
 
 export default function ToggleDays() {
   const { register, errors, control, watch } = useFormContext({});
-
   const { fields } = useFieldArray({ control, name: "schedules" });
   const [activeStep, setActiveStep] = useState(1);
   const pattern = /^(?:[01]\d|2[0-3]):(?:00|30):00$/;

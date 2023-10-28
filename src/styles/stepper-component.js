@@ -29,7 +29,6 @@ const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
 export const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
-
     left: "calc(-50% + 16px)",
     right: "calc(50% + 16px)",
   },

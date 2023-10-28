@@ -41,7 +41,7 @@ export default function Services({ handleNext }) {
             <img
               src={item.img}
               alt={item.name}
-              className=" border-4 border-secondary object-contain md:object-cover w-full md:w-44 md:h-48 "
+              className=" border-4 border-secondary object-contain md:object-cover w-full md:w-48 md:h-52 "
             />
           ) : (
             ""

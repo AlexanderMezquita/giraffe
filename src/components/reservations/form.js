@@ -142,19 +142,13 @@ export default function Form() {
           rows={5}
           multiline
         />
-
-        <FormControlLabel
-          className="col-span-10"
-          control={<Checkbox />}
-          onChange={handleFirstTimeDialog}
-          label={<p>Primera vez que haces una cita con nosotros?</p>}
-        />
       </fieldset>
 
       <footer className=" p-5 w-full mx-0 sm:w-3/4 sm:mx-auto z-10 bg-white sm:static sticky bottom-0 col-span-2 col-start-9 border-t-2 sm:border-t-0 border-neutral-100 ">
         <FormControlLabel
           required
           control={<Checkbox />}
+          onChange={handleFirstTimeDialog}
           label={
             <p>
               Estoy de acuerdo con la{" "}

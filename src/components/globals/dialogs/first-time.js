@@ -15,7 +15,7 @@ export default function FirstTimeDialog({ open, handleClose }) {
         aria-labelledby="first-time"
         aria-describedby="frist time dialog"
       >
-        <DialogTitle id="first-time-dialog">Primera cita</DialogTitle>
+        <DialogTitle id="first-time-dialog">Importante</DialogTitle>
         <DialogContent>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
