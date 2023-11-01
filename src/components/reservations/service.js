@@ -41,7 +41,7 @@ export default function Services({ handleNext }) {
             <img
               src={item.img}
               alt={item.name}
-              className=" border-4 border-secondary object-contain md:object-cover w-full md:w-48 md:h-52 "
+              className={`border-4 border-secondary object-contain sm:object-cover w-full sm:w-48 sm:h-52 blurred-img load`}
             />
           ) : (
             ""
