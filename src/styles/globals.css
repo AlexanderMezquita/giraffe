@@ -16,6 +16,7 @@
    @apply bg-primary shadow-none hover:bg-primary/90
  }
 
+ 
 
  button[class*='MuiButton-containedError'] {
    @apply bg-red-700 shadow-none hover:bg-red-800
@@ -58,44 +59,11 @@ p{
   @apply rounded-xl;
 }
 
-.blurred-img {
-  background-repeat: no-repeat;
-  background-size: cover;
+.blur-image {
+  filter: blur(3px);
+  transition: filter 0.3s ease-in-out;
 }
 
-.blurred-img::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  animation: pulse 2.5s infinite;
-  background-color: var(--text-color);
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0.1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.blurred-img.loaded::before {
-  animation: none;
-  content: none;
-}
-
-.blurred-img img {
-  opacity: 0;
-  transition: opacity 250ms ease-in-out;
-}
-
-.blurred-img.loaded img {
-  opacity: 1;
+.blur-image.loaded {
+  filter: blur(0);
 }

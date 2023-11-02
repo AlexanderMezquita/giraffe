@@ -7,12 +7,16 @@ import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import { Avatar } from "@mui/material";
 import ServiceDialog from "../globals/dialogs/service-dialog";
+import Skeleton from "@mui/material/Skeleton";
 import EmptyMessage from "../globals/empty-message";
 import Button from "@mui/material/Button";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
   const { axiosInstance } = useAxios();
+  const [imageLoaded, setImageLoaded] = React.useState(false);
+  const imgRef = React.useRef(null);
+
   const noServices =
     "Parece que no hay servicios disponibles en este momento, vuelve a intentarlo más tarde.";
 
@@ -40,8 +44,9 @@ export default function Services({ handleNext }) {
           {item.img ? (
             <img
               src={item.img}
+              loading="lazy"
               alt={item.name}
-              className={`border-4 border-secondary object-contain sm:object-cover w-full sm:w-48 sm:h-52 blurred-img load`}
+              className={`border-4 border-secondary object-contain sm:object-cover w-full sm:w-48 sm:h-52`}
             />
           ) : (
             ""

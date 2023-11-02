@@ -24,6 +24,7 @@ import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { formatCurrency } from "@/utils/methods";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -153,10 +154,10 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       </DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <figure className="relative mx-auto w-40 h-40  outline-dashed outline-2 outline-neutral-200  p-2  rounded-full">
+        <figure className="relative mx-auto w-48 h-58  outline-dashed outline-2 outline-neutral-200  p-2  rounded-md">
           <Button
             component="label"
-            className="rounded-full absolute inset-0 m-2 hover:bg-black opacity-70 "
+            className="rounded-md absolute inset-0 m-2 hover:bg-black opacity-70 "
           >
             {watch("img") ? (
               ""
@@ -173,10 +174,10 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                 return (
                   <input
                     {...field}
+                    alt="serviceImage"
                     value={value?.fileName}
                     onChange={(e) => {
                       if (e.target.files[0]) {
-                        // console.log(e.target.files[0]);
                         onChange(URL.createObjectURL(e.target.files[0]));
                         setImgFile(e.target.files[0]);
                       }
@@ -191,8 +192,8 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
           </Button>
           <img
             src={watch("img") ? getValues("img") : null}
-            alt="service_image"
-            className=" w-36 h-36 object-cover rounded-full transition-all text-[0] "
+            alt="service_Image"
+            className=" w-48 h-52 object-cover rounded-md transition-all text-[0] "
           />
         </figure>
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
@@ -227,7 +228,8 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             placeholder="Procedimiento básico donde se recorta o da forma al cabello sin realizar cambios drásticos en el estilo actual"
             fullWidth={true}
             multiline={true}
-            rows={4}
+            minRows={5}
+            maxRows={8}
             {...register("description", {
               required: {
                 value: true,
@@ -258,6 +260,8 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                   },
                   maxLength: 20,
                 })}
+                onChange={(e) => formatCurrency(e.target.value)}
+                onValue
                 inputProps={{ maxLength: 20, min: 0 }}
                 error={!!errors.price}
                 helperText={errors.price?.message}
