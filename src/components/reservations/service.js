@@ -30,6 +30,7 @@ export default function Services({ handleNext }) {
     queryFn: () => {
       return axiosInstance.get(`/services?Page=${1}&Limit=${50}`);
     },
+    staleTime: 3000,
   });
 
   const services = getServices?.data?.data
@@ -39,19 +40,19 @@ export default function Services({ handleNext }) {
         <li
           key={index}
           onClick={() => handleService(item)}
-          className="flex sm:flex-row flex-col-reverse  gap-4 p-5 border m-4  "
+          className="flex sm:flex-row flex-col-reverse items-center justify-center sm:items-start sm:justify-normal  gap-4 p-5 border m-4  "
         >
           {item.img ? (
             <img
               src={item.img}
               loading="lazy"
               alt={item.name}
-              className={`border-4 border-secondary object-contain sm:object-cover w-full sm:w-48 sm:h-52`}
+              className={`border-4 border-secondary   sm:object-cover w-fit max-h-72  sm:w-48 sm:h-52`}
             />
           ) : (
             ""
           )}
-          <div className="flex flex-col flex-grow gap-4">
+          <div className="flex flex-col grow w-full sm:w-auto sm:flex-grow gap-4">
             <div className=" flex  justify-between w-full">
               <div>
                 <h2 className=" font-semibold font-sans ">{item.name}</h2>

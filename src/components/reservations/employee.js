@@ -20,6 +20,7 @@ export default function Employees({ handleNext }) {
     queryFn: () => {
       return axiosInstance.get(`/employees/branch/${getValues("branch.id")}`);
     },
+    staleTime: 3000,
   });
 
   const handleService = (value) => {

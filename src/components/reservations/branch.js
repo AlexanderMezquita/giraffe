@@ -37,6 +37,7 @@ export default function Branch({ handleNext }) {
     queryFn: () => {
       return axiosInstance.get(`/branches?Page=${1}&Limit=${10}`);
     },
+    staleTime: 3000,
   });
 
   const handleBranch = (value) => {

@@ -37,6 +37,7 @@ export default function Calendar({ handleNext }) {
     queryKey: ["branchScheduleDayOff", watch("branch.id")],
     queryFn: () =>
       axiosInstance.get(`/branch/schedule/day?branchId=${watch("branch.id")}`),
+    staleTime: 3000,
   });
 
   function generateOpeningHoursList(openingTime, closingTime) {
