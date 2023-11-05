@@ -47,7 +47,7 @@ export default function Services({ handleNext }) {
               src={item.img}
               loading="lazy"
               alt={item.name}
-              className={`border-4 border-secondary   sm:object-cover w-fit max-h-72  sm:w-48 sm:h-52`}
+              className={`border-4 border-secondary sm:object-cover  max-h-72  sm:w-48 sm:h-52`}
             />
           ) : (
             ""
