@@ -1,7 +1,6 @@
 import * as React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "dayjs/locale/es-us";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "../globals/date.js";
 import { Button } from "@mui/material";
@@ -167,7 +166,7 @@ export default function Calendar({ handleNext }) {
                 <CircularProgress className="text-primary " />
               )}
               showDaysOutsideCurrentMonth={false}
-              maxDate={dayjs().add(45, "day")}
+              maxDate={dayjs.tz().add(45, "day")}
               value={value ?? null}
               onChange={onChange}
               shouldDisableDate={isDateDisabled}

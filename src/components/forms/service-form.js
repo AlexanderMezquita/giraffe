@@ -37,7 +37,15 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const [imgFile, setImgFile] = React.useState();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const minutesList = ["15 min", "30 min", "45 min", "1h", "1h 30m", "2h"];
+  const minutesList = [
+    { name: "No definido", value: "" },
+    { name: "15 min", value: "15 min" },
+    { name: "30 min", value: "30 min" },
+    { name: "45h min", value: "45h min" },
+    { name: "1h", value: "1h" },
+    { name: "1h 30m", value: "1h 30m" },
+    { name: "2h", value: "2h" },
+  ];
 
   const { axiosInstance } = useAxios();
   const {
@@ -261,7 +269,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                   maxLength: 20,
                 })}
                 onChange={(e) => formatCurrency(e.target.value)}
-                onValue
                 inputProps={{ maxLength: 20, min: 0 }}
                 error={!!errors.price}
                 helperText={errors.price?.message}
@@ -275,7 +282,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                 name="estimatedTime"
                 control={control}
                 defaultValue={"30 min"}
-                rules={{ required: "El tiempo estimado es requerido" }}
                 render={({ field: { onChange, value } }) => (
                   <Select
                     labelId="status-label"
@@ -286,8 +292,8 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                   >
                     {minutesList.map((item) => {
                       return (
-                        <MenuItem key={item} value={item}>
-                          {item}
+                        <MenuItem key={item.name} value={item.value}>
+                          {item.name}
                         </MenuItem>
                       );
                     })}

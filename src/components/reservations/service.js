@@ -39,7 +39,6 @@ export default function Services({ handleNext }) {
       return (
         <li
           key={index}
-          onClick={() => handleService(item)}
           className="flex sm:flex-row flex-col-reverse items-center justify-center sm:items-start sm:justify-normal  gap-4 p-5 border m-4  "
         >
           {item.img ? (
@@ -47,7 +46,7 @@ export default function Services({ handleNext }) {
               src={item.img}
               loading="lazy"
               alt={item.name}
-              className={`border-4 border-secondary sm:object-cover  max-h-72  sm:w-48 sm:h-52`}
+              className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52`}
             />
           ) : (
             ""
@@ -61,10 +60,7 @@ export default function Services({ handleNext }) {
                 </p>
               </div>
               <div>
-                <Button
-                  // onClick={() => handleClose(false)}
-                  variant="contained"
-                >
+                <Button variant="contained" onClick={() => handleService(item)}>
                   Reservar
                 </Button>
               </div>
