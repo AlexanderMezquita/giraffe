@@ -12,7 +12,7 @@ import Loading from "../globals/loading.js";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Calendar({ handleNext }) {
-  const { setValue, getValues, watch, control } = useFormContext();
+  const { setValue, watch, control } = useFormContext();
 
   const { axiosInstance } = useAxios();
 
@@ -24,8 +24,8 @@ export default function Calendar({ handleNext }) {
     queryKey: ["branchSchedule", watch("date")],
     queryFn: () =>
       axiosInstance.get(
-        `/branch/schedule?branchId=${watch("branch.id")}&day=${watch(
-          "date.$W"
+        `/branch/schedule?branchId=${watch("branch.id")}&selectedDay=${watch(
+          "date"
         )}`
       ),
 
@@ -39,88 +39,11 @@ export default function Calendar({ handleNext }) {
     staleTime: 3000,
   });
 
-  function generateOpeningHoursList(openingTime, closingTime) {
-    try {
-      // Ensure the opening time is earlier than the closing time
-      if (openingTime >= closingTime) {
-        throw new Error("Opening time must be earlier than closing time.");
-      }
-      const selectedDate = dayjs(watch("date"));
-      // Get the current day and time
-      const currentDate = dayjs();
-      const openingHoursList = [];
+  const handleDateChange = (date) => {
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
 
-      if (
-        currentDate.format("YYYY-MM-DD") === selectedDate.format("YYYY-MM-DD")
-      ) {
-        // Get the current time in HH:mm:ss format
-        const currentTime = currentDate.format("HH:mm:ss");
-        // Parse the current time
-        const currentTimeParsed = dayjs(currentTime, "HH:mm:ss");
-        let adjustedTime;
-
-        if (currentTimeParsed.minute() >= 30) {
-          // If it is, set the minute to 0 and add 1 hour to round to the next hour
-          adjustedTime = currentTimeParsed.add(1, "hour").set("minute", 0);
-        } else {
-          // If it's less than 30, set the minute to 30 to round to the next half hour
-          adjustedTime = currentTimeParsed.set("minute", 30);
-        }
-        let formattedTime = dayjs(adjustedTime, "HH:mm:ss");
-        const nextHour = dayjs(formattedTime, "HH:mm:ss").add(1, "hour");
-
-        // Remove the hours that have passed
-        if (
-          dayjs(openingTime, "HH:mm:ss").isSame(nextHour, "day") &&
-          dayjs(openingTime, "HH:mm:ss").isBefore(nextHour)
-        ) {
-          openingTime = dayjs(formattedTime, "HH:mm:ss")
-            .add(1, "hour")
-            .format("HH:mm:ss");
-        } else if (dayjs(openingTime, "HH:mm:ss").isSame(nextHour, "day")) {
-          openingTime = openingTime;
-        } else {
-          openingTime = null;
-        }
-        let currentOpeningTime = openingTime;
-
-        // Generate a list of opening hours in 30-minute intervals
-        while (currentOpeningTime < closingTime) {
-          // Use a 12-hour clock format
-          const formattedTime = dayjs(currentOpeningTime, "HH:mm:ss").format(
-            "h:mm A"
-          );
-          openingHoursList.push(formattedTime);
-
-          // Increment currentTime by 30 minutes
-          currentOpeningTime = dayjs(currentOpeningTime, "HH:mm:ss")
-            .add(30, "minute")
-            .format("HH:mm:ss");
-        }
-      } else {
-        if (selectedDate.isBefore(currentDate, "day")) {
-          return openingHoursList;
-        }
-        let newOpeningTime = openingTime;
-        while (newOpeningTime < closingTime) {
-          // Use a 12-hour clock format
-          const formattedTime = dayjs(newOpeningTime, "HH:mm:ss").format(
-            "h:mm A"
-          );
-          openingHoursList.push(formattedTime);
-
-          // Increment currentTime by 30 minutes
-          newOpeningTime = dayjs(newOpeningTime, "HH:mm:ss")
-            .add(30, "minute")
-            .format("HH:mm:ss");
-        }
-      }
-
-      return openingHoursList;
-    } catch (error) {
-      return [];
-    }
-  }
+    setValue("date", formattedDate);
+  };
 
   function isDateDisabled(date) {
     const cutoffTime = getDaysOff?.data.cutoffTime;
@@ -139,14 +62,14 @@ export default function Calendar({ handleNext }) {
     );
   }
 
-  const hours = generateOpeningHoursList(
-    getSchedule?.data[0].entryTime,
-    getSchedule?.data[0].finishTime
-  );
   const handleDate = (value) => {
     setValue("time", value);
     handleNext();
   };
+
+  React.useEffect(() => {
+    console.log(getSchedule);
+  }, [getSchedule]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
@@ -166,9 +89,12 @@ export default function Calendar({ handleNext }) {
                 <CircularProgress className="text-primary " />
               )}
               showDaysOutsideCurrentMonth={false}
-              maxDate={dayjs.tz().add(45, "day")}
-              value={value ?? null}
-              onChange={onChange}
+              maxDate={dayjs().add(45, "day")}
+              value={dayjs(value) ?? dayjs()}
+              onChange={(date) => {
+                onChange(date);
+                handleDateChange(date);
+              }}
               shouldDisableDate={isDateDisabled}
               disablePast
             />
@@ -185,7 +111,7 @@ export default function Calendar({ handleNext }) {
         <ReloadMessage />
       ) : (
         <>
-          {!hours.length ? (
+          {!getSchedule.data.length ? (
             <section className="flex flex-col justify-center px-5 items-center md:h-52">
               <p className="text-center text-neutral-500">
                 No hay horarios disponibles para este dia, elige otro.
@@ -193,7 +119,7 @@ export default function Calendar({ handleNext }) {
             </section>
           ) : (
             <ul className=" space-y-4">
-              {hours?.map((item, index) => {
+              {getSchedule.data?.map((item, index) => {
                 return (
                   <li key={index}>
                     <Button

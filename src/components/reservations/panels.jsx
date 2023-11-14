@@ -49,6 +49,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
       .set("minute", minutes)
       .set("second", 0);
   }
+
   const onSubmit = (data) => {
     data.date = addTimeStringToDate(data.date, data.time);
     alert(JSON.stringify(data));

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useFormContext } from "react-hook-form";
 
 export default function Status() {
@@ -39,8 +40,7 @@ export default function Status() {
         {watch("branch.name")}
         {watch("time") ? (
           <span>
-            <span>, {watch("date.$D")} </span>
-            <span>de {getMonth(watch("date.$M"))} </span>
+            <span>, {dayjs(watch("date")).format("LL")} </span>
             <span> a las {watch("time")}</span>{" "}
           </span>
         ) : (
