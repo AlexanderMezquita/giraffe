@@ -1,37 +1,9 @@
 import dayjs from "dayjs";
 import { useFormContext } from "react-hook-form";
+import "dayjs/locale/es-do";
 
 export default function Status() {
   const { watch } = useFormContext();
-
-  const getMonth = (value) => {
-    switch (value) {
-      case 0:
-        return "Enero";
-      case 1:
-        return "Febrero";
-      case 2:
-        return "Marzo";
-      case 3:
-        return "Abril";
-      case 4:
-        return "Mayo";
-      case 5:
-        return "Junio";
-      case 6:
-        return "Julio";
-      case 7:
-        return "Agosto";
-      case 8:
-        return "Septiembre";
-      case 9:
-        return "Octubre";
-      case 10:
-        return "Noviembre";
-      case 11:
-        return "Diciembre";
-    }
-  };
 
   return (
     <div className=" p-3  rounded-lg   bg-tertiary/80 mx-5   ">
@@ -40,7 +12,7 @@ export default function Status() {
         {watch("branch.name")}
         {watch("time") ? (
           <span>
-            <span>, {dayjs(watch("date")).format("LL")} </span>
+            <span>, {dayjs(watch("date")).locale("es-do").format("LL")} </span>
             <span> a las {watch("time")}</span>{" "}
           </span>
         ) : (

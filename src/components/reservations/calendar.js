@@ -41,7 +41,6 @@ export default function Calendar({ handleNext }) {
 
   const handleDateChange = (date) => {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-
     setValue("date", formattedDate);
   };
 
@@ -67,10 +66,6 @@ export default function Calendar({ handleNext }) {
     handleNext();
   };
 
-  React.useEffect(() => {
-    console.log(getSchedule);
-  }, [getSchedule]);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
       <LocalizationProvider
@@ -90,7 +85,7 @@ export default function Calendar({ handleNext }) {
               )}
               showDaysOutsideCurrentMonth={false}
               maxDate={dayjs().add(45, "day")}
-              value={dayjs(value) ?? dayjs()}
+              value={dayjs(value) ?? null}
               onChange={(date) => {
                 onChange(date);
                 handleDateChange(date);

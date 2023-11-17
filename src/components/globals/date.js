@@ -1,4 +1,4 @@
-import "dayjs/locale/es-us";
+import "dayjs/locale/es-do";
 
 const dayjs = require("dayjs");
 const timezone = require("dayjs/plugin/timezone");
