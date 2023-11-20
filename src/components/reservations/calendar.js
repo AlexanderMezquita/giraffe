@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
+import "dayjs/locale/es-us.js";
 import ReloadMessage from "../globals/reload-message.js";
 import Loading from "../globals/loading.js";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -69,7 +70,7 @@ export default function Calendar({ handleNext }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 p-5 gap-0 sm:gap-2 overflow-y-auto">
       <LocalizationProvider
-        adapterLocale="es-us"
+        adapterLocale={"es-us"}
         dateAdapter={AdapterDayjs}
         shouldDisableYear
       >
@@ -85,7 +86,7 @@ export default function Calendar({ handleNext }) {
               )}
               showDaysOutsideCurrentMonth={false}
               maxDate={dayjs().add(45, "day")}
-              value={dayjs(value) ?? null}
+              value={!!watch("date") ? dayjs(value) : null}
               onChange={(date) => {
                 onChange(date);
                 handleDateChange(date);

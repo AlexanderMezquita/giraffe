@@ -34,10 +34,13 @@ export default function Panels({ activeStep, steps, handleNext }) {
 
   function addTimeStringToDate(dateTimeString, timeString) {
     // Parse the input date-time string
+
     const parsedDateTime = dayjs(dateTimeString);
 
     // Parse the time string using Day.js
     const parsedTime = dayjs(timeString, "h:mm A");
+
+    console.log(parsedTime, timeString);
 
     // Extract hours and minutes from the parsed time
     const hours = parsedTime.hour();
