@@ -25,7 +25,7 @@ export default function Employees({ handleNext }) {
 
   const handleService = (value) => {
     setValue("employee.name", value.name);
-    setValue("employee.id", value.id);
+    setValue("employeeId", value.id);
     handleNext();
   };
 

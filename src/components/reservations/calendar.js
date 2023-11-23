@@ -114,7 +114,7 @@ export default function Calendar({ handleNext }) {
               </p>
             </section>
           ) : (
-            <ul className=" space-y-4">
+            <ul className="space-y-4">
               {getSchedule.data?.map((item, index) => {
                 return (
                   <li key={index}>

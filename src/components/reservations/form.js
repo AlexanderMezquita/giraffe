@@ -3,12 +3,12 @@ import Image from "next/image";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import InfoIcon from "@mui/icons-material/Info";
-
+import { LoadingButton } from "@mui/lab";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import FirstTimeDialog from "../globals/dialogs/first-time";
 
-export default function Form() {
+export default function Form({ isLoading }) {
   const [open, setOpen] = useState(false);
   const {
     register,
@@ -159,13 +159,14 @@ export default function Form() {
           }
         />
 
-        <Button
+        <LoadingButton
           className="w-full rounded-full mt-2 sm:mt-0 sm:w-auto float-right "
           variant="contained"
           type="submit"
+          loading={isLoading}
         >
           Registrarse
-        </Button>
+        </LoadingButton>
       </footer>
       <div className="p-5 flex gap-2 border mx-5 mt-5">
         <InfoIcon className=" text-neutral-400" />

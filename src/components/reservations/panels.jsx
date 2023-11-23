@@ -11,6 +11,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import Status from "./status_info";
 import Employees from "./employee";
 import dayjs from "../globals/date.js";
+import { useMutation } from "@tanstack/react-query";
+import useAxios from "@/axios";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -31,6 +33,7 @@ function TabPanel(props) {
 
 export default function Panels({ activeStep, steps, handleNext }) {
   const methods = useForm();
+  const { axiosInstance } = useAxios();
 
   function addTimeStringToDate(dateTimeString, timeString) {
     // Parse the input date-time string
@@ -39,8 +42,6 @@ export default function Panels({ activeStep, steps, handleNext }) {
 
     // Parse the time string using Day.js
     const parsedTime = dayjs(timeString, "h:mm A");
-
-    console.log(parsedTime, timeString);
 
     // Extract hours and minutes from the parsed time
     const hours = parsedTime.hour();
@@ -53,10 +54,25 @@ export default function Panels({ activeStep, steps, handleNext }) {
       .set("second", 0);
   }
 
-  const onSubmit = (data) => {
-    data.date = addTimeStringToDate(data.date, data.time);
-    alert(JSON.stringify(data));
+  const onSubmit = async (data) => {
+    try {
+      data.date = addTimeStringToDate(data.date, data.time);
+      data.status = "pendiente";
+      createAppointment.mutate(data);
+    } catch (error) {}
   };
+
+  const createAppointment = useMutation({
+    mutationFn: (newAppointment) => {
+      return axiosInstance.post(`/appointment`, newAppointment);
+    },
+    onSuccess: () => {
+      alert("success");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
 
   return (
     <React.Fragment>
@@ -92,7 +108,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
           </TabPanel>
           <TabPanel value={activeStep} index={4}>
             <Status />
-            <Form />
+            <Form isLoading={createAppointment.isLoading} />
           </TabPanel>
         </form>
       </FormProvider>
