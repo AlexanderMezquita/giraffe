@@ -6,6 +6,7 @@ export default function DataTable({
   header,
   loading,
   rows,
+  onCellClick,
   setPageState,
 }) {
   return (
@@ -38,6 +39,7 @@ export default function DataTable({
         paginationMode="server"
         pageSizeOptions={[5, 10, 25]}
         pagination
+        onRowClick={onCellClick || null}
         disableColumnFilter
         hideFooterSelectedRowCount
         disableColumnSelector

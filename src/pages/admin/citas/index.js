@@ -12,7 +12,36 @@ export default function Appointments() {
     pageSize: 5,
   });
 
+  // Enum Status = {
+  //       Aceptado = 3,
+  //       Declinada = 4,
+  //       Pendiente = 2,
+  // }
+
   const columns = [
+    {
+      field: "status",
+      headerName: "Estatus",
+      width: 170,
+      renderCell: (cells) => {
+        return cells.row.status == 4 ? (
+          <span className="bg-red-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
+            <span className="w-2 h-2 rounded-full mx-2 bg-red-700 animate-pulse  "></span>
+            Declinado
+          </span>
+        ) : cells.row.status == 3 ? (
+          <span className="bg-green-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
+            <span className="w-2 h-2 rounded-full mx-2 bg-green-700 animate-pulse  "></span>
+            Aceptado
+          </span>
+        ) : (
+          <span className="bg-blue-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
+            <span className="w-2 h-2 rounded-full mx-2 bg-blue-700 animate-pulse  "></span>
+            Pendiente
+          </span>
+        );
+      },
+    },
     { field: "name", headerName: "Nombre", width: 150 },
     {
       field: "branch.name",
@@ -30,26 +59,7 @@ export default function Appointments() {
         return <span>{cells.row.service.name}</span>;
       },
     },
-    { field: "phone", headerName: "Telefono", width: 250 },
-    { field: "email", headerName: "Email", width: 250 },
-    {
-      field: "status",
-      headerName: "Estatus",
-      width: 140,
-      renderCell: (cells) => {
-        return cells.row.status !== "Activo" ? (
-          <span className="bg-red-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
-            <span className="w-2 h-2 rounded-full mx-2 bg-red-700 animate-pulse  "></span>
-            Desactivado
-          </span>
-        ) : (
-          <span className="bg-green-200 rounded-2xl px-1 pr-3 py-1 flex items-center">
-            <span className="w-2 h-2 rounded-full mx-2 bg-green-700 animate-pulse  "></span>
-            Activo
-          </span>
-        );
-      },
-    },
+    { field: "phone", headerName: "Telefono", width: 140 },
   ];
 
   const getAsyncAppointments = async (params) =>
@@ -58,6 +68,10 @@ export default function Appointments() {
         params?.pageSize ?? 5
       }`
     );
+
+  const cellClick = (params) => {
+    alert(JSON.stringify(params.row));
+  };
 
   const getAppointments = useQuery({
     queryKey: ["appointments", pageState],
@@ -79,6 +93,7 @@ export default function Appointments() {
           rowCount={getAppointments.data?.data?.dataQuantity}
           loading={getAppointments.isLoading}
           header={"Citas disponibles"}
+          onCellClick={cellClick}
         />
       </section>
     </Layout>
