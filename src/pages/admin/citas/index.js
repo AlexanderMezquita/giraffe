@@ -4,6 +4,8 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import DataTable from "@/components/globals/datagrid";
 import useAxios from "@/axios";
 import { useState } from "react";
+import dayjs from "../../../components/globals/date";
+import AppointmentForm from "@/components/forms/appointment-form";
 
 export default function Appointments() {
   const { axiosInstance } = useAxios();
@@ -11,6 +13,8 @@ export default function Appointments() {
     page: 0,
     pageSize: 5,
   });
+  const [formOpen, setFormOpen] = useState(false);
+  const [data, setData] = useState({});
 
   // Enum Status = {
   //       Aceptado = 3,
@@ -46,7 +50,7 @@ export default function Appointments() {
     {
       field: "branch.name",
       headerName: "Sucursal",
-      width: 250,
+      width: 180,
       renderCell: (cells) => {
         return <span>{cells.row.branch.name}</span>;
       },
@@ -54,12 +58,19 @@ export default function Appointments() {
     {
       field: "service.name",
       headerName: "Servicio",
-      width: 250,
+      width: 190,
       renderCell: (cells) => {
         return <span>{cells.row.service.name}</span>;
       },
     },
-    { field: "phone", headerName: "Telefono", width: 140 },
+    {
+      field: "date",
+      headerName: "Dia y hora",
+      width: 330,
+      renderCell: (cells) => {
+        return <span>{dayjs(cells.row.date).format("LLLL")}</span>;
+      },
+    },
   ];
 
   const getAsyncAppointments = async (params) =>
@@ -70,7 +81,8 @@ export default function Appointments() {
     );
 
   const cellClick = (params) => {
-    alert(JSON.stringify(params.row));
+    setData(params.row);
+    setFormOpen(true);
   };
 
   const getAppointments = useQuery({
@@ -94,6 +106,11 @@ export default function Appointments() {
           loading={getAppointments.isLoading}
           header={"Citas disponibles"}
           onCellClick={cellClick}
+        />
+        <AppointmentForm
+          appointment={data}
+          open={formOpen}
+          handleClose={setFormOpen}
         />
       </section>
     </Layout>
