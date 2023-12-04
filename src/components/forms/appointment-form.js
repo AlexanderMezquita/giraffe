@@ -27,6 +27,7 @@ import Slide from "@mui/material/Slide";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
+import { formatNumber } from "@/utils/methods";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,7 +57,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
   });
 
   const onSubmit = async (data) => {
-    alert(data);
+    alert(JSON.stringify(data));
   };
 
   React.useEffect(() => {
@@ -153,34 +154,35 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
             error={!!methods.formState.errors.name}
             helperText={methods.formState.errors.name?.message}
           />
-
-          {/* <div className="space-y-3 sm:space-y-0">
-            <FormControl
-              className=" w-full sm:w-1/2 sm:pr-1 "
-              error={!!methods.formState.errors.branchId}
-            >
-              <InputLabel id="branch-select">Sucursal</InputLabel>
+          <div className="space-y-3 sm:space-y-0">
+            <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
+              <TextField
+                id="price"
+                label="Precio*"
+                {...methods.register("phone")}
+                inputProps={{ maxLength: 20, min: 0 }}
+                disabled
+              />
+            </FormControl>
+            {/* <FormControl className=" w-full sm:w-1/3 sm:pl-1">
+              <InputLabel id="demo-simple-select-helper-label">
+                Tiempo estimado
+              </InputLabel>
               <Controller
-                name="branch.id"
-                control={methods.control}
-                rules={{
-                  required: {
-                    value: false,
-                    message: "La sucursal es requerida",
-                  },
-                }}
-                defaultValue={""}
+                name="estimatedTime"
+                control={control}
+                defaultValue={"30 min"}
                 render={({ field: { onChange, value } }) => (
                   <Select
-                    labelId="branch-label"
-                    id="branchId"
+                    labelId="status-label"
+                    id="estimatedTime"
                     value={value}
-                    label="branch-Id"
+                    label="estimatedTime"
                     onChange={onChange}
                   >
-                    {getBranches?.data?.data?.map((item) => {
+                    {minutesList.map((item) => {
                       return (
-                        <MenuItem key={item.id} value={item.id}>
+                        <MenuItem key={item.name} value={item.value}>
                           {item.name}
                         </MenuItem>
                       );
@@ -188,11 +190,88 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
                   </Select>
                 )}
               />
-              {!!methods.formState.errors.branchId && (
-                <FormHelperText>La sucursal es requerida</FormHelperText>
-              )}
             </FormControl>
-            <FormControl className=" w-full sm:w-1/2 sm:pl-1">
+            <FormControl className=" w-full sm:w-1/3 sm:pl-1">
+              <InputLabel id="demo-simple-select-helper-label">
+                Estatus
+              </InputLabel>
+              <Controller
+                name="status"
+                control={control}
+                defaultValue={"Activo"}
+                rules={{ required: "El estatus es requerido" }}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    labelId="status-label"
+                    id="status"
+                    value={value}
+                    label="status"
+                    onChange={onChange}
+                  >
+                    <MenuItem value={"Activo"}>Activo</MenuItem>
+                    <MenuItem value={"Desactivado"}>Desactivado</MenuItem>
+                  </Select>
+                )}
+              />
+            </FormControl> */}
+          </div>
+          <TextField
+            id="comment"
+            label="Comentario del cliente"
+            fullWidth={true}
+            multiline={true}
+            disabled
+            minRows={5}
+            maxRows={8}
+            {...methods.register("comment", {
+              maxLength: 500,
+            })}
+            inputProps={{ maxLength: 500 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            color="primary"
+          />
+
+          <div className="space-y-3 sm:space-y-0">
+            <FormControl
+              className=" w-full sm:w-1/2 sm:pr-1 "
+              error={!!methods.formState.errors.branchId}
+            >
+              <InputLabel id="status-select">Estatus</InputLabel>
+              <Controller
+                name="status"
+                control={methods.control}
+                rules={{
+                  required: {
+                    value: false,
+                    message: "El estatus es requerido",
+                  },
+                }}
+                defaultValue={""}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    labelId="appointment-label"
+                    id="status"
+                    value={value}
+                    label="Estatus"
+                    onChange={onChange}
+                  >
+                    <MenuItem key={"Aceptado"} value={3}>
+                      Aceptado
+                    </MenuItem>
+                    <MenuItem key={"Declinado"} value={4}>
+                      Declinado
+                    </MenuItem>
+                    <MenuItem key={"Pendiente"} value={2}>
+                      Pendiente
+                    </MenuItem>
+                  </Select>
+                )}
+              />
+            </FormControl>
+
+            {/* <FormControl className=" w-full sm:w-1/2 sm:pl-1">
               <InputLabel id="demo-simple-select-helper-label">
                 Estatus
               </InputLabel>
@@ -214,13 +293,22 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
                   </Select>
                 )}
               />
-            </FormControl>
-          </div> */}
-          {/* <FormProvider {...methods}>
-            <h1 className="py-1">Dias disponibles</h1>
-
-            <ToggleDays />
-          </FormProvider> */}
+            </FormControl> */}
+          </div>
+          <TextField
+            id="message"
+            label="Mensaje (Opcional)"
+            placeholder="¡Gracias, estamos ansiosos por recibirte!"
+            fullWidth={true}
+            multiline={true}
+            minRows={5}
+            maxRows={8}
+            {...methods.register("message", {
+              maxLength: 500,
+            })}
+            inputProps={{ maxLength: 500 }}
+            color="primary"
+          />
         </DialogContent>
         <DialogActions>
           <LoadingButton

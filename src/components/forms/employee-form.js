@@ -346,6 +346,7 @@ export default function EmployeeForm({ open, handleClose, employee, toast }) {
           <LoadingButton
             target="_blank"
             variant="contained"
+            disabled={!methods.formState.isDirty}
             loading={
               createEmployee.isLoading ||
               updateEmployee.isLoading ||

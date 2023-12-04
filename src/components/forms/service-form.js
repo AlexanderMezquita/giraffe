@@ -50,7 +50,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const { axiosInstance } = useAxios();
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     control,
     getValues,
     handleSubmit,
@@ -330,6 +330,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
           <LoadingButton
             target="_blank"
             variant="contained"
+            disabled={!isDirty}
             loading={
               createService.isLoading || updateService.isLoading || imageLoading
             }

@@ -44,7 +44,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
   const { axiosInstance } = useAxios();
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     getValues,
     handleSubmit,
     control,
@@ -373,6 +373,7 @@ export default function BranchForm({ open, handleClose, branch, toast }) {
           <LoadingButton
             target="_blank"
             variant="contained"
+            disabled={!isDirty}
             loading={
               createBranch.isLoading || updateBranch.isLoading || imageLoading
             }
