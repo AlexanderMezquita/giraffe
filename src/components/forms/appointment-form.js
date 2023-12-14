@@ -107,113 +107,114 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
       </DialogTitle>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <DialogContent className=" space-y-3">
+          <h1 className="pb-2">Datos del cliente</h1>
           <TextField
             id="name"
             label="Nombre*"
-            placeholder="Julio Iglesias"
             fullWidth={true}
             disabled
-            {...methods.register("name", {
-              required: {
-                value: true,
-                message: "Este campo no puede estar vacío",
-              },
-              minLength: {
-                value: 5,
-                message: "Ingresa al menos 5 caracteres",
-              },
-              maxLength: 50,
-            })}
+            {...methods.register("name")}
             inputProps={{ maxLength: 50 }}
             color="primary"
             className="col-span-10 rounded-xl"
-            error={!!methods.formState.errors.name}
-            helperText={methods.formState.errors.name?.message}
           />
-
-          <TextField
-            id="name"
-            label="Fecha*"
-            placeholder="Julio Iglesias"
-            fullWidth={true}
-            disabled
-            {...methods.register("date", {
-              required: {
-                value: true,
-                message: "Este campo no puede estar vacío",
-              },
-              minLength: {
-                value: 5,
-                message: "Ingresa al menos 5 caracteres",
-              },
-              maxLength: 50,
-            })}
-            inputProps={{ maxLength: 50 }}
-            color="primary"
-            className="col-span-10 rounded-xl"
-            error={!!methods.formState.errors.name}
-            helperText={methods.formState.errors.name?.message}
-          />
+          <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
+            <TextField
+              id="servicio"
+              label="Servicio"
+              fullWidth={true}
+              disabled
+              {...methods.register("service.name", {
+                required: {
+                  value: true,
+                  message: "Este campo no puede estar vacío",
+                },
+                minLength: {
+                  value: 5,
+                  message: "Ingresa al menos 5 caracteres",
+                },
+                maxLength: 50,
+              })}
+              inputProps={{ maxLength: 50 }}
+              color="primary"
+              className="col-span-10 rounded-xl"
+            />
+          </FormControl>
+          <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
+            <TextField
+              id="servicio"
+              label="Servicio"
+              fullWidth={true}
+              disabled
+              {...methods.register("branch.name")}
+              inputProps={{ maxLength: 50 }}
+              color="primary"
+              className="col-span-10 rounded-xl"
+            />
+          </FormControl>
           <div className="space-y-3 sm:space-y-0">
             <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
               <TextField
-                id="price"
-                label="Precio*"
+                id="phone"
+                label="Telefono*"
                 {...methods.register("phone")}
                 inputProps={{ maxLength: 20, min: 0 }}
                 disabled
               />
             </FormControl>
-            {/* <FormControl className=" w-full sm:w-1/3 sm:pl-1">
-              <InputLabel id="demo-simple-select-helper-label">
-                Tiempo estimado
-              </InputLabel>
-              <Controller
-                name="estimatedTime"
-                control={control}
-                defaultValue={"30 min"}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    labelId="status-label"
-                    id="estimatedTime"
-                    value={value}
-                    label="estimatedTime"
-                    onChange={onChange}
-                  >
-                    {minutesList.map((item) => {
-                      return (
-                        <MenuItem key={item.name} value={item.value}>
-                          {item.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                )}
+            <FormControl className=" w-full sm:w-2/3 sm:pr-1 ">
+              <TextField
+                id="date"
+                label="Fecha*"
+                fullWidth={true}
+                disabled
+                {...methods.register("date", {
+                  required: {
+                    value: true,
+                    message: "Este campo no puede estar vacío",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Ingresa al menos 5 caracteres",
+                  },
+                  maxLength: 50,
+                })}
+                inputProps={{ maxLength: 50 }}
+                color="primary"
+                className="col-span-10 rounded-xl"
+                error={!!methods.formState.errors.name}
+                helperText={methods.formState.errors.name?.message}
               />
             </FormControl>
-            <FormControl className=" w-full sm:w-1/3 sm:pl-1">
-              <InputLabel id="demo-simple-select-helper-label">
-                Estatus
-              </InputLabel>
-              <Controller
-                name="status"
-                control={control}
-                defaultValue={"Activo"}
-                rules={{ required: "El estatus es requerido" }}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    labelId="status-label"
-                    id="status"
-                    value={value}
-                    label="status"
-                    onChange={onChange}
-                  >
-                    <MenuItem value={"Activo"}>Activo</MenuItem>
-                    <MenuItem value={"Desactivado"}>Desactivado</MenuItem>
-                  </Select>
-                )}
+          </div>
+          <div className="space-y-3 sm:space-y-0">
+            <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
+              <TextField
+                id="phone"
+                label="Direccion"
+                {...methods.register("address")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ maxLength: 20, min: 0 }}
+                disabled
               />
-            </FormControl> */}
+            </FormControl>
+            <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
+              <TextField
+                id="email"
+                label="E-mail"
+                fullWidth={true}
+                disabled
+                {...methods.register("email", {})}
+                inputProps={{ maxLength: 50 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                color="primary"
+                className="col-span-10 rounded-xl"
+              />
+            </FormControl>
           </div>
           <TextField
             id="comment"
@@ -232,7 +233,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
             }}
             color="primary"
           />
-
+          <h1 className=" py-2">Ajustes de la cita</h1>
           <div className="space-y-3 sm:space-y-0">
             <FormControl
               className=" w-full sm:w-1/2 sm:pr-1 "
@@ -315,6 +316,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
             target="_blank"
             variant="contained"
             loading={updateAppointment.isLoading}
+            disabled={!methods.formState.isDirty}
             type="submit"
           >
             {appointmentExist ? <span>Actualizar </span> : <span>Crear</span>}
