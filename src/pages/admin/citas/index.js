@@ -13,6 +13,10 @@ export default function Appointments() {
     page: 0,
     pageSize: 5,
   });
+  const [apageState, setaPageState] = useState({
+    page: 0,
+    pageSize: 5,
+  });
   const [formOpen, setFormOpen] = useState(false);
   const [data, setData] = useState({});
 
@@ -80,6 +84,13 @@ export default function Appointments() {
       }`
     );
 
+  const getAsyncAcceptedAppointments = async (params) =>
+    await axiosInstance.get(
+      `/accepted-appointments?Page=${params?.page + 1 ?? 1}&Limit=${
+        params?.pageSize ?? 5
+      }`
+    );
+
   const cellClick = (params) => {
     setData(params.row);
     setFormOpen(true);
@@ -88,6 +99,11 @@ export default function Appointments() {
   const getAppointments = useQuery({
     queryKey: ["appointments", pageState],
     queryFn: () => getAsyncAppointments(pageState),
+  });
+
+  const getAcceptedAppointments = useQuery({
+    queryKey: ["accepted_appointments", apageState],
+    queryFn: () => getAsyncAcceptedAppointments(apageState),
   });
 
   return (
@@ -104,13 +120,24 @@ export default function Appointments() {
           rows={getAppointments.data?.data?.data}
           rowCount={getAppointments.data?.data?.dataQuantity}
           loading={getAppointments.isLoading}
-          header={"Citas disponibles"}
+          header={"Citas pendientes"}
           onCellClick={cellClick}
         />
         <AppointmentForm
           appointment={data}
           open={formOpen}
           handleClose={setFormOpen}
+        />
+      </section>
+      <section className="mt-10">
+        <DataTable
+          columns={columns}
+          setPageState={setaPageState}
+          rows={getAcceptedAppointments.data?.data?.data}
+          rowCount={getAcceptedAppointments.data?.data?.dataQuantity}
+          loading={getAcceptedAppointments.isLoading}
+          header={"Citas Aceptadas"}
+          // onCellClick={cellClick}
         />
       </section>
     </Layout>

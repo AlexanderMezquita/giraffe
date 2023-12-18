@@ -236,7 +236,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
           <h1 className=" py-2">Ajustes de la cita</h1>
           <div className="space-y-3 sm:space-y-0">
             <FormControl
-              className=" w-full sm:w-1/2 sm:pr-1 "
+              className=" w-full sm:pr-1 "
               error={!!methods.formState.errors.branchId}
             >
               <InputLabel id="status-select">Estatus</InputLabel>
