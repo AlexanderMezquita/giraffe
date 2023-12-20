@@ -86,7 +86,7 @@ export default function Appointments() {
 
   const getAsyncAcceptedAppointments = async (params) =>
     await axiosInstance.get(
-      `/accepted-appointments?Page=${params?.page + 1 ?? 1}&Limit=${
+      `/appointments/accepted?Page=${params?.page + 1 ?? 1}&Limit=${
         params?.pageSize ?? 5
       }`
     );
