@@ -57,7 +57,9 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
   });
 
   const onSubmit = async (data) => {
-    alert(JSON.stringify(data));
+    try {
+      updateAppointment.mutate(data);
+    } catch (e) {}
   };
 
   React.useEffect(() => {

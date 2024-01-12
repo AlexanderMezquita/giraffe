@@ -94,19 +94,19 @@ export default function Panels({ activeStep, steps, handleNext }) {
           <TabPanel value={activeStep} index={0}>
             <Branch handleNext={handleNext} />
           </TabPanel>
-          <TabPanel value={activeStep} index={1}>
+          {/* <TabPanel value={activeStep} index={1}>
             <Status />
             <Employees handleNext={handleNext} />
-          </TabPanel>
-          <TabPanel value={activeStep} index={2}>
+          </TabPanel> */}
+          <TabPanel value={activeStep} index={1}>
             <Status />
             <Services handleNext={handleNext} />
           </TabPanel>
-          <TabPanel value={activeStep} index={3}>
+          <TabPanel value={activeStep} index={2}>
             <Status />
             <Calendar handleNext={handleNext} />
           </TabPanel>
-          <TabPanel value={activeStep} index={4}>
+          <TabPanel value={activeStep} index={3}>
             <Status />
             <Form isLoading={createAppointment.isLoading} />
           </TabPanel>
