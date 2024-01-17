@@ -5,20 +5,33 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { formatCurrency } from "@/utils/methods";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
-import { Avatar } from "@mui/material";
-import ServiceDialog from "../globals/dialogs/service-dialog";
-import Skeleton from "@mui/material/Skeleton";
 import EmptyMessage from "../globals/empty-message";
 import Button from "@mui/material/Button";
+import Carrousel from "../globals/carrousel";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
   const { axiosInstance } = useAxios();
+  const [open, setOpen] = React.useState(true);
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const imgRef = React.useRef(null);
+  const slides = [
+    "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+    "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg",
+  ];
 
   const noServices =
     "Parece que no hay servicios disponibles en este momento, vuelve a intentarlo más tarde.";
+
+  const handleService = (item) => {
+    setValue("service.name", item.name);
+    setValue("service.id", item.id);
+    handleNext();
+  };
+
+  const handleClose = () => {
+    setOpen(!open);
+  };
 
   const {
     data: getServices,
@@ -87,12 +100,6 @@ export default function Services({ handleNext }) {
       );
     });
 
-  const handleService = (item) => {
-    setValue("service.name", item.name);
-    setValue("service.id", item.id);
-    handleNext();
-  };
-
   return (
     <>
       {isLoading || isFetching ? (
@@ -101,6 +108,11 @@ export default function Services({ handleNext }) {
         <ReloadMessage />
       ) : (
         <section>
+          <Carrousel handleClose={handleClose} open={open}>
+            {slides.map((item) => (
+              <img src={item} alt="" />
+            ))}
+          </Carrousel>
           <h2 className="py-3 px-5">Servicios</h2>
           {services.length === 0 ? (
             <EmptyMessage message={noServices} />
