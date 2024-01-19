@@ -14,6 +14,7 @@ export default function Services({ handleNext }) {
   const { axiosInstance } = useAxios();
   const [open, setOpen] = React.useState(true);
   const [imageLoaded, setImageLoaded] = React.useState(false);
+
   const imgRef = React.useRef(null);
   const slides = [
     "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",

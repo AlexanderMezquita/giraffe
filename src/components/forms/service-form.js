@@ -35,6 +35,8 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = React.useState(false);
   const [imgFile, setImgFile] = React.useState();
+  const [images, setImages] = React.useState([]);
+  const [imagesURLs, setImagesURLs] = React.useState([]);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const minutesList = [
@@ -94,25 +96,26 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   });
 
   const onSubmit = async (data) => {
-    try {
-      if (data.img !== null && imgFile) {
-        setImageLoading(true);
-        const url = await uploadImage(imgFile, "services");
-        data.img = url;
-      }
-      serviceExist ? updateService.mutate(data) : createService.mutate(data);
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        toast.error("Error subiendo la imagen");
-      } else if (error instanceof AxiosError) {
-        toast.error("Error de creando o actualizando el servicio");
-        deleteImage(imgFile, "services");
-      } else {
-        toast.error("Error porfavor intentelo de nuevo");
-      }
-    } finally {
-      setImageLoading(false);
-    }
+    console.log(data);
+    // try {
+    //   if (data.img !== null && imgFile) {
+    //     setImageLoading(true);
+    //     const url = await uploadImage(imgFile, "services");
+    //     data.img = url;
+    //   }
+    //   serviceExist ? updateService.mutate(data) : createService.mutate(data);
+    // } catch (error) {
+    //   if (error instanceof FirebaseError) {
+    //     toast.error("Error subiendo la imagen");
+    //   } else if (error instanceof AxiosError) {
+    //     toast.error("Error de creando o actualizando el servicio");
+    //     deleteImage(imgFile, "services");
+    //   } else {
+    //     toast.error("Error porfavor intentelo de nuevo");
+    //   }
+    // } finally {
+    //   setImageLoading(false);
+    // }
   };
 
   React.useEffect(() => {
@@ -127,6 +130,21 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       });
     }
   }, [service, open]);
+
+  React.useEffect(() => {
+    if (!images) return;
+
+    let tmp = [];
+    for (let i = 0; i < images.length; i++) {
+      tmp.push(URL.createObjectURL(images[i]));
+    }
+    const objectUrls = tmp;
+    setImagesURLs(objectUrls);
+  }, [images]);
+
+  React.useEffect(() => {
+    console.log(images);
+  }, [images]);
 
   return (
     <Dialog
@@ -167,7 +185,9 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             component="label"
             className="rounded-md absolute inset-0 m-2 hover:bg-black opacity-70 "
           >
-            {watch("img") ? (
+            {imagesURLs.map((url, i) => (
+              <img src={url} height={300} width={240} key={i} alt="" />
+            )) ? (
               ""
             ) : (
               <div className="w-full flex flex-col justify-center space-y-2 items-center">
@@ -185,12 +205,13 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                     alt="serviceImage"
                     value={value?.fileName}
                     onChange={(e) => {
-                      if (e.target.files[0]) {
-                        onChange(URL.createObjectURL(e.target.files[0]));
-                        setImgFile(e.target.files[0]);
+                      if (e.target.files && e.target.files.length > 0) {
+                        // onChange(URL.createObjectURL(e.target.files[0]));
+                        setImages(e.target.files);
                       }
                     }}
                     hidden
+                    multiple
                     accept="image/*"
                     type="file"
                   />
@@ -204,6 +225,9 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             className=" w-48 h-52 object-cover rounded-md transition-all text-[0] "
           />
         </figure>
+        {imagesURLs.map((url, i) => (
+          <img src={url} height={300} width={240} key={i} alt="" />
+        ))}
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
           Permitido *.jpeg, *.jpg, *.png, max size of 3.1 MB
         </p>
