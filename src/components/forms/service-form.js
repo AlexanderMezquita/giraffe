@@ -24,6 +24,7 @@ import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { formatCurrency } from "@/utils/methods";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -40,13 +41,12 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const minutesList = [
-    { name: "No definido", value: "" },
-    { name: "15 min", value: "15 min" },
-    { name: "30 min", value: "30 min" },
-    { name: "45h min", value: "45h min" },
-    { name: "1h", value: "1h" },
-    { name: "1h 30m", value: "1h 30m" },
-    { name: "2h", value: "2h" },
+    { name: "15 min", value: "00:15:00" },
+    { name: "30 min", value: "00:30:00" },
+    { name: "45 min", value: "00:45:00" },
+    { name: "1h", value: "01:00:00" },
+    { name: "1h 30m", value: "01:30:00" },
+    { name: "2h", value: "02:00:00" },
   ];
 
   const { axiosInstance } = useAxios();
@@ -95,6 +95,18 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     },
   });
 
+  const removeElement = (indexToRemove) => {
+    if (indexToRemove >= 0 && indexToRemove < imagesURLs.length) {
+      const newArray = [
+        ...imagesURLs.slice(0, indexToRemove),
+        ...imagesURLs.slice(indexToRemove + 1),
+      ];
+      setImagesURLs(newArray);
+    } else {
+      console.error("Invalid index");
+    }
+  };
+
   const onSubmit = async (data) => {
     console.log(data);
     // try {
@@ -125,7 +137,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       reset({
         name: "",
         price: 0,
-        img: null,
+        img: [],
         status: "Activo",
       });
     }
@@ -180,54 +192,61 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       </DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <figure className="relative mx-auto w-48 h-58  outline-dashed outline-2 outline-neutral-200  p-2  rounded-md">
-          <Button
-            component="label"
-            className="rounded-md absolute inset-0 m-2 hover:bg-black opacity-70 "
-          >
-            {imagesURLs.map((url, i) => (
-              <img src={url} height={300} width={240} key={i} alt="" />
-            )) ? (
-              ""
-            ) : (
-              <div className="w-full flex flex-col justify-center space-y-2 items-center">
-                <CameraAltRounded />
-                <span className="text-xs capitalize">Subir Imagen</span>
-              </div>
-            )}
-            <Controller
-              control={control}
-              name="img"
-              render={({ field: { value, onChange, ...field } }) => {
-                return (
-                  <input
-                    {...field}
-                    alt="serviceImage"
-                    value={value?.fileName}
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        // onChange(URL.createObjectURL(e.target.files[0]));
-                        setImages(e.target.files);
-                      }
-                    }}
-                    hidden
-                    multiple
-                    accept="image/*"
-                    type="file"
-                  />
-                );
-              }}
-            />
-          </Button>
-          <img
-            src={watch("img") ? getValues("img") : null}
-            alt="service_Image"
-            className=" w-48 h-52 object-cover rounded-md transition-all text-[0] "
-          />
-        </figure>
         {imagesURLs.map((url, i) => (
           <img src={url} height={300} width={240} key={i} alt="" />
-        ))}
+        )) ? (
+          <div className=" px-4 p-3 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center">
+            {imagesURLs.map((url, i) => (
+              <div className=" relative">
+                <IconButton
+                  className=" absolute bg-white rounded-full m-2 p-1 right-0"
+                  onClick={() => removeElement(i)}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <img
+                  src={url}
+                  height={300}
+                  width={240}
+                  key={i}
+                  alt=""
+                  className=" border-2 border-secondary rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="w-full flex flex-col justify-center space-y-2 items-center">
+            <span className="text-xs capitalize">Subir Imagen</span>
+          </div>
+        )}
+        <Button component="label" className=" mx-auto w-full">
+          <CameraAltRounded />
+          <Controller
+            control={control}
+            name="img"
+            render={({ field: { value, onChange, ...field } }) => {
+              return (
+                <input
+                  {...field}
+                  alt="serviceImage"
+                  value={value?.fileName}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      // onChange(URL.createObjectURL(e.target.files[0]));
+                      setImages(e.target.files);
+                    }
+                  }}
+                  hidden
+                  multiple
+                  accept="image/*"
+                  type="file"
+                />
+              );
+            }}
+          />
+        </Button>
+
         <p className="text-xs px-8 m-5 text-center  text-neutral-500">
           Permitido *.jpeg, *.jpg, *.png, max size of 3.1 MB
         </p>
@@ -305,7 +324,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               <Controller
                 name="estimatedTime"
                 control={control}
-                defaultValue={"30 min"}
+                defaultValue={"00:15:00"}
                 render={({ field: { onChange, value } }) => (
                   <Select
                     labelId="status-label"
