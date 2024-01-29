@@ -75,24 +75,24 @@ export default function Services({ handleNext }) {
                 </p>
               </div>
               <div>
-                <Button variant="contained" onClick={() => handleService(item)}>
-                  Reservar
-                </Button>
+                {item.callrequired ? (
+                  <p>
+                    Para hacer una cita con este servicio es requerido escribir
+                    por el whatsapp o hacer una llamada al telefono de la
+                    sucursal
+                  </p>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={() => handleService(item)}
+                  >
+                    Reservar
+                  </Button>
+                )}
               </div>
             </div>
             <div className="text-neutral-500 space-y-2">
               {item.description ? <p>{item.description}</p> : null}
-              {/* <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-                architecto molestias sequi officia dolore nihil, cum,
-                accusantium, deserunt dolorum ex minima. Molestias officiis
-                aperiam animi autem iusto eaque nam placeat deleniti veniam.
-                Reprehenderit consequuntur porro sit quam neque, dolores dolorem
-                ullam magnam autem cupiditate. Assumenda consequatur id tenetur
-                totam explicabo quo rerum illum. Labore incidunt ratione fugit
-                exercitationem eligendi ducimus aspernatur, saepe accusantium,
-                harum illum, excepturi dignissimos.
-              </p> */}
               {item.estimatedTime ? (
                 <p>Tiempo estimado: {item.estimatedTime}</p>
               ) : null}

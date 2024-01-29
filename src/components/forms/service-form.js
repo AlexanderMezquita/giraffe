@@ -96,15 +96,15 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   });
 
   const removeElement = (indexToRemove) => {
-    if (indexToRemove >= 0 && indexToRemove < imagesURLs.length) {
-      const newArray = [
-        ...imagesURLs.slice(0, indexToRemove),
-        ...imagesURLs.slice(indexToRemove + 1),
-      ];
-      setImagesURLs(newArray);
-    } else {
-      console.error("Invalid index");
-    }
+    try {
+      if (indexToRemove >= 0 && indexToRemove < getValues("img").length) {
+        const newArray = [
+          ...getValues("img").slice(0, indexToRemove),
+          ...getValues("img").slice(indexToRemove + 1),
+        ];
+        setValue("img", newArray);
+      }
+    } catch (error) {}
   };
 
   const onSubmit = async (data) => {
@@ -155,6 +155,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   }, [images]);
 
   React.useEffect(() => {
+    console.log(getValues("img"), "aqui");
     console.log(images);
   }, [images]);
 
@@ -192,14 +193,12 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       </DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {imagesURLs.map((url, i) => (
-          <img src={url} height={300} width={240} key={i} alt="" />
-        )) ? (
-          <div className=" px-4 p-3 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center">
-            {imagesURLs.map((url, i) => (
+        {watch("img")?.length > 0 ? (
+          <div className="px-4 p-3 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center outline-dashed outline-2 outline-neutral-200">
+            {getValues("img").map((url, i) => (
               <div className=" relative">
                 <IconButton
-                  className=" absolute bg-white rounded-full m-2 p-1 right-0"
+                  className=" absolute bg-white rounded-full m-2 p-1 right-0 hover:bg-white/60"
                   onClick={() => removeElement(i)}
                 >
                   <CloseIcon />
@@ -216,24 +215,26 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             ))}
           </div>
         ) : (
-          <div className="w-full flex flex-col justify-center space-y-2 items-center">
-            <span className="text-xs capitalize">Subir Imagen</span>
-          </div>
+          ""
         )}
         <Button component="label" className=" mx-auto w-full">
           <CameraAltRounded />
           <Controller
             control={control}
             name="img"
+            defaultValue={[]}
             render={({ field: { value, onChange, ...field } }) => {
               return (
                 <input
                   {...field}
                   alt="serviceImage"
-                  value={value?.fileName}
                   onChange={(e) => {
                     if (e.target.files && e.target.files.length > 0) {
-                      // onChange(URL.createObjectURL(e.target.files[0]));
+                      const fileArray = Array.from(e.target.files);
+                      const fileURLs = fileArray.map((file) =>
+                        URL.createObjectURL(file)
+                      );
+                      onChange(fileURLs);
                       setImages(e.target.files);
                     }
                   }}
@@ -330,7 +331,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
                     labelId="status-label"
                     id="estimatedTime"
                     value={value}
-                    label="estimatedTime"
+                    label="Tiempo Estimado"
                     onChange={onChange}
                   >
                     {minutesList.map((item) => {
@@ -368,6 +369,29 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               />
             </FormControl>
           </div>
+          <FormControl className=" w-full sm:w-2/3 ">
+            <InputLabel id="demo-simple-select-helper-label">
+              Requiere una llamada previa?
+            </InputLabel>
+            <Controller
+              name="callrequired"
+              control={control}
+              defaultValue={false}
+              rules={{ required: "El campo es requerido" }}
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  labelId="callrequired-label"
+                  id="callrequired"
+                  value={value}
+                  label="Requiere una llamada previa?"
+                  onChange={onChange}
+                >
+                  <MenuItem value={true}>Si</MenuItem>
+                  <MenuItem value={false}>No</MenuItem>
+                </Select>
+              )}
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <LoadingButton
