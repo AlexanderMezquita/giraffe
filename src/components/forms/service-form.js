@@ -108,26 +108,26 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // try {
-    //   if (data.img !== null && imgFile) {
-    //     setImageLoading(true);
-    //     const url = await uploadImage(imgFile, "services");
-    //     data.img = url;
-    //   }
-    //   serviceExist ? updateService.mutate(data) : createService.mutate(data);
-    // } catch (error) {
-    //   if (error instanceof FirebaseError) {
-    //     toast.error("Error subiendo la imagen");
-    //   } else if (error instanceof AxiosError) {
-    //     toast.error("Error de creando o actualizando el servicio");
-    //     deleteImage(imgFile, "services");
-    //   } else {
-    //     toast.error("Error porfavor intentelo de nuevo");
-    //   }
-    // } finally {
-    //   setImageLoading(false);
-    // }
+    console.log(JSON.stringify(data));
+    try {
+      if (data.img !== null && images) {
+        setImageLoading(true);
+        const url = await uploadImage(images, "services");
+        data.img = url;
+      }
+      serviceExist ? updateService.mutate(data) : createService.mutate(data);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        toast.error("Error subiendo la imagen");
+      } else if (error instanceof AxiosError) {
+        toast.error("Error de creando o actualizando el servicio");
+        deleteImage(imgFile, "services");
+      } else {
+        toast.error("Error porfavor intentelo de nuevo");
+      }
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   React.useEffect(() => {
@@ -152,11 +152,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     }
     const objectUrls = tmp;
     setImagesURLs(objectUrls);
-  }, [images]);
-
-  React.useEffect(() => {
-    console.log(getValues("img"), "aqui");
-    console.log(images);
   }, [images]);
 
   return (
@@ -196,7 +191,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
         {watch("img")?.length > 0 ? (
           <div className="px-4 p-3 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center outline-dashed outline-2 outline-neutral-200">
             {getValues("img").map((url, i) => (
-              <div className=" relative">
+              <div className=" relative" key={url}>
                 <IconButton
                   className=" absolute bg-white rounded-full m-2 p-1 right-0 hover:bg-white/60"
                   onClick={() => removeElement(i)}
@@ -377,7 +372,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               name="callrequired"
               control={control}
               defaultValue={false}
-              rules={{ required: "El campo es requerido" }}
               render={({ field: { onChange, value } }) => (
                 <Select
                   labelId="callrequired-label"
@@ -397,7 +391,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
           <LoadingButton
             target="_blank"
             variant="contained"
-            disabled={!isDirty}
+            // disabled={!isDirty}
             loading={
               createService.isLoading || updateService.isLoading || imageLoading
             }
