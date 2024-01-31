@@ -138,6 +138,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
         name: "",
         price: 0,
         img: [],
+        callRequired: false,
         status: "Activo",
       });
     }
@@ -217,7 +218,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
           <Controller
             control={control}
             name="img"
-            defaultValue={[]}
             render={({ field: { value, onChange, ...field } }) => {
               return (
                 <input
@@ -369,13 +369,12 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               Requiere una llamada previa?
             </InputLabel>
             <Controller
-              name="callrequired"
+              name="callRequired"
               control={control}
-              defaultValue={false}
               render={({ field: { onChange, value } }) => (
                 <Select
                   labelId="callrequired-label"
-                  id="callrequired"
+                  id="callRequired"
                   value={value}
                   label="Requiere una llamada previa?"
                   onChange={onChange}

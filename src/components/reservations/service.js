@@ -3,6 +3,7 @@ import Loading from "../globals/loading";
 import { useFormContext } from "react-hook-form";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { formatCurrency } from "@/utils/methods";
+import WebStoriesIcon from "@mui/icons-material/WebStories";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import EmptyMessage from "../globals/empty-message";
@@ -51,18 +52,26 @@ export default function Services({ handleNext }) {
   const services = getServices?.data?.data
     .filter((s) => s.status !== "Desactivado")
     .map((item, index) => {
+      // console.log(item.img.length);
       return (
         <li
           key={index}
           className="flex sm:flex-row flex-col-reverse items-center justify-center sm:items-start sm:justify-normal  gap-4 p-5 border m-4  "
         >
-          {item.img ? (
-            <img
-              src={item.img}
-              loading="lazy"
-              alt={item.name}
-              className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52`}
-            />
+          {item.img.length > 0 ? (
+            <div className="relative">
+              {item.img.length > 1 ? (
+                <WebStoriesIcon className=" bg-white absolute right-5 top-5" />
+              ) : (
+                ""
+              )}
+              <img
+                src={item.img[0]}
+                loading="lazy"
+                alt={item.name[0]}
+                className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52`}
+              />
+            </div>
           ) : (
             ""
           )}
@@ -75,7 +84,7 @@ export default function Services({ handleNext }) {
                 </p>
               </div>
               <div>
-                {item.callrequired ? (
+                {item.callRequired ? (
                   <p>
                     Para hacer una cita con este servicio es requerido escribir
                     por el whatsapp o hacer una llamada al telefono de la
