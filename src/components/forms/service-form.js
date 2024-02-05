@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -34,10 +35,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ServiceForm({ open, handleClose, service, toast }) {
   const serviceExist = Object.keys(service).length >= 1;
   const queryClient = useQueryClient();
-  const [imageLoading, setImageLoading] = React.useState(false);
-  const [imgFile, setImgFile] = React.useState();
-  const [images, setImages] = React.useState([]);
-  const [imagesURLs, setImagesURLs] = React.useState([]);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imagesURLs, setImagesURLs] = useState([]);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const minutesList = [
@@ -76,7 +76,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       handleClose(false);
     },
   });
-
   const updateService = useMutation({
     mutationFn: (updatedService) => {
       return axiosInstance.put(`/service`, updatedService);
@@ -95,33 +94,26 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     },
   });
 
-  const removeElement = (indexToRemove) => {
-    try {
-      if (indexToRemove >= 0 && indexToRemove < getValues("img").length) {
-        const newArray = [
-          ...getValues("img").slice(0, indexToRemove),
-          ...getValues("img").slice(indexToRemove + 1),
-        ];
-        setValue("img", newArray);
-      }
-    } catch (error) {}
+  const removeElement = (urlToRemove) => {
+    const newArr = getValues("img").filter((item) => item !== urlToRemove);
+    setValue("img", newArr);
   };
 
   const onSubmit = async (data) => {
-    console.log(JSON.stringify(data));
     try {
-      if (data.img !== null && images) {
+      if (data.img !== null && getValues("img")) {
         setImageLoading(true);
-        const url = await uploadImage(images, "services");
+        const url = await uploadImage(getValues("img"), "services");
         data.img = url;
       }
-      serviceExist ? updateService.mutate(data) : createService.mutate(data);
+      console.log(JSON.stringify(data));
+      // serviceExist ? updateService.mutate(data) : createService.mutate(data);
     } catch (error) {
       if (error instanceof FirebaseError) {
         toast.error("Error subiendo la imagen");
       } else if (error instanceof AxiosError) {
         toast.error("Error de creando o actualizando el servicio");
-        deleteImage(imgFile, "services");
+        // deleteImage(imgFile, "services");
       } else {
         toast.error("Error porfavor intentelo de nuevo");
       }
@@ -130,7 +122,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (serviceExist) {
       reset(service);
     } else {
@@ -144,7 +136,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     }
   }, [service, open]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!images) return;
 
     let tmp = [];
@@ -195,7 +187,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               <div className=" relative" key={url}>
                 <IconButton
                   className=" absolute bg-white rounded-full m-2 p-1 right-0 hover:bg-white/60"
-                  onClick={() => removeElement(i)}
+                  onClick={() => removeElement(url)}
                 >
                   <CloseIcon />
                 </IconButton>
