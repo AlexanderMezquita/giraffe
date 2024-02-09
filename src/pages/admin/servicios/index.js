@@ -35,7 +35,7 @@ export default function Services() {
         return (
           <Avatar
             alt={cells.row.name}
-            src={cells.row.img}
+            src={cells.row.img[0]}
             sx={{ width: 60, height: 60 }}
           />
         );

@@ -94,20 +94,41 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     },
   });
 
-  const removeElement = (urlToRemove) => {
-    const newArr = getValues("img").filter((item) => item !== urlToRemove);
+  const removeElement = (indexToRemove) => {
+    const newArr = getValues("img").filter(
+      (item, index) => index !== indexToRemove
+    );
     setValue("img", newArr);
+
+    if (images instanceof File) {
+      const imagesArray = Array.from(images);
+      if (indexToRemove >= 0 && indexToRemove < imagesArray.length) {
+        // Remove the file at the specified index
+        imagesArray.splice(indexToRemove, 1);
+      }
+      const dataTransfer = new DataTransfer();
+      imagesArray.forEach((file) => dataTransfer.items.add(file));
+      setImages(dataTransfer.files);
+    } else {
+      const newArrImages = images.filter(
+        (item, index) => index !== indexToRemove
+      );
+      setImages(newArrImages);
+    }
   };
 
   const onSubmit = async (data) => {
+    console.log(images);
+
     try {
-      if (data.img !== null && getValues("img")) {
+      if (data.img !== null && images) {
         setImageLoading(true);
-        const url = await uploadImage(getValues("img"), "services");
+        const url = await uploadImage(images, "services");
         data.img = url;
       }
-      console.log(JSON.stringify(data));
-      // serviceExist ? updateService.mutate(data) : createService.mutate(data);
+      console.log(data.img);
+      serviceExist ? updateService.mutate(data) : createService.mutate(data);
+      setImages([]);
     } catch (error) {
       if (error instanceof FirebaseError) {
         toast.error("Error subiendo la imagen");
@@ -125,6 +146,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   useEffect(() => {
     if (serviceExist) {
       reset(service);
+      setImages(service.img);
     } else {
       reset({
         name: "",
@@ -135,17 +157,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
       });
     }
   }, [service, open]);
-
-  useEffect(() => {
-    if (!images) return;
-
-    let tmp = [];
-    for (let i = 0; i < images.length; i++) {
-      tmp.push(URL.createObjectURL(images[i]));
-    }
-    const objectUrls = tmp;
-    setImagesURLs(objectUrls);
-  }, [images]);
 
   return (
     <Dialog
@@ -187,7 +198,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
               <div className=" relative" key={url}>
                 <IconButton
                   className=" absolute bg-white rounded-full m-2 p-1 right-0 hover:bg-white/60"
-                  onClick={() => removeElement(url)}
+                  onClick={() => removeElement(i)}
                 >
                   <CloseIcon />
                 </IconButton>
@@ -391,7 +402,9 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
             {serviceExist ? <span>Actualizar </span> : <span>Crear</span>}
           </LoadingButton>
           <Button
-            onClick={() => handleClose(false)}
+            onClick={() => {
+              handleClose(false), setImages([]);
+            }}
             variant="outlined"
             color="info"
           >
