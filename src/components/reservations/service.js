@@ -14,13 +14,13 @@ import ReloadMessage from "../globals/reload-message";
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
   const { axiosInstance } = useAxios();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [images, setImages] = React.useState([]);
 
-  const slides = [
-    "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-    "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg",
-  ];
-
+  const handleImages = (imgs) => {
+    setImages(imgs);
+    setOpen((prevState) => !prevState);
+  };
   const noServices =
     "Parece que no hay servicios disponibles en este momento, vuelve a intentarlo más tarde.";
 
@@ -67,7 +67,8 @@ export default function Services({ handleNext }) {
                 src={item.img[0]}
                 loading="lazy"
                 alt={item.name[0]}
-                className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52`}
+                onClick={() => handleImages(item.img)}
+                className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52 cursor-pointer`}
               />
             </div>
           ) : (
@@ -118,7 +119,7 @@ export default function Services({ handleNext }) {
       ) : (
         <section>
           <Carrousel handleClose={handleClose} open={open}>
-            {slides.map((item) => (
+            {images.map((item) => (
               <img src={item} alt="" />
             ))}
           </Carrousel>

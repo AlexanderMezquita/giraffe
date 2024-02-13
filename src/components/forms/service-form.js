@@ -37,7 +37,6 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   const queryClient = useQueryClient();
   const [imageLoading, setImageLoading] = useState(false);
   const [images, setImages] = useState([]);
-  const [imagesURLs, setImagesURLs] = useState([]);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const minutesList = [
@@ -100,7 +99,7 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
     );
     setValue("img", newArr);
 
-    if (images instanceof File) {
+    if (images instanceof FileList) {
       const imagesArray = Array.from(images);
       if (indexToRemove >= 0 && indexToRemove < imagesArray.length) {
         // Remove the file at the specified index
@@ -118,15 +117,13 @@ export default function ServiceForm({ open, handleClose, service, toast }) {
   };
 
   const onSubmit = async (data) => {
-    console.log(images);
-
     try {
-      if (data.img !== null && images) {
+      if (data.img !== null && images && images instanceof FileList) {
         setImageLoading(true);
         const url = await uploadImage(images, "services");
         data.img = url;
       }
-      console.log(data.img);
+      console.log(data.img, "salida");
       serviceExist ? updateService.mutate(data) : createService.mutate(data);
       setImages([]);
     } catch (error) {
