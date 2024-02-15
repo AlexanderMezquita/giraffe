@@ -1,15 +1,15 @@
 import * as React from "react";
 import Loading from "../globals/loading";
 import { useFormContext } from "react-hook-form";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import FilterNoneIcon from "@mui/icons-material/FilterNone";
 import { formatCurrency } from "@/utils/methods";
-import WebStoriesIcon from "@mui/icons-material/WebStories";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import EmptyMessage from "../globals/empty-message";
 import Button from "@mui/material/Button";
 import Carrousel from "../globals/carrousel";
 import ReloadMessage from "../globals/reload-message";
+import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 
 export default function Services({ handleNext }) {
   const { setValue } = useFormContext();
@@ -59,7 +59,11 @@ export default function Services({ handleNext }) {
           {item.img.length > 0 ? (
             <div className="relative">
               {item.img.length > 1 ? (
-                <WebStoriesIcon className=" bg-white absolute right-5 top-5" />
+                <ViewCarouselIcon
+                  fontSize="large"
+                  style={{ fill: "#FCFCFC", textShadow: "10px 10px" }}
+                  className=" absolute right-5 top-5"
+                />
               ) : (
                 ""
               )}
@@ -68,7 +72,7 @@ export default function Services({ handleNext }) {
                 loading="lazy"
                 alt={item.name[0]}
                 onClick={() => handleImages(item.img)}
-                className={`border-4 border-secondary sm:object-cover max-h-72 sm:w-48 sm:h-52 cursor-pointer`}
+                className={`border-2 rounded-md border-black sm:object-cover max-h-72 sm:w-48 sm:h-52 cursor-pointer`}
               />
             </div>
           ) : (
@@ -119,8 +123,8 @@ export default function Services({ handleNext }) {
       ) : (
         <section>
           <Carrousel handleClose={handleClose} open={open}>
-            {images.map((item) => (
-              <img src={item} alt="" />
+            {images.map((item, i) => (
+              <img src={item} key={i} alt="" />
             ))}
           </Carrousel>
           <h2 className="py-3 px-5">Servicios</h2>

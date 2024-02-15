@@ -22,13 +22,13 @@ export default function Carrousel({ children: slides, handleClose, open }) {
         <div className="absolute inset-0 flex items-center justify-between p-4">
           <button
             onClick={prev}
-            className="p-1 rounded-full shadow-sm border bg-white/80 text-gray-800 hover:bg-white"
+            className="p-1 rounded-full shadow-sm  bg-zinc-900  text-white hover:bg-zinc-800"
           >
             <ChevronLeft size={40} />
           </button>
           <button
             onClick={next}
-            className="p-1 rounded-full shadow-sm border bg-white/80 text-gray-800 hover:bg-white"
+            className="p-1 rounded-full shadow-sm bg-zinc-900  text-white hover:bg-zinc-800"
           >
             <ChevronRight size={40} />
           </button>
