@@ -21,13 +21,18 @@ import { deleteImage, uploadImage } from "@/utils/image-handler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
 import ToggleDays from "./toggle-days";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
-import { formatNumber } from "@/utils/methods";
+import "dayjs/locale/es-us.js";
+import dayjs from "../globals/date.js";
+
+import { DatePicker } from "@mui/x-date-pickers";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,7 +61,18 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
     },
   });
 
+  function combineDate(dateString, timeString) {
+    return dateString + "T" + timeString + ":00";
+  }
+
+  const handleDateChange = (date) => {
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    methods.setValue("date", formattedDate);
+  };
+
   const onSubmit = async (data) => {
+    const finalDate = combineDate(data.date, data.time);
+    data.date = finalDate;
     try {
       updateAppointment.mutate(data);
     } catch (e) {}
@@ -65,6 +81,11 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
   React.useEffect(() => {
     if (appointmentExist) {
       methods.reset(appointment);
+      const initialDate = appointment.date;
+      const date = initialDate.split("T")[0];
+      const time = initialDate.split("T")[1].substring(0, 5);
+      methods.setValue("date", date);
+      methods.setValue("time", time);
     } else {
       methods.reset({
         name: "",
@@ -144,8 +165,8 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
           </FormControl>
           <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
             <TextField
-              id="servicio"
-              label="Servicio"
+              id="branch"
+              label="Sucursal"
               fullWidth={true}
               disabled
               {...methods.register("branch.name")}
@@ -158,42 +179,54 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
             <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
               <TextField
                 id="phone"
-                label="Telefono*"
+                label="Teléfono*"
                 {...methods.register("phone")}
                 inputProps={{ maxLength: 20, min: 0 }}
                 disabled
               />
             </FormControl>
-            <FormControl className=" w-full sm:w-2/3 sm:pr-1 ">
+            <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
+              <LocalizationProvider
+                adapterLocale={"es-us"}
+                dateAdapter={AdapterDayjs}
+              >
+                <Controller
+                  control={methods.control}
+                  name="date"
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      value={dayjs(field.value)}
+                      label="Fecha*"
+                      onChange={(date) => {
+                        field.onChange(date);
+                        handleDateChange(date);
+                      }}
+                      fullWidth={true}
+                      color="primary"
+                      className="col-span-10 rounded-xl"
+                      disablePast
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            </FormControl>
+            <FormControl className=" w-full sm:w-1/3 sm:pr-1 ">
               <TextField
-                id="date"
-                label="Fecha*"
-                fullWidth={true}
-                disabled
-                {...methods.register("date", {
-                  required: {
-                    value: true,
-                    message: "Este campo no puede estar vacío",
-                  },
-                  minLength: {
-                    value: 5,
-                    message: "Ingresa al menos 5 caracteres",
-                  },
-                  maxLength: 50,
-                })}
-                inputProps={{ maxLength: 50 }}
-                color="primary"
-                className="col-span-10 rounded-xl"
-                error={!!methods.formState.errors.name}
-                helperText={methods.formState.errors.name?.message}
+                id="time"
+                label="Hora"
+                {...methods.register("time")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </FormControl>
           </div>
           <div className="space-y-3 sm:space-y-0">
             <FormControl className=" w-full sm:w-1/2 sm:pr-1 ">
               <TextField
-                id="phone"
-                label="Direccion"
+                id="address"
+                label="Dirección"
                 {...methods.register("address")}
                 InputLabelProps={{
                   shrink: true,
@@ -273,30 +306,6 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
                 )}
               />
             </FormControl>
-
-            {/* <FormControl className=" w-full sm:w-1/2 sm:pl-1">
-              <InputLabel id="demo-simple-select-helper-label">
-                Estatus
-              </InputLabel>
-              <Controller
-                name="status"
-                control={methods.control}
-                defaultValue={"Activo"}
-                rules={{ required: "El estatus es requerido" }}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    labelId="status-label"
-                    id="status"
-                    value={value}
-                    label="status"
-                    onChange={onChange}
-                  >
-                    <MenuItem value={"Activo"}>Activo</MenuItem>
-                    <MenuItem value={"Desactivado"}>Desactivado</MenuItem>
-                  </Select>
-                )}
-              />
-            </FormControl> */}
           </div>
           <TextField
             id="message"

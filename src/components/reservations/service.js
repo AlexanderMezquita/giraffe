@@ -60,9 +60,8 @@ export default function Services({ handleNext }) {
             <div className="relative">
               {item.img.length > 1 ? (
                 <ViewCarouselIcon
-                  fontSize="large"
                   style={{ fill: "#FCFCFC", textShadow: "10px 10px" }}
-                  className=" absolute right-5 top-5"
+                  className=" absolute right-5 top-5 bg-black bg-opacity-20 rounded-md"
                 />
               ) : (
                 ""
@@ -72,7 +71,7 @@ export default function Services({ handleNext }) {
                 loading="lazy"
                 alt={item.name[0]}
                 onClick={() => handleImages(item.img)}
-                className={`border-2 rounded-md border-black sm:object-cover max-h-72 sm:w-48 sm:h-52 cursor-pointer`}
+                className={` rounded-md border-black sm:object-cover max-h-72 sm:w-48 sm:h-52 cursor-pointer`}
               />
             </div>
           ) : (

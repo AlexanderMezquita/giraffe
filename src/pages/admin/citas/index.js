@@ -137,7 +137,7 @@ export default function Appointments() {
           rowCount={getAcceptedAppointments.data?.data?.dataQuantity}
           loading={getAcceptedAppointments.isLoading}
           header={"Citas Aceptadas"}
-          // onCellClick={cellClick}
+          onCellClick={cellClick}
         />
       </section>
     </Layout>
