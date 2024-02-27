@@ -15,4 +15,17 @@ function formatNumber(number) {
   return formattedNumber;
 }
 
-export { formatCurrency, formatNumber };
+function formatTime(timeString) {
+  const [hours, minutes, seconds] = timeString.split(":").map(Number);
+  const formattedTime = [];
+  if (hours > 0) {
+    formattedTime.push(`${hours}h`);
+  }
+  if (minutes > 0) {
+    formattedTime.push(`${minutes}m`);
+  }
+
+  return formattedTime.join(" ");
+}
+
+export { formatCurrency, formatNumber, formatTime };

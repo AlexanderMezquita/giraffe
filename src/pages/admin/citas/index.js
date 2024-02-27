@@ -72,7 +72,7 @@ export default function Appointments() {
       headerName: "Dia y hora",
       width: 330,
       renderCell: (cells) => {
-        return <span>{dayjs(cells.row.date).format("LLLL")}</span>;
+        return <span>{dayjs(cells.row.startDate).format("LLLL")}</span>;
       },
     },
   ];

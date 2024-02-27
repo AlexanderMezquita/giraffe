@@ -17,10 +17,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { deleteImage, uploadImage } from "@/utils/image-handler";
-import { FirebaseError } from "firebase/app";
-import { AxiosError } from "axios";
-import ToggleDays from "./toggle-days";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -33,6 +29,7 @@ import "dayjs/locale/es-us.js";
 import dayjs from "../globals/date.js";
 
 import { DatePicker } from "@mui/x-date-pickers";
+import { formatTime, formatNumber } from "@/utils/methods";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -67,12 +64,12 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
 
   const handleDateChange = (date) => {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    methods.setValue("date", formattedDate);
+    methods.setValue("StartDate", formattedDate);
   };
 
   const onSubmit = async (data) => {
-    const finalDate = combineDate(data.date, data.time);
-    data.date = finalDate;
+    const finalDate = combineDate(data.startDate, data.time);
+    data.startDate = finalDate;
     try {
       updateAppointment.mutate(data);
     } catch (e) {}
@@ -81,7 +78,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
   React.useEffect(() => {
     if (appointmentExist) {
       methods.reset(appointment);
-      const initialDate = appointment.date;
+      const initialDate = appointment.startDate;
       const date = initialDate.split("T")[0];
       const time = initialDate.split("T")[1].substring(0, 5);
       methods.setValue("date", date);
@@ -180,7 +177,9 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
               <TextField
                 id="phone"
                 label="Teléfono*"
-                {...methods.register("phone")}
+                {...methods.register("phone", {
+                  setValueAs: (p) => formatNumber(p),
+                })}
                 inputProps={{ maxLength: 20, min: 0 }}
                 disabled
               />
@@ -192,7 +191,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
               >
                 <Controller
                   control={methods.control}
-                  name="date"
+                  name="startDate"
                   render={({ field }) => (
                     <DatePicker
                       {...field}
@@ -215,10 +214,19 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
               <TextField
                 id="time"
                 label="Hora"
-                {...methods.register("time")}
+                {...methods.register("time", {
+                  required: true,
+                  pattern: {
+                    value: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+                    message: "Formato de tiempo inválido (HH:MM)",
+                  },
+                })}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ maxLength: 7 }}
+                error={!!methods.errors?.time}
+                helperText={methods.errors?.time?.message}
               />
             </FormControl>
           </div>

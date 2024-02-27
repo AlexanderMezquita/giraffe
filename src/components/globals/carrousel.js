@@ -22,13 +22,13 @@ export default function Carrousel({ children: slides, handleClose, open }) {
         <div className="absolute inset-0 flex items-center justify-between p-4">
           <button
             onClick={prev}
-            className="p-1 rounded-full shadow-sm  bg-zinc-700 bg-opacity-20  text-white hover:bg-zinc-800 transition-transform transform hover:scale-110"
+            className="p-1 rounded-full shadow-sm border border-white  bg-zinc-700 bg-opacity-20  text-white hover:bg-zinc-800 transition-transform transform hover:scale-110"
           >
             <ChevronLeft size={40} />
           </button>
           <button
             onClick={next}
-            className="p-1 rounded-full shadow-sm bg-zinc-700 bg-opacity-20  text-white hover:bg-zinc-800 transition-transform transform hover:scale-110"
+            className="p-1 rounded-full shadow-sm border border-white bg-zinc-700 bg-opacity-20  text-white hover:bg-zinc-800 transition-transform transform hover:scale-110"
           >
             <ChevronRight size={40} />
           </button>
@@ -36,7 +36,7 @@ export default function Carrousel({ children: slides, handleClose, open }) {
 
         <div className="absolute bottom-4 right-0 left-0">
           <div className="flex items-center justify-center  ">
-            <div className="flex items-center justify-center gap-2 bg-black rounded-full p-2 bg-opacity-80">
+            <div className="flex items-center justify-center gap-2 border border-white bg-zinc-700 rounded-full p-2 bg-opacity-80">
               {slides?.map((_, i) => (
                 <div
                   key={i}

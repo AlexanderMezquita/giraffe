@@ -1,10 +1,10 @@
 import * as React from "react";
 import Loading from "../globals/loading";
 import { useFormContext } from "react-hook-form";
-import FilterNoneIcon from "@mui/icons-material/FilterNone";
 import { formatCurrency } from "@/utils/methods";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
+import { formatTime } from "@/utils/methods";
 import EmptyMessage from "../globals/empty-message";
 import Button from "@mui/material/Button";
 import Carrousel from "../globals/carrousel";
@@ -57,7 +57,7 @@ export default function Services({ handleNext }) {
           className="flex sm:flex-row flex-col-reverse items-center justify-center sm:items-start sm:justify-normal  gap-4 p-5 border m-4  "
         >
           {item.img.length > 0 ? (
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               {item.img.length > 1 ? (
                 <ViewCarouselIcon
                   style={{ fill: "#FCFCFC", textShadow: "10px 10px" }}
@@ -87,11 +87,7 @@ export default function Services({ handleNext }) {
               </div>
               <div>
                 {item.callRequired ? (
-                  <p>
-                    Para hacer una cita con este servicio es requerido escribir
-                    por el whatsapp o hacer una llamada al telefono de la
-                    sucursal
-                  </p>
+                  ""
                 ) : (
                   <Button
                     variant="contained"
@@ -102,11 +98,19 @@ export default function Services({ handleNext }) {
                 )}
               </div>
             </div>
-            <div className="text-neutral-500 space-y-2">
+            <div className="  text-neutral-500 space-y-2">
               {item.description ? <p>{item.description}</p> : null}
               {item.estimatedTime ? (
-                <p>Tiempo estimado: {item.estimatedTime}</p>
+                <p>Tiempo estimado: {formatTime(item.estimatedTime)}</p>
               ) : null}
+              {!item.callRequired ? (
+                ""
+              ) : (
+                <p>
+                  Para hacer una cita con este servicio es requerido escribir
+                  por el whatsapp o hacer una llamada al telefono de la sucursal
+                </p>
+              )}
             </div>
           </div>
         </li>
