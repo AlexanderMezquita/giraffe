@@ -29,7 +29,7 @@ import "dayjs/locale/es-us.js";
 import dayjs from "../globals/date.js";
 
 import { DatePicker } from "@mui/x-date-pickers";
-import { formatTime, formatNumber } from "@/utils/methods";
+import { formatNumber } from "@/utils/methods";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -64,8 +64,20 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
 
   const handleDateChange = (date) => {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    methods.setValue("StartDate", formattedDate);
+    methods.setValue("startDate", formattedDate);
   };
+
+  const { data: getAvailableEmployees } = useQuery({
+    queryKey: ["AvailableEmployeesForEmpForm"],
+    queryFn: () => {
+      return axiosInstance.get(
+        `/AvailableEmployees/appointmentId?appointmentId=${methods.getValues(
+          "id"
+        )}`
+      );
+    },
+    enabled: !!methods.getValues("id"),
+  });
 
   const onSubmit = async (data) => {
     const finalDate = combineDate(data.startDate, data.time);
@@ -177,9 +189,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
               <TextField
                 id="phone"
                 label="Teléfono*"
-                {...methods.register("phone", {
-                  setValueAs: (p) => formatNumber(p),
-                })}
+                {...methods.register("phone")}
                 inputProps={{ maxLength: 20, min: 0 }}
                 disabled
               />
@@ -259,6 +269,40 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
               />
             </FormControl>
           </div>
+          <FormControl
+            className=" w-full sm:w-1/2 sm:pr-1 "
+            error={!!methods.formState.errors.employeeId}
+          >
+            <InputLabel id="employee-select">Empleado</InputLabel>
+            <Controller
+              name="employeeId"
+              control={methods.control}
+              rules={{
+                required: {
+                  value: false,
+                  message: "El empleado es requerido es requerida",
+                },
+              }}
+              defaultValue={""}
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  labelId="employee-label"
+                  id="employeeId"
+                  value={value ?? ""}
+                  label="employee-Id"
+                  onChange={onChange}
+                >
+                  {getAvailableEmployees?.data?.map((item) => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
+            />
+          </FormControl>
           <TextField
             id="comment"
             label="Comentario del cliente"
