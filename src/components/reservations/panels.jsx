@@ -56,7 +56,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
 
   const onSubmit = async (data) => {
     try {
-      data.startDate = addTimeStringToDate(data.date, data.time);
+      // data.startDate = addTimeStringToDate(data.date, data.time);
       data.status = 2;
       createAppointment.mutate(data);
     } catch (error) {}

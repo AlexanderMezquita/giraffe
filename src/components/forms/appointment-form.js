@@ -64,7 +64,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
 
   const handleDateChange = (date) => {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    methods.setValue("startDate", formattedDate);
+    methods.setValue("date", formattedDate);
   };
 
   const { data: getAvailableEmployees } = useQuery({
@@ -80,7 +80,7 @@ export default function AppointmentForm({ open, handleClose, appointment }) {
   });
 
   const onSubmit = async (data) => {
-    const finalDate = combineDate(data.startDate, data.time);
+    const finalDate = combineDate(data.date, data.time);
     data.startDate = finalDate;
     try {
       updateAppointment.mutate(data);
