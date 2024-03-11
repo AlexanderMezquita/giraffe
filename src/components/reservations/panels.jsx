@@ -13,6 +13,7 @@ import Employees from "./employee";
 import dayjs from "../globals/date.js";
 import { useMutation } from "@tanstack/react-query";
 import useAxios from "@/axios";
+import { toast } from "react-toastify";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -56,8 +57,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
 
   const onSubmit = async (data) => {
     try {
-      // data.startDate = addTimeStringToDate(data.date, data.time);
-      data.status = 2;
+      data.startDate = addTimeStringToDate(data.date, data.time);
       createAppointment.mutate(data);
     } catch (error) {}
   };
@@ -67,10 +67,12 @@ export default function Panels({ activeStep, steps, handleNext }) {
       return axiosInstance.post(`/appointment`, newAppointment);
     },
     onSuccess: () => {
-      alert("success");
+      toast.success("La cita se ha creado con éxito.");
     },
-    onError: (error) => {
-      alert(error);
+    onError: () => {
+      toast.error(
+        "Hubo un error creando la cita, vuelve a intentarlo más tarde."
+      );
     },
   });
 

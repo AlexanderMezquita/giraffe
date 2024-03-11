@@ -14,7 +14,7 @@ export default function Carrousel({ children: slides, handleClose, open }) {
     <Dialog onClose={handleClose} open={open}>
       <div className="overflow-hidden relative">
         <div
-          className="flex transition-transform ease-out duration-500"
+          className=" flex transition-transform ease-out duration-500"
           style={{ transform: `translateX(-${curr * 100}%)` }}
         >
           {slides}

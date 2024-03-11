@@ -127,7 +127,7 @@ export default function Services({ handleNext }) {
         <section>
           <Carrousel handleClose={handleClose} open={open}>
             {images.map((item, i) => (
-              <img src={item} key={i} alt="" />
+              <img src={item} key={i} alt="" className=" scale-95" />
             ))}
           </Carrousel>
           <h2 className="py-3 px-5">Servicios</h2>

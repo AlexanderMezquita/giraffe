@@ -109,6 +109,11 @@ export default function Employees() {
     setFormOpen(true);
   };
 
+  const cellClick = (params) => {
+    setData(params.row);
+    setFormOpen(true);
+  };
+
   const getAsyncBranchId = async (id) =>
     await axiosInstance.get(`/branch/${id}`);
 
@@ -180,6 +185,7 @@ export default function Employees() {
           rowCount={getEmployees.data?.data?.dataQuantity}
           loading={getEmployees.isLoading}
           header={"Empleados disponibles"}
+          onCellClick={cellClick}
         />
       </section>
     </Layout>

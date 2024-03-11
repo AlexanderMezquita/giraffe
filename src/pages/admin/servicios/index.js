@@ -112,6 +112,11 @@ export default function Services() {
     setFormOpen(true);
   };
 
+  const cellClick = (params) => {
+    setData(params.row);
+    setFormOpen(true);
+  };
+
   const getServices = useQuery({
     queryKey: ["services", pageState],
     queryFn: () => {
@@ -182,6 +187,7 @@ export default function Services() {
           rowCount={getServices.data?.data?.dataQuantity}
           loading={getServices.isLoading}
           header={"Servicios disponibles"}
+          onCellClick={cellClick}
         />
       </section>
     </Layout>
