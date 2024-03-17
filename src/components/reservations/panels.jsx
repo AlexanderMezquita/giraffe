@@ -14,6 +14,7 @@ import dayjs from "../globals/date.js";
 import { useMutation } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import { toast } from "react-toastify";
+import ConfirmationForm from "./confirmationForm";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -93,7 +94,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
       </Stepper>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TabPanel value={activeStep} index={0}>
+          <TabPanel value={activeStep} index={4}>
             <Branch handleNext={handleNext} />
           </TabPanel>
           {/* <TabPanel value={activeStep} index={1}>
@@ -111,6 +112,10 @@ export default function Panels({ activeStep, steps, handleNext }) {
           <TabPanel value={activeStep} index={3}>
             <Status />
             <Form isLoading={createAppointment.isLoading} />
+          </TabPanel>
+          <TabPanel value={activeStep} index={0}>
+            <Status />
+            <ConfirmationForm />
           </TabPanel>
         </form>
       </FormProvider>
