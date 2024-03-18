@@ -94,7 +94,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
       </Stepper>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TabPanel value={activeStep} index={4}>
+          <TabPanel value={activeStep} index={0}>
             <Branch handleNext={handleNext} />
           </TabPanel>
           {/* <TabPanel value={activeStep} index={1}>
@@ -113,7 +113,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
             <Status />
             <Form isLoading={createAppointment.isLoading} />
           </TabPanel>
-          <TabPanel value={activeStep} index={0}>
+          <TabPanel value={activeStep} index={4}>
             <Status />
             <ConfirmationForm />
           </TabPanel>

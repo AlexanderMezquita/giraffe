@@ -28,8 +28,25 @@ export default function ConfirmationForm() {
   //   });
 
   return (
-    <section className="  md:max-h-[500px]">
-      <h2 className="py-3 px-5">Sucursales</h2>
+    <section className="p-5   mx-0 w-3/4  gap-4">
+      <div className="flex h-14 items-center  mx-auto ">
+        <Image
+          src="/nav-logo.png"
+          width={40}
+          height={40}
+          alt="logo"
+          // priority={true}
+          placeholder="blur"
+          blurDataURL="/nav-logo.png"
+        />
+        <h1 className="text-xl font-bold font-sans">Rizos Afros Y Más</h1>
+      </div>
+      <h2 className="p-4">Tu cita se ha creado con éxito</h2>
+      <div className=" px-4 space-y-3">
+        <p>Servicio: </p>
+        <p>Dia y hora: </p>
+        <p>ID de la cita: </p>
+      </div>
     </section>
   );
 }

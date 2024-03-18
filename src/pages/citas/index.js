@@ -3,7 +3,6 @@ import Head from "next/head";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import IconButton from "@mui/material/IconButton";
 import NavBar from "@/components/reservations/navbar";
-
 import Panels from "@/components/reservations/panels";
 import SideLogo from "@/components/reservations/side_logo";
 import ContactInfo from "@/components/reservations/contact_info";
@@ -15,9 +14,10 @@ export default function HorizontalLinearStepper() {
     "Elige tu servicio",
     "Día y hora",
     "Tu información",
+    "Confirmación",
   ];
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(4);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -54,7 +54,7 @@ export default function HorizontalLinearStepper() {
             <nav className="flex items-center">
               <IconButton
                 aria-label="Retroceder"
-                disabled={activeStep === 0}
+                disabled={activeStep === 0 || activeStep === 4}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
                 color="primary"
