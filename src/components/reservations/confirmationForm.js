@@ -15,6 +15,13 @@ export default function ConfirmationForm() {
 
   const { setValue } = useFormContext();
 
+  const cita = {
+    startDate: "2024-03-11T12:00:00",
+    name: "Alexander Mezquita",
+    service: { name: "Coca Cola" },
+    branch: { name: "Gurabo" },
+  };
+
   //   const {
   //     data: getBranches,
   //     isLoading,
@@ -28,7 +35,7 @@ export default function ConfirmationForm() {
   //   });
 
   return (
-    <section className="p-5   mx-0 w-3/4  gap-4">
+    <section className="p-5 grid  justify-items-center gap-4">
       <div className="flex h-14 items-center  mx-auto ">
         <Image
           src="/nav-logo.png"
@@ -43,8 +50,12 @@ export default function ConfirmationForm() {
       </div>
       <h2 className="p-4">Tu cita se ha creado con éxito</h2>
       <div className=" px-4 space-y-3">
-        <p>Servicio: </p>
-        <p>Dia y hora: </p>
+        <p>
+          Servicio: <span className=" text-gray-400">{cita.service.name}</span>
+        </p>
+        <p>
+          Dia y hora: <span className=" text-gray-400">{cita.startDate}</span>
+        </p>
         <p>ID de la cita: </p>
       </div>
     </section>

@@ -27,7 +27,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
 import "dayjs/locale/es-us.js";
 import dayjs from "../globals/date.js";
-
 import { DatePicker } from "@mui/x-date-pickers";
 import { formatNumber } from "@/utils/methods";
 
