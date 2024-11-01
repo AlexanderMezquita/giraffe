@@ -152,9 +152,7 @@ export default function Form({ isLoading }) {
           label={
             <p>
               Estoy de acuerdo con la{" "}
-              <a href="/citas" className="text-blue-600">
-                política de cancelación
-              </a>
+              <a className="text-blue-600">política de cancelación</a>
             </p>
           }
         />

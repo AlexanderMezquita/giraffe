@@ -17,7 +17,7 @@ export default function HorizontalLinearStepper() {
     "Confirmación",
   ];
 
-  const [activeStep, setActiveStep] = React.useState(4);
+  const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

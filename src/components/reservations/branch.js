@@ -8,6 +8,7 @@ import AlertDialog from "../globals/dialogs/dialog";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import ReloadMessage from "../globals/reload-message";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import EmptyMessage from "../globals/empty-message";
 
 export default function Branch({ handleNext }) {
@@ -66,9 +67,9 @@ export default function Branch({ handleNext }) {
             aria-label="delete"
             className="z-10 text-neutral-400/70"
             size="large"
-            onClick={() => handleClickOpen(item)}
+            // onClick={() => handleClickOpen(item)}
           >
-            <InfoIcon />
+            <ArrowForwardIosIcon />
           </IconButton>
         </li>
       );

@@ -18,12 +18,11 @@ export default function FirstTimeDialog({ open, handleClose }) {
         <DialogTitle id="first-time-dialog">Importante</DialogTitle>
         <DialogContent>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
-            similique nobis laudantium cumque est ipsam provident eos recusandae
-            totam asperiores suscipit tenetur quasi accusantium, nihil accusamus
-            delectus placeat possimus? Facere, optio quisquam. Iusto nam, ad
-            facere consequatur atque officiis sapiente. Fuga ex facere quibusdam
-            beatae.
+            Para asegurar su cita, las cancelaciones pueden estar sujetas a
+            cargos, y si se presenta sin previo aviso, podría requerirse pago
+            anticipado para futuras reservas. Para realizar cambios, comuníquese
+            exclusivamente por WhatsApp o Instagram. En citas grupales, pedimos
+            aviso anticipado. ¡Gracias por su comprensión y preferencia!
           </p>
         </DialogContent>
         <DialogActions>

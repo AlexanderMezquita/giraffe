@@ -69,6 +69,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
     },
     onSuccess: () => {
       toast.success("La cita se ha creado con éxito.");
+      handleNext();
     },
     onError: () => {
       toast.error(
@@ -114,7 +115,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
             <Form isLoading={createAppointment.isLoading} />
           </TabPanel>
           <TabPanel value={activeStep} index={4}>
-            <Status />
+            {/* <Status /> */}
             <ConfirmationForm />
           </TabPanel>
         </form>

@@ -54,7 +54,7 @@ export default function ContactInfo() {
           >
             <LocalPhoneIcon className="text-neutral-500 group-hover:text-blue-600" />
             <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
-              +1 809 241 2028
+              +1 809 806 3040
             </p>
           </a>
         </div>

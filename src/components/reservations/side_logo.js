@@ -52,7 +52,7 @@ export default function SideLogo() {
             color="inherit"
             startIcon={<InsertInvitationIcon color="primary" />}
           >
-            <h2>Reservar cita </h2>
+            <h2>Reserva tu cita</h2>
           </Button>
         </div>
       </aside>
