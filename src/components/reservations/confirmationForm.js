@@ -13,19 +13,14 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Button } from "@mui/material";
 
 import EmptyMessage from "../globals/empty-message";
+import dayjs from "dayjs";
 
 export default function ConfirmationForm() {
   const { axiosInstance } = useAxios();
 
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
 
-  const cita = {
-    id: "098313",
-    startDate: "2024-03-11T12:00:00",
-    name: "Alexander Mezquita",
-    service: { name: "Coca Cola", duration: "45 min" },
-    branch: { name: "Gurabo" },
-  };
+  const cita = getValues();
 
   //   const {
   //     data: getBranches,
@@ -63,10 +58,15 @@ export default function ConfirmationForm() {
         <p>Servicio:</p>
         <p className=" text-gray-400">{cita.service.name}</p>
         <p>Dia y hora:</p>
-        <p className=" text-gray-400">{cita.startDate}</p>
-        <p>ID de la cita:</p>
-        <p className=" text-gray-400">{cita.id}</p> <p>Duración: </p>
-        <p className=" text-gray-400">{cita.service.duration}</p>{" "}
+        <p className=" text-gray-400">
+          {dayjs(cita.date).format("LL")} a las {cita.time}
+        </p>
+        <p>Sucursal:</p>
+        <p className=" text-gray-400">{cita.branch.name}</p>
+        <p>Duración (aproximadamente): </p>
+        <p className=" text-gray-400">{cita.service.duration}</p>
+        <p>Comentario: </p>
+        <p className=" text-gray-400">{cita.comment}</p>
       </div>
 
       <div className=" bg-gray-50 border-2 rounded-lg w-full sm:w-80 p-5 space-y-3">

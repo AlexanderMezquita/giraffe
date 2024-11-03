@@ -70,6 +70,7 @@ export default function Panels({ activeStep, steps, handleNext }) {
     onSuccess: () => {
       toast.success("La cita se ha creado con éxito.");
       handleNext();
+      console.log(methods.getValues());
     },
     onError: () => {
       toast.error(

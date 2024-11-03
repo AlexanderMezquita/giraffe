@@ -27,6 +27,7 @@ export default function Services({ handleNext }) {
   const handleService = (item) => {
     setValue("service.name", item.name);
     setValue("service.id", item.id);
+    setValue("service.duration", item.estimatedTime);
     handleNext();
   };
 
