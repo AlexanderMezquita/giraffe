@@ -50,10 +50,12 @@ export default function Panels({ activeStep, steps, handleNext }) {
     const minutes = parsedTime.minute();
 
     // Set the hours, minutes, and seconds of the target date-time
-    return parsedDateTime
+    const newDate = parsedDateTime
       .set("hour", hours)
       .set("minute", minutes)
       .set("second", 0);
+
+    return newDate;
   }
 
   const onSubmit = async (data) => {
@@ -65,12 +67,12 @@ export default function Panels({ activeStep, steps, handleNext }) {
 
   const createAppointment = useMutation({
     mutationFn: (newAppointment) => {
+      console.log(newAppointment, "NEW APPOINMENT DATA");
       return axiosInstance.post(`/appointment`, newAppointment);
     },
     onSuccess: () => {
       toast.success("La cita se ha creado con éxito.");
       handleNext();
-      console.log(methods.getValues());
     },
     onError: () => {
       toast.error(
