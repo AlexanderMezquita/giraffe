@@ -78,7 +78,11 @@ export default function Appointments() {
       headerName: "Dia y hora",
       width: 330,
       renderCell: (cells) => {
-        return <span>{dayjs(cells.row.startDate).format("LLLL")}</span>;
+        const formattedDate = dayjs
+          .utc(cells.row.startDate) // Ensure the input is treated as UTC
+          .tz("America/Toronto") // Convert to "America/Toronto" timezone
+          .format("LLLL"); // Format as desired
+        return <span>{formattedDate}</span>;
       },
     },
   ];
