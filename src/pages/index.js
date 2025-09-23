@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Montserrat, Open_Sans } from 'next/font/google';
 import {
@@ -31,8 +31,16 @@ const iconMap = {
 export default function Home() {
   const { navigation, hero, services, features, testimonials, salon, salonSecond, colorScheme } = landingPageData;
 
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Logo green color from nav-logo.png
   const logoGreen = '#8BC34A';
+
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <div className="scroll-smooth">
@@ -42,10 +50,21 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <button className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+              <button
+                onClick={toggleMobileMenu}
+                className={`text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition-all duration-300 transform hover:scale-110 ${
+                  isMobileMenuOpen ? 'rotate-90' : 'rotate-0'
+                }`}
+              >
+                {isMobileMenuOpen ? (
+                  <svg className="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
               </button>
             </div>
 
@@ -87,13 +106,26 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile menu dropdown (hidden by default) */}
-          <div className="md:hidden hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navigation.menuItems.map((item) => (
+          {/* Mobile menu dropdown */}
+          <div
+            className={`md:hidden overflow-hidden transition-all duration-500 ease-out transform ${
+              isMobileMenuOpen
+                ? 'max-h-64 opacity-100 translate-y-0'
+                : 'max-h-0 opacity-0 -translate-y-4'
+            }`}
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-xl rounded-b-lg border-t border-gray-100">
+              {navigation.menuItems.map((item, index) => (
                 <button
                   key={item}
-                  className={`text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium w-full text-left ${openSans.className}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`text-gray-700 hover:text-gray-900 hover:bg-gray-50 block px-4 py-3 text-base font-medium w-full text-left rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105 ${openSans.className}`}
+                  style={{
+                    animationDelay: isMobileMenuOpen ? `${index * 0.1}s` : '0s',
+                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
+                    opacity: isMobileMenuOpen ? 1 : 0,
+                    transition: `all 0.3s ease-out ${index * 0.1}s`
+                  }}
                 >
                   {item}
                 </button>
@@ -121,24 +153,39 @@ export default function Home() {
       </section>
 
       {/* Image Panels Section */}
-      <div className="h-96 overflow-hidden">
+      <div className="h-[40rem] sm:h-[32rem] overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-3 h-full">
-          <div className="bg-purple-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
-              <Face className="text-white opacity-30 text-6xl" />
-            </div>
+          <div className="h-full bg-cover bg-center relative overflow-hidden">
+            <Image
+              src="/indhira.jpg"
+              alt="Indhira - Estilista profesional"
+              fill
+              className="object-cover object-center md:object-top lg:object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
           </div>
 
-          <div className="bg-green-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
-              <Face className="text-white opacity-30 text-6xl" />
-            </div>
+          <div className="h-full bg-cover bg-center relative overflow-hidden">
+            <Image
+              src="/naili.jpg"
+              alt="Naili - Especialista en rizos"
+              fill
+              className="object-cover object-center md:object-top lg:object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
           </div>
 
-          <div className="bg-red-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
-              <Face className="text-white opacity-30 text-6xl" />
-            </div>
+          <div className="h-full bg-cover bg-center relative overflow-hidden">
+            <Image
+              src="/rossaly.jpg"
+              alt="Rossaly - Tratamientos capilares"
+              fill
+              className="object-cover object-center md:object-top lg:object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
             <div className="absolute bottom-5 right-5 bg-amber-800 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm flex items-center gap-1">
               <BookOnline className="text-sm" /> Reservar Ahora
             </div>
@@ -157,8 +204,42 @@ export default function Home() {
               const IconComponent = iconMap[service.icon];
               return (
                 <div key={service.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl">
-                  <div className="h-48 flex items-center justify-center" style={{ backgroundColor: logoGreen }}>
-                    {IconComponent && <IconComponent className="text-white text-5xl" />}
+                  <div className="h-48 flex items-center justify-center relative" style={{ backgroundColor: logoGreen }}>
+                    {service.id === 1 ? (
+                      <Image
+                        src="/productos.jpg"
+                        alt="Cuidado Capilar Natural"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    ) : service.id === 2 ? (
+                      <Image
+                        src="/peinado.jpg"
+                        alt="Servicios de Peinado"
+                        fill
+                        className="object-cover object-[50%_70%]"
+                        priority
+                      />
+                    ) : service.id === 3 ? (
+                      <Image
+                        src="/aceite.jpg"
+                        alt="Tratamientos Capilares"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    ) : service.id === 4 ? (
+                      <Image
+                        src="/consulta.jpg"
+                        alt="Consulta"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    ) : (
+                      IconComponent && <IconComponent className="text-white text-5xl" />
+                    )}
                   </div>
                   <div className="p-6 flex-grow">
                     <h3 className={`text-lg font-semibold mb-2 ${montserrat.className}`}>

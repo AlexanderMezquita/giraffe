@@ -18,7 +18,7 @@ export const landingPageData = {
   services: [
     {
       id: 1,
-      title: "Cuidado Capilar Natural",
+      title: "Productos para tu cabello rizo",
       description:
         "Tratamientos especializados diseñados específicamente para cabello texturizado y rizado",
       image: "/images/service-natural.jpg",
