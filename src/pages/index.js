@@ -1,124 +1,350 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import React from 'react';
+import Image from 'next/image';
+import { Montserrat, Open_Sans } from 'next/font/google';
+import {
+  AutoFixHigh,
+  Brush,
+  Spa,
+  Chat,
+  Person,
+  Star,
+  Favorite,
+  Face,
+  BookOnline
+} from '@mui/icons-material';
+import { landingPageData } from '../data/landingContent';
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ['latin'] });
+const openSans = Open_Sans({ subsets: ['latin'] });
+
+// Icon mapping
+const iconMap = {
+  AutoFixHigh,
+  Brush,
+  Spa,
+  Chat,
+  Person,
+  Star,
+  Favorite
+};
 
 export default function Home() {
+  const { navigation, hero, services, features, testimonials, salon, salonSecond, colorScheme } = landingPageData;
+
+  // Logo green color from nav-logo.png
+  const logoGreen = '#8BC34A';
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="scroll-smooth">
+      {/* Navigation */}
+      <nav className="bg-transparent shadow-none p-0">
+        <div className="px-4 md:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Desktop navigation menu */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navigation.menuItems.map((item) => (
+                <button
+                  key={item}
+                  className={`text-gray-700 hover:text-gray-900 font-medium text-base transition-colors ${openSans.className}`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center justify-center md:justify-start">
+              {/* Try to load image first, fallback to text */}
+              <div className="relative">
+                {/* Image logo */}
+                <Image
+                  src="/nav-logo.png"
+                  alt={navigation.logo}
+                  width={120}
+                  height={40}
+                  className="h-10 w-auto block"
+                  priority
+                />
+                {/* Text logo - visible if image doesn't load or as alternative */}
+                <h1 className={`font-bold text-2xl text-gray-900 ${montserrat.className} absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 opacity-0 hover:opacity-100 transition-opacity`}>
+                  {navigation.logo}
+                </h1>
+              </div>
+            </div>
+
+            {/* Mobile navigation menu */}
+            <div className="md:hidden">
+              {/* Empty div for spacing */}
+            </div>
+          </div>
+
+          {/* Mobile menu dropdown (hidden by default) */}
+          <div className="md:hidden hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navigation.menuItems.map((item) => (
+                <button
+                  key={item}
+                  className={`text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium w-full text-left ${openSans.className}`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="min-h-[60vh] flex flex-col justify-center items-center bg-gray-50 relative text-center py-16 animate-fade-in">
+        <div className="container mx-auto px-4 relative z-10">
+          <p className={`text-gray-600 mb-4 text-base font-medium animate-fade-in ${openSans.className}`}>
+            {hero.announcement}
+          </p>
+
+          <h1 className={`font-bold text-gray-900 mb-6 text-4xl md:text-6xl leading-tight animate-fade-in ${montserrat.className}`}>
+            {hero.title}
+          </h1>
+
+          <p className={`text-gray-600 mb-12 text-xl font-normal tracking-wide animate-fade-in ${openSans.className}`}>
+            {hero.subtitle}
+          </p>
+        </div>
+      </section>
+
+      {/* Image Panels Section */}
+      <div className="h-96 overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 h-full">
+          <div className="bg-purple-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
+              <Face className="text-white opacity-30 text-6xl" />
+            </div>
+          </div>
+
+          <div className="bg-green-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+              <Face className="text-white opacity-30 text-6xl" />
+            </div>
+          </div>
+
+          <div className="bg-red-500 h-full bg-cover bg-center flex items-center justify-center relative overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+              <Face className="text-white opacity-30 text-6xl" />
+            </div>
+            <div className="absolute bottom-5 right-5 bg-amber-800 bg-opacity-90 text-white px-4 py-2 rounded-full text-sm flex items-center gap-1">
+              <BookOnline className="text-sm" /> Reservar Ahora
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="/citas"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+      {/* Services Section */}
+      <section className="py-16 bg-orange-50">
+        <div className="container mx-auto px-4">
+          <h2 className={`text-4xl font-bold text-gray-900 text-center mb-12 animate-fade-in ${montserrat.className}`}>
+            Nuestros Servicios
           </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {services.map((service) => {
+              const IconComponent = iconMap[service.icon];
+              return (
+                <div key={service.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <div className="h-48 flex items-center justify-center" style={{ backgroundColor: logoGreen }}>
+                    {IconComponent && <IconComponent className="text-white text-5xl" />}
+                  </div>
+                  <div className="p-6 flex-grow">
+                    <h3 className={`text-lg font-semibold mb-2 ${montserrat.className}`}>
+                      {service.title}
+                    </h3>
+                    <p className={`text-gray-600 text-sm ${openSans.className}`}>
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {/* Salon Showcase Section */}
+      <section className="py-16 bg-gray-50 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Salon Image */}
+            <div className="relative">
+              <div className="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden shadow-xl">
+                <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+                  {/* Placeholder for salon image */}
+                  <span className="text-gray-500 text-lg">Imagen del Salón</span>
+                </div>
+              </div>
+            </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
+            {/* Salon Content */}
+            <div className="lg:pl-8">
+              <h2 className={`text-4xl font-bold text-gray-900 mb-6 ${montserrat.className}`}>
+                {salon.title}
+              </h2>
+              <p className={`text-lg text-gray-600 mb-8 leading-relaxed ${openSans.className}`}>
+                {salon.description}
+              </p>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+              {/* Location Info */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}>
+                  {salon.location.city}
+                </h3>
+                <p className={`text-gray-700 mb-2 ${openSans.className}`}>
+                  {salon.location.address}
+                </p>
+                <p className={`text-xl font-bold mb-4 ${montserrat.className}`} style={{ color: logoGreen }}>
+                  {salon.location.phone}
+                </p>
+                <button
+                  className={`px-6 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity ${openSans.className}`}
+                  style={{ backgroundColor: logoGreen }}
+                >
+                  {salon.location.ctaText}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Second Salon Showcase Section - Image Right */}
+      <section className="py-16 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Salon Content - Left Side */}
+            <div className="lg:pr-8">
+              <h2 className={`text-4xl font-bold text-gray-900 mb-6 ${montserrat.className}`}>
+                {salonSecond.title}
+              </h2>
+              <p className={`text-lg text-gray-600 mb-8 leading-relaxed ${openSans.className}`}>
+                {salonSecond.description}
+              </p>
+
+              {/* Location Info */}
+              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}>
+                  {salonSecond.location.city}
+                </h3>
+                <p className={`text-gray-700 mb-2 ${openSans.className}`}>
+                  {salonSecond.location.address}
+                </p>
+                <p className={`text-xl font-bold mb-4 ${montserrat.className}`} style={{ color: logoGreen }}>
+                  {salonSecond.location.phone}
+                </p>
+                <button
+                  className={`px-6 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity ${openSans.className}`}
+                  style={{ backgroundColor: logoGreen }}
+                >
+                  {salonSecond.location.ctaText}
+                </button>
+              </div>
+            </div>
+
+            {/* Salon Image - Right Side */}
+            <div className="relative order-first lg:order-last">
+              <div className="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden shadow-xl">
+                <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+                  {/* Placeholder for salon image */}
+                  <span className="text-gray-500 text-lg">Imagen del Salón 2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <h2 className={`text-4xl font-bold text-gray-900 text-center mb-12 ${montserrat.className}`}>
+            ¿Por Qué Elegirnos?
           </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {features.map((feature) => {
+              const IconComponent = iconMap[feature.icon];
+              return (
+                <div key={feature.id} className="bg-white p-6 rounded-lg shadow-md text-center transition-transform duration-300 hover:-translate-y-1">
+                  <div className="mb-4 flex justify-center" style={{ color: logoGreen }}>
+                    {IconComponent && <IconComponent className="text-5xl" />}
+                  </div>
+                  <h3 className={`text-xl font-semibold mb-2 ${montserrat.className}`}>
+                    {feature.title}
+                  </h3>
+                  <p className={`text-gray-600 ${openSans.className}`}>
+                    {feature.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-orange-50 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <h2 className={`text-4xl font-bold text-gray-900 text-center mb-12 ${montserrat.className}`}>
+            Lo Que Dicen Nuestros Clientes
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="bg-white rounded-lg shadow-lg p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-4" style={{ backgroundColor: logoGreen }}>
+                    {testimonial.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className={`font-bold text-lg ${montserrat.className}`}>
+                      {testimonial.name}
+                    </h4>
+                    <div className="flex text-yellow-400">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="text-sm" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className={`text-gray-600 italic ${openSans.className}`}>
+                  "{testimonial.text}"
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 text-white text-center animate-fade-in" style={{ backgroundColor: logoGreen }}>
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className={`text-4xl font-bold mb-4 ${montserrat.className}`}>
+            ¿Lista para Transformar tu Cabello?
+          </h2>
+          <p className={`text-xl mb-8 opacity-90 ${openSans.className}`}>
+            Reserva tu cita hoy y experimenta la diferencia que hace el cuidado profesional.
           </p>
-        </a>
-      </div>
-    </main>
+          <a
+            href={hero.ctaLink}
+            className={`inline-block bg-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-orange-50 transition-colors duration-300 ${openSans.className}`}
+            style={{ color: logoGreen }}
+          >
+            {hero.ctaText}
+          </a>
+        </div>
+      </section>
+    </div>
   );
 }
