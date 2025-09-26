@@ -47,7 +47,7 @@ export default function ContactInfo() {
         </div>
         <div className="group hover:cursor-pointer mt-5">
           <a
-            href="tel:8092142028"
+            href="tel:8098063040"
             target="blank_"
             className="flex items-center w-64 gap-3"
           >

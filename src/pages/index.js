@@ -1,124 +1,356 @@
+import React, { useState } from "react";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import Head from "next/head";
+import { Montserrat, Open_Sans } from "next/font/google";
+import {
+  AutoFixHigh,
+  Brush,
+  Spa,
+  Chat,
+  Person,
+  Star,
+  Favorite,
+  Face,
+} from "@mui/icons-material";
+import { landingPageData } from "../data/landingContent";
+import Navigation from "../components/Navigation";
+import BeautifulCurls from "../components/BeautifulCurls";
+import HeroSection from "../components/HeroSection";
+import SpecialtyInfo from "../components/SpecialtyInfo";
+import ImagePanels from "../components/ImagePanels";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
+const openSans = Open_Sans({ subsets: ["latin"] });
+
+// Icon mapping
+const iconMap = {
+  AutoFixHigh,
+  Brush,
+  Spa,
+  Chat,
+  Person,
+  Star,
+  Favorite,
+};
 
 export default function Home() {
+  // Extract data from landingContent for cleaner code
+  const {
+    hero,
+    services,
+    features,
+    testimonials,
+    salon,
+    salonSecond,
+    colorScheme,
+  } = landingPageData;
+
+  // Mobile menu state for main layout
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Logo green color from colorScheme
+  const logoGreen = colorScheme.logoGreen;
+
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Head>
+        <style jsx global>{`
+          body {
+            font-family: ${openSans.style.fontFamily};
+          }
+          h1, h2, h3, h4, h5, h6 {
+            font-family: ${montserrat.style.fontFamily};
+          }
+        `}</style>
+      </Head>
+      <div
+        className={`scroll-smooth transition-all duration-500 ease-out ${
+          isMobileMenuOpen ? "pt-64" : "pt-0 md:pt-18"
+        }`}
+      >
+      {/* Navigation Component */}
+      <Navigation
+        isMobileMenuOpen={isMobileMenuOpen}
+        toggleMobileMenu={toggleMobileMenu}
+      />
+
+      {/* Beautiful Curls Component */}
+      <BeautifulCurls />
+
+      {/* Divider */}
+      <div className="border-b border-gray-200"></div>
+
+      {/* Hero Section Component */}
+      <HeroSection />
+
+      {/* Image Panels Component */}
+      <ImagePanels />
+
+      {/* Specialty Info Component */}
+      <SpecialtyInfo />
+
+      {/* Services Section */}
+      <section className="py-16 bg-orange-50">
+        <div className="container mx-auto px-4">
+          <h2
+            className={`text-4xl font-bold text-gray-900 text-center mb-12 animate-fade-in ${montserrat.className}`}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
+            Nuestros Servicios
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {services.map((service) => {
+              const IconComponent = iconMap[service.icon];
+              return (
+                <div
+                  key={service.id}
+                  className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2"
+                >
+                  <div className="relative h-48 w-full">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                      priority
+                      onError={(e) => {
+                        e.currentTarget.src = "/portada.jpg"; // Fallback image
+                      }}
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div
+                      className="mb-3 flex justify-center"
+                      style={{ color: logoGreen }}
+                    >
+                      {IconComponent && <IconComponent className="text-4xl" />}
+                    </div>
+                    <h3
+                      className={`text-xl font-bold text-gray-900 mb-3 text-center ${montserrat.className}`}
+                    >
+                      {service.title}
+                    </h3>
+                    <p
+                      className={`text-gray-600 text-center ${openSans.className}`}
+                    >
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Salon Showcase Section */}
+      <section className="py-16 bg-gray-50 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Salon Image */}
+            <div className="relative">
+              <div className="relative w-full h-96 rounded-lg overflow-hidden border-2 border-gray-300">
+                <Image
+                  src="/empresas.jpg"
+                  alt="Salon showcase"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Salon Content - Split into two sections */}
+            <div className="lg:pl-8 space-y-8">
+              {/* Top Section - First Salon */}
+              <div>
+                <h2
+                  className={`text-4xl font-bold text-gray-900 mb-6 ${montserrat.className}`}
+                >
+                  {salon.title}
+                </h2>
+                <p
+                  className={`text-lg text-gray-600 mb-6 leading-relaxed ${openSans.className}`}
+                >
+                  {salon.description}
+                </p>
+
+                {/* First Location Info */}
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <h3
+                    className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}
+                  >
+                    {salon.location.city}
+                  </h3>
+                  <p className={`text-gray-700 mb-2 ${openSans.className}`}>
+                    {salon.location.address}
+                  </p>
+                  <p
+                    className={`text-xl font-bold mb-4 ${montserrat.className}`}
+                    style={{ color: logoGreen }}
+                  >
+                    {salon.location.phone}
+                  </p>
+                  <a
+                    href={`https://wa.me/${salon.location.phone.replace(
+                      /\s/g,
+                      ""
+                    )}?text=Hola! Me gustaría agendar una cita en ${
+                      salon.location.city
+                    }`}
+                    className={`inline-block px-6 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity ${openSans.className}`}
+                    style={{ backgroundColor: logoGreen }}
+                  >
+                    {salon.location.ctaText}
+                  </a>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-300"></div>
+
+              {/* Bottom Section - Second Salon */}
+              <div>
+                {/* Second Location Info */}
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <h4
+                    className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}
+                  >
+                    {salonSecond.location.city}
+                  </h4>
+                  <p className={`text-gray-700 mb-2 ${openSans.className}`}>
+                    {salonSecond.location.address}
+                  </p>
+                  <p
+                    className={`text-xl font-bold mb-4 ${montserrat.className}`}
+                    style={{ color: logoGreen }}
+                  >
+                    {salonSecond.location.phone}
+                  </p>
+                  <a
+                    href={`https://wa.me/${salonSecond.location.phone.replace(
+                      /\s/g,
+                      ""
+                    )}?text=Hola! Me gustaría agendar una cita en ${
+                      salonSecond.location.city
+                    }`}
+                    className={`inline-block px-6 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity ${openSans.className}`}
+                    style={{ backgroundColor: logoGreen }}
+                  >
+                    {salonSecond.location.ctaText}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <h2
+            className={`text-4xl font-bold text-gray-900 text-center mb-12 ${montserrat.className}`}
+          >
+            ¿Por Qué Elegirnos?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {features.map((feature) => {
+              const IconComponent = iconMap[feature.icon];
+              return (
+                <div
+                  key={feature.id}
+                  className="bg-white p-6 rounded-lg border border-gray-200 text-center transition-transform duration-300 hover:-translate-y-1"
+                >
+                  <div
+                    className="mb-4 flex justify-center"
+                    style={{ color: logoGreen }}
+                  >
+                    {IconComponent && <IconComponent className="text-5xl" />}
+                  </div>
+                  <h3
+                    className={`text-xl font-bold text-gray-900 mb-3 ${montserrat.className}`}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p className={`text-gray-600 ${openSans.className}`}>
+                    {feature.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-gray-50 animate-fade-in">
+        <div className="container mx-auto px-4">
+          <h2
+            className={`text-4xl font-bold text-gray-900 text-center mb-12 ${montserrat.className}`}
+          >
+            Lo Que Dicen Nuestras Clientas
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex items-center mb-4">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
+                    <Face className="h-8 w-8 text-gray-400" />
+                  </div>
+                  <div>
+                    <h4
+                      className={`text-lg font-semibold text-gray-900 ${montserrat.className}`}
+                    >
+                      {testimonial.name}
+                    </h4>
+                    <div className="flex">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="h-4 w-4 text-yellow-400"
+                          style={{ fill: 'currentColor' }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className={`text-gray-600 italic ${openSans.className}`}>
+                  "{testimonial.text}"
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section
+        className="py-16 text-white text-center animate-fade-in"
+        style={{ backgroundColor: logoGreen }}
+      >
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className={`text-4xl font-bold mb-4 ${montserrat.className}`}>
+            ¿Lista para Transformar tu Cabello?
+          </h2>
+          <p className={`text-xl mb-8 opacity-90 ${openSans.className}`}>
+            Reserva tu cita hoy y experimenta la diferencia que hace el cuidado
+            profesional.
+          </p>
+          <a
+            href={hero.ctaLink}
+            className={`inline-block bg-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-orange-50 transition-colors duration-300 ${openSans.className}`}
+            style={{ color: logoGreen }}
+          >
+            {hero.ctaText}
           </a>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="/citas"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </section>
+    </div>
+    </>
   );
 }

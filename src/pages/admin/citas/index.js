@@ -4,10 +4,16 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import DataTable from "@/components/globals/datagrid";
 import useAxios from "@/axios";
 import { useState } from "react";
-import dayjs from "../../../components/globals/date";
 import AppointmentForm from "@/components/forms/appointment-form";
 
 export default function Appointments() {
+  const dayjs = require("dayjs");
+  const utc = require("dayjs/plugin/utc");
+  const timezone = require("dayjs/plugin/timezone");
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
   const { axiosInstance } = useAxios();
   const [pageState, setPageState] = useState({
     page: 0,
@@ -72,7 +78,11 @@ export default function Appointments() {
       headerName: "Dia y hora",
       width: 330,
       renderCell: (cells) => {
-        return <span>{dayjs(cells.row.startDate).format("LLLL")}</span>;
+        const formattedDate = dayjs
+          .utc(cells.row.startDate) // Ensure the input is treated as UTC
+          .tz("America/Toronto") // Convert to "America/Toronto" timezone
+          .format("LLLL"); // Format as desired
+        return <span>{formattedDate}</span>;
       },
     },
   ];
@@ -109,7 +119,7 @@ export default function Appointments() {
   return (
     <Layout>
       <section>
-        <div className="flex w-full justify-between items-center  mb-5 ">
+        <div className="flex w-full justify-between items-center mb-5 ">
           <PageHeader Icon={"/assets/invoices.svg"} header={"Citas"} />
           <div className="flex"></div>
         </div>
