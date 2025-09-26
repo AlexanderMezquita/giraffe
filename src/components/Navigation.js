@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { Menu, Close, Instagram, Facebook, WhatsApp } from '@mui/icons-material';
-import { landingPageData } from '../data/landingContent';
+import React, { useState } from "react";
+import Image from "next/image";
+import {
+  Menu,
+  Close,
+  Instagram,
+  Facebook,
+  WhatsApp,
+} from "@mui/icons-material";
+import { landingPageData } from "../data/landingContent";
 
 export default function Navigation({ isMobileMenuOpen, toggleMobileMenu }) {
   const { navigation, socialMedia, colorScheme } = landingPageData;
@@ -72,23 +78,21 @@ export default function Navigation({ isMobileMenuOpen, toggleMobileMenu }) {
             >
               <Facebook className="h-6 w-6" />
             </a>
-            <a
+            {/* <a
               href={`https://wa.me/${socialMedia.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-green-500 hover:text-green-600 transition-colors duration-300"
             >
               <WhatsApp className="h-6 w-6" />
-            </a>
+            </a> */}
           </div>
         </div>
 
         {/* Mobile menu dropdown */}
         <div
           className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
-            isMobileMenuOpen
-              ? "max-h-64 opacity-100 pb-4"
-              : "max-h-0 opacity-0"
+            isMobileMenuOpen ? "max-h-64 opacity-100 pb-4" : "max-h-0 opacity-0"
           }`}
         >
           <div className="bg-gray-50 rounded-lg mt-4 py-2">
