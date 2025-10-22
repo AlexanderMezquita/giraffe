@@ -10,7 +10,7 @@ export const landingPageData = {
     title: "EL MEJOR ESPACIO PARA CUIDAR TU PELO RIZO O AFRO",
     subtitle: "RESERVA TU CITA PARA UN CUIDADO PROFESIONAL EN TU CABELLO",
     ctaText: "Reserva tu Cita",
-    ctaLink: "/citas",
+    ctaLink: "https://wa.me/18098063040?text=Hola! Me gustaría agendar una cita",
     backgroundImage: "/images/hero-bg.jpg",
     heroImage: "/images/hero-model.jpg",
   },
