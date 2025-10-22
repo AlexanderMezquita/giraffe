@@ -1,4 +1,4 @@
-import PrivateRouter from "@/auth/private-route";
+import PrivateRouter from "@/auth/privateRoute";
 import Layout from "@/components/layouts/adminLayout";
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 import Nav from "../globals/navbar";
-import PrivateRouter from "@/auth/private-route";
+import PrivateRouter from "@/auth/privateRoute";
 import Head from "next/head";
 
 export default function Layout({ children }) {
