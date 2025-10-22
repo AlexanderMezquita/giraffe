@@ -1,5 +1,5 @@
-import Layout from "@/components/layouts/admin_layout";
-import PageHeader from "@/components/globals/page_header";
+import Layout from "@/components/layouts/adminLayout";
+import PageHeader from "@/components/globals/pageHeader";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 

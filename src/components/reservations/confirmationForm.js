@@ -7,12 +7,12 @@ import InfoIcon from "@mui/icons-material/Info";
 import AlertDialog from "../globals/dialogs/dialog";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
-import ReloadMessage from "../globals/reload-message";
+import ReloadMessage from "../globals/reloadMessage";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Button } from "@mui/material";
 
-import EmptyMessage from "../globals/empty-message";
+import EmptyMessage from "../globals/emptyMessage";
 import dayjs from "dayjs";
 
 export default function ConfirmationForm() {

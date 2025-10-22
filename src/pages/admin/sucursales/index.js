@@ -1,6 +1,6 @@
 import DataTable from "@/components/globals/datagrid";
-import PageHeader from "@/components/globals/page_header";
-import Layout from "@/components/layouts/admin_layout";
+import PageHeader from "@/components/globals/pageHeader";
+import Layout from "@/components/layouts/adminLayout";
 import { useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
@@ -10,9 +10,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatNumber } from "@/utils/methods";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/deleteDialog";
 import { useMutation } from "@tanstack/react-query";
-import BranchForm from "@/components/forms/branch-form";
+import BranchForm from "@/components/forms/branchForm";
 import { toast } from "react-toastify";
 
 export default function Branches() {

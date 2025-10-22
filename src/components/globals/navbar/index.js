@@ -10,9 +10,9 @@ import Toolbar from "@mui/material/Toolbar";
 
 import { Container, Avatar } from "@mui/material";
 import palette from "../../../styles/theme/palette";
-import TopSection from "./topsection";
-import ProfileCard from "./profilecard";
-import NavSection from "./navsection";
+import TopSection from "./topSection";
+import ProfileCard from "./profileCard";
+import NavSection from "./navSection";
 
 const drawerWidth = 270;
 const drawerHeight = 75;

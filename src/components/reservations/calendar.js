@@ -8,7 +8,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import "dayjs/locale/es-us.js";
-import ReloadMessage from "../globals/reload-message.js";
+import ReloadMessage from "../globals/reloadMessage.js";
 import Loading from "../globals/loading.js";
 import CircularProgress from "@mui/material/CircularProgress";
 

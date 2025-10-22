@@ -17,10 +17,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { deleteImage, uploadImage } from "@/utils/image-handler";
+import { deleteImage, uploadImage } from "@/utils/imageHandler";
 import { FirebaseError } from "firebase/app";
 import { AxiosError } from "axios";
-import ToggleDays from "./toggle-days";
+import ToggleDays from "./toggleDays";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";

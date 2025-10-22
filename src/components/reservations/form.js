@@ -6,7 +6,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { LoadingButton } from "@mui/lab";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
-import FirstTimeDialog from "../globals/dialogs/first-time";
+import FirstTimeDialog from "../globals/dialogs/firstTime";
 
 export default function Form({ isLoading }) {
   const [open, setOpen] = useState(false);

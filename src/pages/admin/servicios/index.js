@@ -1,18 +1,18 @@
-import Layout from "@/components/layouts/admin_layout";
-import PageHeader from "@/components/globals/page_header";
+import Layout from "@/components/layouts/adminLayout";
+import PageHeader from "@/components/globals/pageHeader";
 import { Button, Avatar } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useMutation } from "@tanstack/react-query";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import IconButton from "@mui/material/IconButton";
-import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/deleteDialog";
 import useAxios from "@/axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import DataTable from "@/components/globals/datagrid";
 import { formatCurrency } from "@/utils/methods";
-import ServiceForm from "@/components/forms/service-form";
+import ServiceForm from "@/components/forms/serviceForm";
 
 export default function Services() {
   const { axiosInstance } = useAxios();

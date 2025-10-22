@@ -1,16 +1,16 @@
-import Layout from "@/components/layouts/admin_layout";
+import Layout from "@/components/layouts/adminLayout";
 import { Button, Avatar, IconButton } from "@mui/material";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
-import PageHeader from "@/components/globals/page_header";
+import PageHeader from "@/components/globals/pageHeader";
 import { Add } from "@mui/icons-material";
 import useAxios from "@/axios";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import DeleteDialog from "@/components/globals/dialogs/delete-dialog";
+import DeleteDialog from "@/components/globals/dialogs/deleteDialog";
 import DataTable from "@/components/globals/datagrid";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import EmployeeForm from "@/components/forms/employee-form";
+import EmployeeForm from "@/components/forms/employeeForm";
 
 export default function Employees() {
   const { axiosInstance } = useAxios();

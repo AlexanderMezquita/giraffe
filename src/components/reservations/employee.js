@@ -6,8 +6,8 @@ import { formatCurrency } from "@/utils/methods";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import { Avatar } from "@mui/material";
-import EmptyMessage from "../globals/empty-message";
-import ReloadMessage from "../globals/reload-message";
+import EmptyMessage from "../globals/emptyMessage";
+import ReloadMessage from "../globals/reloadMessage";
 
 export default function Employees({ handleNext }) {
   const { setValue, getValues } = useFormContext();

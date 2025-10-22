@@ -5,10 +5,10 @@ import { formatCurrency } from "@/utils/methods";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
 import { formatTime } from "@/utils/methods";
-import EmptyMessage from "../globals/empty-message";
+import EmptyMessage from "../globals/emptyMessage";
 import Button from "@mui/material/Button";
 import Carrousel from "../globals/carrousel";
-import ReloadMessage from "../globals/reload-message";
+import ReloadMessage from "../globals/reloadMessage";
 import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 
 export default function Services({ handleNext }) {

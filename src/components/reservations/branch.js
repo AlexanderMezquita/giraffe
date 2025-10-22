@@ -7,9 +7,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import AlertDialog from "../globals/dialogs/dialog";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "@/axios";
-import ReloadMessage from "../globals/reload-message";
+import ReloadMessage from "../globals/reloadMessage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import EmptyMessage from "../globals/empty-message";
+import EmptyMessage from "../globals/emptyMessage";
 
 export default function Branch({ handleNext }) {
   const [open, setOpen] = React.useState(false);

@@ -1,10 +1,10 @@
-import Layout from "@/components/layouts/admin_layout";
-import PageHeader from "@/components/globals/page_header";
+import Layout from "@/components/layouts/adminLayout";
+import PageHeader from "@/components/globals/pageHeader";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import DataTable from "@/components/globals/datagrid";
 import useAxios from "@/axios";
 import { useState } from "react";
-import AppointmentForm from "@/components/forms/appointment-form";
+import AppointmentForm from "@/components/forms/appointmentForm";
 
 export default function Appointments() {
   const dayjs = require("dayjs");

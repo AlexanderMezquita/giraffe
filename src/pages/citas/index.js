@@ -4,8 +4,8 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import IconButton from "@mui/material/IconButton";
 import NavBar from "@/components/reservations/navbar";
 import Panels from "@/components/reservations/panels";
-import SideLogo from "@/components/reservations/side_logo";
-import ContactInfo from "@/components/reservations/contact_info";
+import SideLogo from "@/components/reservations/sideLogo";
+import ContactInfo from "@/components/reservations/contactInfo";
 import { Card } from "@mui/material";
 
 export default function HorizontalLinearStepper() {
