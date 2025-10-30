@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { landingPageData } from '../data/landingContent';
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { landingPageData } from "../data/landingContent";
 
 export default function BeautifulCurls() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -54,7 +54,7 @@ export default function BeautifulCurls() {
             {/* Top right image - productos.jpg */}
             <div className="relative col-span-2 row-span-1 border-b border-gray-300">
               <Image
-                src="/productos.jpg"
+                src="/ram2.jpg"
                 alt="Hair products"
                 fill
                 className="object-cover"

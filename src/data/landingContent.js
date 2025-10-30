@@ -10,7 +10,8 @@ export const landingPageData = {
     title: "EL MEJOR ESPACIO PARA CUIDAR TU PELO RIZO O AFRO",
     subtitle: "RESERVA TU CITA PARA UN CUIDADO PROFESIONAL EN TU CABELLO",
     ctaText: "Reserva tu Cita",
-    ctaLink: "https://wa.me/18098063040?text=Hola! Me gustaría agendar una cita",
+    ctaLink:
+      "https://wa.me/18098063040?text=Hola! Me gustaría agendar una cita",
     backgroundImage: "/images/hero-bg.jpg",
     heroImage: "/images/hero-model.jpg",
   },
@@ -21,7 +22,7 @@ export const landingPageData = {
       title: "Productos para tu cabello rizo",
       description:
         "Tratamientos especializados diseñados específicamente para cabello texturizado y rizado",
-      image: "/productos.jpg",
+      image: "/ram1.jpg",
       icon: "AutoFixHigh",
     },
     {
@@ -123,7 +124,7 @@ export const landingPageData = {
   beautifulCurls: {
     images: [
       { src: "/portada.jpg", alt: "Professional salon business" },
-      { src: "/productos.jpg", alt: "Hair products" },
+      { src: "/ram2.jpg", alt: "Hair products" },
       { src: "/car-1.jpg", alt: "Hair styling" },
       { src: "/car-2.jpg", alt: "Hair oil treatment" },
     ],
