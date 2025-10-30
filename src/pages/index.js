@@ -96,7 +96,7 @@ export default function Home() {
         <div className="border-b border-gray-200"></div>
 
         {/* Services Section */}
-        <section className="py-16 bg-orange-50">
+        <section id="servicios" className="py-16 bg-orange-50">
           <div className="container mx-auto px-4">
             <h2
               className={`text-4xl font-bold text-gray-900 text-center mb-12 animate-fade-in ${montserrat.className}`}
@@ -151,7 +151,7 @@ export default function Home() {
         </section>
 
         {/* Salon Showcase Section */}
-        <section className="py-16 bg-gray-50 animate-fade-in">
+        <section id="salon" className="py-16 bg-gray-50 animate-fade-in">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Salon Image */}
@@ -260,7 +260,7 @@ export default function Home() {
         <SpecialtyInfo />
 
         {/* Features Section */}
-        <section className="py-16 animate-fade-in">
+        <section id="acerca-de" className="py-16 animate-fade-in">
           <div className="container mx-auto px-4">
             <h2
               className={`text-4xl font-bold text-gray-900 text-center mb-12 ${montserrat.className}`}
@@ -342,6 +342,7 @@ export default function Home() {
 
         {/* CTA Section */}
         <section
+          id="contacto"
           className="py-16 text-white text-center animate-fade-in"
           style={{ backgroundColor: logoGreen }}
         >
