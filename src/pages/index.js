@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Head from "next/head";
+import { NextSeo, LocalBusinessJsonLd } from "next-seo";
 import { Montserrat, Open_Sans } from "next/font/google";
 import {
   AutoFixHigh,
@@ -58,47 +58,56 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Rizos Afros y Más - Salón Especializado en Cabello Rizado y Afro</title>
-        <meta name="description" content="Salón de belleza especializado en el cuidado de cabello rizado y afro en Santiago de los Caballeros. Productos premium, estilistas expertos y atención personalizada." />
-        <meta name="keywords" content="cabello rizado, cabello afro, salon de belleza, Santiago, República Dominicana, tratamientos capilares, productos para rizos" />
-        <meta name="author" content="Rizos Afros y Más" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://missrizos.com/" />
-        <meta property="og:title" content="Rizos Afros y Más - Salón Especializado en Cabello Rizado y Afro" />
-        <meta property="og:description" content="El mejor espacio para cuidar tu pelo rizo o afro. Salón de belleza especializado en Santiago de los Caballeros." />
-        <meta property="og:image" content="https://missrizos.com/portada.jpg" />
-
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://missrizos.com/" />
-        <meta property="twitter:title" content="Rizos Afros y Más - Salón Especializado en Cabello Rizado y Afro" />
-        <meta property="twitter:description" content="El mejor espacio para cuidar tu pelo rizo o afro. Salón de belleza especializado en Santiago de los Caballeros." />
-        <meta property="twitter:image" content="https://missrizos.com/portada.jpg" />
-
-        {/* Additional SEO */}
-        <link rel="canonical" href="https://missrizos.com/" />
-        <meta name="robots" content="index, follow" />
-        <meta name="language" content="Spanish" />
-        <meta name="revisit-after" content="7 days" />
-
-        <style jsx global>{`
-          body {
-            font-family: ${openSans.style.fontFamily};
-          }
-          h1,
-          h2,
-          h3,
-          h4,
-          h5,
-          h6 {
-            font-family: ${montserrat.style.fontFamily};
-          }
-        `}</style>
-      </Head>
+      <NextSeo
+        title="Rizos Afros y Más"
+        description="Salón de belleza especializado en el cuidado de cabello rizado y afro en Santiago de los Caballeros. Productos premium, estilistas expertos y atención personalizada."
+      />
+      <LocalBusinessJsonLd
+        type="HairSalon"
+        id="https://rizosafrosymas.com"
+        name="Rizos Afros y Más"
+        description="Salón de belleza especializado en el cuidado de cabello rizado y afro"
+        url="https://rizosafrosymas.com"
+        telephone="+18098063040"
+        address={{
+          streetAddress: "Clodomiro Checo 15",
+          addressLocality: "Santiago de los Caballeros",
+          addressCountry: "DO",
+        }}
+        geo={{
+          latitude: "19.4517",
+          longitude: "-70.6973",
+        }}
+        images={["https://rizosafrosymas.com/portada.jpg"]}
+        priceRange="$$"
+        openingHours={[
+          {
+            opens: "09:00",
+            closes: "18:00",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ],
+          },
+        ]}
+      />
+      <style jsx global>{`
+        body {
+          font-family: ${openSans.style.fontFamily};
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          font-family: ${montserrat.style.fontFamily};
+        }
+      `}</style>
       <div
         className={`scroll-smooth transition-all duration-500 ease-out ${
           isMobileMenuOpen ? "pt-64" : "pt-0 md:pt-18"
