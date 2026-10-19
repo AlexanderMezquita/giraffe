@@ -104,18 +104,9 @@ export const landingPageData = {
     description: "",
     image: "/images/salon-interior.jpg",
     location: {
-      city: "Cerros de Gurabo",
-      address: "Clodomiro Checo 15, Santiago de los Caballeros",
+      city: "Constanza",
+      address: "Calle Constanza #15, Santiago de los Caballeros",
       phone: "1 809 806 3040",
-      ctaText: "Agendar Cita",
-    },
-  },
-
-  salonSecond: {
-    location: {
-      city: "Los Pepines",
-      address: "Calle RC, C. R. Tolentino 47, Santiago de los Caballeros",
-      phone: "1 809 626 0101",
       ctaText: "Agendar Cita",
     },
   },
@@ -191,13 +182,8 @@ export const landingPageData = {
   whatsappButtons: [
     {
       id: 1,
-      text: "Cerros de Gurabo",
+      text: "Constanza",
       phone: "18098063040",
-    },
-    {
-      id: 2,
-      text: "Los Pepines",
-      phone: "18096260101",
     },
   ],
 

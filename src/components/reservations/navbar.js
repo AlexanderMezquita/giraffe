@@ -42,7 +42,7 @@ export default function NavBar() {
           <div>
             <h1 className="text-xl font-bold font-sans">Rizos Afros Y Más</h1>
             <p className="text-xs text-neutral-500">
-              C1 #15 2da Planta, Santiago De Los Caballeros 51000
+              Calle Constanza #15, Santiago De Los Caballeros 51000
             </p>
           </div>
         </div>

@@ -41,7 +41,6 @@ export default function Home() {
     features,
     testimonials,
     salon,
-    salonSecond,
     colorScheme,
   } = landingPageData;
 
@@ -70,7 +69,7 @@ export default function Home() {
         url="https://rizosafrosymas.com"
         telephone="+18098063040"
         address={{
-          streetAddress: "Clodomiro Checo 15",
+          streetAddress: "Calle Constanza #15",
           addressLocality: "Santiago de los Caballeros",
           addressCountry: "DO",
         }}
@@ -204,7 +203,7 @@ export default function Home() {
 
               {/* Salon Content - Split into two sections */}
               <div className="lg:pl-8 space-y-8">
-                {/* Top Section - First Salon */}
+                {/* Salon */}
                 <div>
                   <h2
                     className={`text-4xl font-bold text-gray-900 mb-6 ${montserrat.className}`}
@@ -217,7 +216,7 @@ export default function Home() {
                     {salon.description}
                   </p>
 
-                  {/* First Location Info */}
+                  {/* Location Info */}
                   <div className="bg-white p-6 rounded-lg border border-gray-200">
                     <h3
                       className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}
@@ -244,42 +243,6 @@ export default function Home() {
                       style={{ backgroundColor: logoGreen }}
                     >
                       {salon.location.ctaText}
-                    </a>
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="border-t border-gray-300"></div>
-
-                {/* Bottom Section - Second Salon */}
-                <div>
-                  {/* Second Location Info */}
-                  <div className="bg-white p-6 rounded-lg border border-gray-200">
-                    <h4
-                      className={`text-xl font-semibold text-gray-900 mb-4 ${montserrat.className}`}
-                    >
-                      {salonSecond.location.city}
-                    </h4>
-                    <p className={`text-gray-700 mb-2 ${openSans.className}`}>
-                      {salonSecond.location.address}
-                    </p>
-                    <p
-                      className={`text-xl font-bold mb-4 ${montserrat.className}`}
-                      style={{ color: logoGreen }}
-                    >
-                      {salonSecond.location.phone}
-                    </p>
-                    <a
-                      href={`https://wa.me/${salonSecond.location.phone.replace(
-                        /\s/g,
-                        ""
-                      )}?text=Hola! Me gustaría agendar una cita en ${
-                        salonSecond.location.city
-                      }`}
-                      className={`inline-block px-6 py-3 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity ${openSans.className}`}
-                      style={{ backgroundColor: logoGreen }}
-                    >
-                      {salonSecond.location.ctaText}
                     </a>
                   </div>
                 </div>

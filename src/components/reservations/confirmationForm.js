@@ -80,67 +80,29 @@ export default function ConfirmationForm() {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
-        <h2>Cerros de Gurabo</h2>
+        <h2>Constanza</h2>
         <div className=" group hover:cursor-pointer mt-5 ">
           <a
-            href="https://goo.gl/maps/VFsVqG4hSyBm9WGf8"
+            href="http://google.com/maps/place/Rizos,+Afros+y+M%C3%A1s/data=!4m2!3m1!1s0x0:0x4bace61ecbb84386?sa=X&ved=1t:2428&ictx=111"
             target="blank_"
             className="flex items-center  gap-3"
           >
             <LocationOnIcon className="text-neutral-500 group-hover:text-blue-600" />
             <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
-              C1 #15 2da Planta, Santiago De Los Caballeros 51000, República
+              Calle Constanza #15, Santiago de los Caballeros 51000, República
               Dominicana
             </p>
           </a>
         </div>
         <div className=" group hover:cursor-pointer mt-5 ">
           <a
-            href="tel:8092142028"
+            href="tel:8098063040"
             target="blank_"
             className="flex items-center w-64 gap-3"
           >
             <LocalPhoneIcon className="text-neutral-500 group-hover:text-blue-600" />
             <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
               +1 809 806 3040
-            </p>
-          </a>
-        </div>
-      </div>
-      <div className=" bg-gray-50 border-2 rounded-lg w-full sm:w-80 p-5 space-y-3">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.1669702807894!2d-70.69966582570521!3d19.44836664017896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb1cf9de9a5e611%3A0xb122144d33642ef!2sRizos%20Afros%20y%20M%C3%A1s!5e0!3m2!1sen!2sca!4v1730425697953!5m2!1sen!2sca"
-          width="100%"
-          height="180"
-          style={{ borderRadius: "20px 20px 0px 0px", alignContent: "center" }}
-          styles="border:10;"
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-        <h2>Sucursal Los Pepines</h2>
-        <div className=" group hover:cursor-pointer mt-5 ">
-          <a
-            href="https://goo.gl/maps/VFsVqG4hSyBm9WGf8"
-            target="blank_"
-            className="flex items-center  gap-3"
-          >
-            <LocationOnIcon className="text-neutral-500 group-hover:text-blue-600" />
-            <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
-              Calle RC, C. R. Tolentino 47, Santiago de los Caballeros 51000,
-              Republica Dominicana
-            </p>
-          </a>
-        </div>
-        <div className=" group hover:cursor-pointer mt-5 ">
-          <a
-            href="tel:8092142028"
-            target="blank_"
-            className="flex items-center w-64 gap-3"
-          >
-            <LocalPhoneIcon className="text-neutral-500 group-hover:text-blue-600" />
-            <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
-              +1 809 626 0101
             </p>
           </a>
         </div>

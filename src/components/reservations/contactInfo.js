@@ -34,13 +34,13 @@ export default function ContactInfo() {
         ></iframe>
         <div className="group hover:cursor-pointer mt-5">
           <a
-            href="https://goo.gl/maps/VFsVqG4hSyBm9WGf8"
+            href="http://google.com/maps/place/Rizos,+Afros+y+M%C3%A1s/data=!4m2!3m1!1s0x0:0x4bace61ecbb84386?sa=X&ved=1t:2428&ictx=111"
             target="blank_"
             className="flex items-center  gap-3"
           >
             <LocationOnIcon className="text-neutral-500 group-hover:text-blue-600" />
             <p className=" text-blue-500 group-hover:text-blue-600 group-hover:underline">
-              C1 #15 2da Planta, Santiago De Los Caballeros 51000, República
+              Calle Constanza #15, Santiago de los Caballeros 51000, República
               Dominicana
             </p>
           </a>
